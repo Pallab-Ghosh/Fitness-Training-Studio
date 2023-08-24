@@ -22,9 +22,8 @@ import { useNavigate } from 'react-router-dom';
    </Typography>
     </div>
     <iframe 
-    
-    src="https://charts.mongodb.com/charts-fitness_tracker_db-dtmap/embed/dashboards?id=92ecd971-3954-4b7e-becf-48c60c5dbeec&theme=light&autoRefresh=true&maxDataAge=3600&showTitleA
-    ndDesc=false&scalingWidth=fixed&scalingHeight=fixed"></iframe>
+
+  src="https://charts.mongodb.com/charts-fitness_tracker_db-dtmap/embed/dashboards?id=92ecd971-3954-4b7e-becf-48c60c5dbeec&theme=dark&autoRefresh=true&maxDataAge=3600&showTitleAndDesc=true&scalingWidth=fixed&scalingHeight=fixed"></iframe>
     </>
    
   );
