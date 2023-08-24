@@ -1,0 +1,120 @@
+/* Reset some default styling */
+
+  /* Reset some default styling */
+
+  
+  /* Basic styling for the landing page */
+  .landing-page {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header styles */
+ .land_page_header {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .land_page_nav ul {
+    list-style: none;
+  }
+  
+ .land_page_nav ul li {
+    display: inline;
+    margin-right: 20px;
+  }
+  
+  .land_page_nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: large;
+  }
+
+  .hero-section { 
+    height: 100vh;
+    background-image: url(' https://cdn.pixabay.com/photo/2017/05/25/15/08/jogging-2343558_1280.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hero-content {
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .hero-section h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero-section p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+ 
+  
+  .cta-button:hover {
+    background-color: #e64400;
+  }
+  
+  /* Specialities section styles */
+  .specialities-section {
+    padding: 100px 0;
+    text-align: center;
+  }
+  
+  .specialities-section h2 {
+    font-size: 4.5rem;
+    margin-bottom: 20px;
+    color: #333333;
+  }
+  
+  .specialities {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+  }
+  
+  .speciality {
+    flex-basis: 30%;
+    padding: 20px;
+    background-color:bisque;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .speciality img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .speciality h3 {
+    font-size: 2.2rem;
+    color: #333333;
+  }
+  
+  .speciality:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Footer styles */
+  .landing_page_footer{
+    background-color: #333333;
+    color: #ffffff;
+    padding: 20px;
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+  }
+  
