@@ -57,9 +57,17 @@ export const Signup = () => {
           .matches(phoneRegExp, 'Phone number is not valid')
           .min(10, "too short")
           .max(10, "too long"),
+          age:Yup.date().required('Date of Birth is required'),
+
       });
       
-
+ const calculateAge = (dob) => {
+    const dobDate = new Date(dob);
+    const currentDate = new Date();
+    const timeDiff = currentDate - dobDate;
+    const ageDate = new Date(timeDiff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
       const formik = useFormik({
         initialValues: {
@@ -70,12 +78,16 @@ export const Signup = () => {
           password: '',
           mobile:'',
           username:'',
-          confirmPassword:''
+          confirmPassword:'',
+          age:''
         },
         validationSchema: validationSchema,
+
         onSubmit: async(values)=>{
-        console.log(values)
-        console.log(process.env.REACT_APP_EXPRESS_URL)
+        console.log("values",values)
+        let converted_age=calculateAge(values.age)
+        values={...values,age:converted_age}
+        console.log("newvalues",values)
         axios.post(`${process.env.REACT_APP_EXPRESS_URL}/auth/signup`,values)
                .then((resolve)=>{
                  console.log(resolve)
@@ -155,6 +167,25 @@ export const Signup = () => {
                 helperText={formik.touched.lastname && formik.errors.lastname}
               />
             </Grid>
+                
+            <Grid item xs={12}>
+            <TextField
+            type="date"
+            fullWidth
+            id="age"
+            label="Age"
+            name="age"
+            inputProps={{style: {fontSize: 15}}}
+            value={formik.values.age}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.age && Boolean(formik.errors.age)}
+            helperText={formik.touched.age && formik.errors.age}
+          />
+          </Grid>
+
+
+
             <Grid item xs={12}>
               <TextField
                 required
