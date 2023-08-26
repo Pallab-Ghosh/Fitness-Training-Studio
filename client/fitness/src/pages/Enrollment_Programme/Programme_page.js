@@ -1,14 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
 import React, { useContext, useEffect, useState } from 'react'
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon} from 'mdb-react-ui-kit';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -246,12 +236,13 @@ export const Programme_page = () => {
       price_of_package:price,
     }
     
-    localStorage.setItem("coursedata",JSON.stringify(newdata))
+    
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details`)
     .then((res)=>{
-      console.log("res of coursedata",res)
+     // console.log("res of coursedata",res)
       if(res.data.id==2)
       {
+        localStorage.setItem("coursedata",JSON.stringify(newdata))
         stripe_payment(newdata);
       }
       else{
