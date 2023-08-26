@@ -22,7 +22,7 @@ const userSchema=new Schema({
     course:{type:String},
     price_of_course:{type:Number},
     subscription_date:{type:String},
-    totalSales:{type:Number}
+    age:{type:Number}
 })
 
 
