@@ -30,6 +30,7 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
    const [open, setOpen] = useState(false);
    const [open2, setOpen2] = useState(false);
 
+  
    //for reset password
   const handleClickOpen = () => { 
     setOpen(true);
@@ -83,10 +84,9 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
    useEffect(()=>{
     const get_details=async()=>{
       const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
-      console.log("resolve_data.data from get",resolve_data.data)
+      //console.log("resolve_data.data from get",resolve_data.data)
       set_user_details(resolve_data.data)
-      console.log("user_account_details",user_account_details)
-   
+     // console.log("user_account_details",user_account_details)
     }
     get_details();
    },[])
