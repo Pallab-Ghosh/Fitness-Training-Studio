@@ -7,6 +7,7 @@ import { Programme_page } from './pages/Enrollment_Programme/Programme_page';
 import Land_page from './landing_page/Land_page';
 import Contact from './landing_page/Contact';
 import renderDashboard from './pages/Admin_Dashboard';
+import Settings from './pages/Settings';
 
 
 
@@ -19,7 +20,7 @@ function App() {
 
 
 
-      <token_data.Provider value={{user_token:user_token,set_token:set_token}}>
+    /*   <token_data.Provider value={{user_token:user_token,set_token:set_token}}>
     <programme_data.Provider value={{programme_detail:programme_detail,set_programme:set_programme}}>
         <div className="App">
           <Allroutes/>
@@ -27,7 +28,9 @@ function App() {
     </programme_data.Provider>
     </token_data.Provider> 
     
-    
+     */
+
+    <Settings/>
   );
 }
 
