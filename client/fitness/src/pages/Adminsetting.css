@@ -20,7 +20,7 @@
   }
   
   th {
-    background-color:darkcyan;
+    background-color:rgb(95, 182, 182);
   }
   
   button {
@@ -37,3 +37,6 @@
     background-color: #d63726;
   }
   
+  td{
+    font-weight: bolder;
+  }
