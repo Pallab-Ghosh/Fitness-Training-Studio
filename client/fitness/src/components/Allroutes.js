@@ -19,6 +19,8 @@ import Stripe_checkout from '../pages/Enrollment_Programme/Stripe_checkout'
 import Land_page from '../landing_page/Land_page'
 import Admin_Dashboard from '../pages/Admin_Dashboard'
 import Contact from '../landing_page/Contact'
+import AdminLoginPage from '../pages/AdminLoginPage'
+
 
 
 
@@ -39,8 +41,15 @@ export const Allroutes = () => {
        <Route path='/signin/signup' element={<Signup/>}/>
        <Route path='/signup' element={<Signup/>}/>
        <Route path='/signin/login_email' element={<Login_email/>}/>
+       <Route path='/signin/admin_login' element={<AdminLoginPage/>}/>
+
+       <Route path='/signin/admin_login/dashboard' element={<Admin_Dashboard/>}/>
+       
 
 
+       { localStorage.getItem("userdata_with_token")? <Route path='/signin/admin_login/dashboard/home' element={<Home/>}/>:
+        <Route path='*' element={<Not_match_path/>}/>}
+  
 
        { localStorage.getItem("userdata_with_token")? <Route path='/home' element={<Home/>}/>:
         <Route path='*' element={<Not_match_path/>}/>}
@@ -63,9 +72,7 @@ export const Allroutes = () => {
         {  localStorage.getItem("userdata_with_token")? <Route path='/home/get_admission' element={<Programme_page/>}/>:
           <Route path='*' element={<Not_match_path/>}/>   }
 
-          {  localStorage.getItem("userdata_with_token")? <Route path='/home/accountDetails/dashboard' element={<Admin_Dashboard/>}/>:
-          <Route path='*' element={<Not_match_path/>}/>   }
-
+         
 
         {  localStorage.getItem("userdata_with_token")? <Route path='/home/get_admission/stripe_checkout' element={<Stripe_checkout/>}/>:
           <Route path='*' element={<Not_match_path/>}/>   }
