@@ -34,29 +34,42 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  const handle_signout =()=>{
+     localStorage.removeItem("userdata_with_token");
+     console.log('clcik')
+     window.location.href='/';
+  }
   return (
    <>
+    <div style={{height:'90px',backgroundColor:'slateblue'}}>
+    <Typography variant='h2' color='white' sx={{ml:100}}>  Dashboard </Typography>
  
-    <div style={{height:'100px',backgroundColor:'slateblue'}}>
-    <Button variant='contained' size='small' color='error' onClick={toggleSidebar}>Menu</Button>
+    <Box display='flex' flexDirection='row'>
+    <Typography><Button variant='contained' size='large' color='success' onClick={toggleSidebar} sx={{ml:0.5}}>Menu</Button></Typography>
+<Typography><Button variant='contained' size='large' color='error' onClick={()=>navigate(-1)} sx={{ml:0.5}}>Back</Button></Typography>
+    </Box>
+
     <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-    <div className="logo">Dashboard</div>
+    <div className="logo">Admin Details</div>
    <Typography variant='h5' sx={{mb:4}}> <AdminPanelSettingsIcon/>{`${firstname} ${lastname}`}</Typography>
     <ul className="menu">
-    <li className="menu-item"><HomeIcon fontSize='medium' /><Link style={{color:'white'}}>Home</Link>  </li>
+    <li className="menu-item"><HomeIcon fontSize='medium' /><Link style={{color:'white'}} to='/signin/admin_login/dashboard/home'>Home</Link>  </li>
     <li className="menu-item"><AccountCircleIcon fontSize='medium' /><Link style={{color:'white'}}>Account Details</Link></li>
-    <li className="menu-item"><AnalyticsIcon fontSize='medium' /><Link style={{color:'white'}}>Analytics</Link></li>
-    <li className="menu-item"><ExitToAppIcon fontSize='medium' /><Link style={{color:'white'}}>Signout</Link></li>
+    <li className="menu-item"><AnalyticsIcon fontSize='medium' /><Link style={{color:'white'}}>Settings</Link></li>
+    <li className="menu-item"><ExitToAppIcon fontSize='medium' /><Link style={{color:'white'}} onClick={handle_signout}>Signout</Link></li>
     </ul>
   </div>
 
-   <Typography variant='h3' color='white' sx={{ml:'60px'}}>  Dashboard </Typography>
     </div>
-
+    
+    <div className='dashboards'>
     <iframe 
     src="https://charts.mongodb.com/charts-fitness_tracker_db-dtmap/embed/dashboards?id=92ecd971-3954-4b7e-becf-48c60c5dbeec&theme=dark&autoRefresh=true&maxDataAge=60&showTi
     tleAndDesc=false&scalingWidth=fixed&scal
     ingHeight=fixed&&attribution=false"></iframe>
+    </div>
+  
     </>
   );
 };
