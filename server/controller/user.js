@@ -406,6 +406,12 @@ const date_creation_of_course=()=>{
       if(req.body)
       {
           const new_visitor=new visitor_schema(req.body);
+          const currentDate=new Date();
+          const date=currentDate.getDate().toString()
+          const month=(currentDate.getMonth()+1).toString()
+          const year=currentDate.getFullYear().toString()
+          const date_data=`${date}-${month}-${year}`
+          new_visitor.date_of_query=date_data ; 
            const save_visitor=await new_visitor.save();
            res.json({id:1})
       }
@@ -434,4 +440,10 @@ const date_creation_of_course=()=>{
      const delete_user=await user_Schema.findByIdAndDelete({_id:req.params.id});
      console.log("delete_user",delete_user)
      res.json({id:1,status:'user deleted successfully'}) 
+  }
+
+
+  exports.get_all_visitor_data=async(req,res)=>{
+    const all_visitors_data=await visitor_schema.find({});
+    res.json(all_visitors_data);
   }
