@@ -443,7 +443,18 @@ const date_creation_of_course=()=>{
   }
 
 
+
+//get the details of all visitor data
   exports.get_all_visitor_data=async(req,res)=>{
     const all_visitors_data=await visitor_schema.find({});
     res.json(all_visitors_data);
   }
+
+
+  exports.delete_visitor=async(req,res)=>{
+    console.log(req.params.id);
+    const delete_visitor=await visitor_schema.findByIdAndDelete({_id:req.params.id});
+    console.log("delete_user",delete_visitor)
+    res.json({id:1,status:'visitor deleted successfully'}) 
+ }
+
