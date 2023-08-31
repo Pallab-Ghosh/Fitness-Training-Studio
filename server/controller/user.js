@@ -412,6 +412,7 @@ const date_creation_of_course=()=>{
           const year=currentDate.getFullYear().toString()
           const date_data=`${date}-${month}-${year}`
           new_visitor.date_of_query=date_data ; 
+          new_visitor.status='unsolved'
            const save_visitor=await new_visitor.save();
            res.json({id:1})
       }
@@ -458,3 +459,12 @@ const date_creation_of_course=()=>{
     res.json({id:1,status:'visitor deleted successfully'}) 
  }
 
+exports.update_visitor_status=async(req,res)=>{
+  //console.log(req.body)
+  const{_id,value}=req.body
+  // console.log(_id,value)
+  const find_visitor_by_id=await visitor_schema.findById({_id:_id})
+  find_visitor_by_id.status=value;
+  find_visitor_by_id.save();
+   console.log(find_visitor_by_id)
+}
