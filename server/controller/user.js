@@ -416,3 +416,22 @@ const date_creation_of_course=()=>{
     }
    
   }
+
+
+
+ 
+  //get all user details
+
+  exports.get_all_users=async(req,res)=>{
+    const all_users=await user_Schema.find({});
+    res.json(all_users);
+  }
+
+
+  //delete the user
+  exports.delete_user=async(req,res)=>{
+     console.log(req.params.id);
+     const delete_user=await user_Schema.findByIdAndDelete({_id:req.params.id});
+     console.log("delete_user",delete_user)
+     res.json({id:1,status:'user deleted successfully'}) 
+  }
