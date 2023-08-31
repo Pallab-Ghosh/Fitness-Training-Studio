@@ -466,5 +466,6 @@ exports.update_visitor_status=async(req,res)=>{
   const find_visitor_by_id=await visitor_schema.findById({_id:_id})
   find_visitor_by_id.status=value;
   find_visitor_by_id.save();
-   console.log(find_visitor_by_id)
+  console.log(find_visitor_by_id);
+  res.json({id:1,status:"status update successfully"})
 }
