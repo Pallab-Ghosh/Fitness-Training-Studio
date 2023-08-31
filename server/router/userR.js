@@ -19,4 +19,5 @@ user_router
 .get('/all_users',user_functions_module.get_all_users)
 .delete(`/delete_user/:id`,user_functions_module.delete_user)
 .get('/visitor_data',user_functions_module.get_all_visitor_data)
+.patch('/update_status',user_functions_module.update_visitor_status)
 exports.user_router_module=user_router;
