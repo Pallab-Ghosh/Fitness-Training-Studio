@@ -17,4 +17,5 @@ user_router
 .post('/delete_subscription',user_functions_module.delete_subscription)
 .post('/visitor_data',user_functions_module.create_visitor)
 .get('/all_users',user_functions_module.get_all_users)
+.delete(`/delete_user/:id`,user_functions_module.delete_user)
 exports.user_router_module=user_router;
