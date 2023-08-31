@@ -32,7 +32,8 @@ const visitor_schema=new Schema({
     email:{type:String},
     mobile:{type:String},
     message:{type:String},
-    date_of_query:{type:String}
+    date_of_query:{type:String},
+    status:{type:String}
 })
 exports.visitor_schema=mongoose.model('visitor_details',visitor_schema)
 exports.user_Schema=mongoose.model('User_details',userSchema)
