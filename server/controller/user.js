@@ -465,6 +465,15 @@ exports.update_visitor_status=async(req,res)=>{
   // console.log(_id,value)
   const find_visitor_by_id=await visitor_schema.findById({_id:_id})
   find_visitor_by_id.status=value;
+
+  const currentDate=new Date();
+  const date=currentDate.getDate().toString()
+  const month=(currentDate.getMonth()+1).toString()
+  const year=currentDate.getFullYear().toString()
+  const date_data=`${date}-${month}-${year}`
+
+  find_visitor_by_id.date_of_query_closed=date_data
+
   find_visitor_by_id.save();
   console.log(find_visitor_by_id);
   res.json({id:1,status:"status update successfully"})
