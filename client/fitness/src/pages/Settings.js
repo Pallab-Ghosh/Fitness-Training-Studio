@@ -2,16 +2,20 @@ import axios, { all } from 'axios'
 import React, { useEffect, useState } from 'react'
 import './Adminsetting.css'
 import { Box, Button, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 
 const Settings = () => {
 const [all_data,set_all_data]=useState([])
 const[all_visitor_data,set_visitor_data]=useState([])
-const [option_value,set_option_value]=useState('unsolved')
+const [option_value,set_option_value]=useState('Pending')
+const navigate=useNavigate()
 
 useEffect(()=>{
+  console.log("1")
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
     .then((res)=>{
+      
         console.log(res)
         set_all_data(res.data)
     })
@@ -23,6 +27,9 @@ useEffect(()=>{
   })
 
 },[])
+
+
+
 
 
 const handleDelete = (userId) => {
@@ -44,6 +51,7 @@ const handleDelete = (userId) => {
 
 const handle_option=(id,e)=>{
   e.preventDefault()
+  console.log(e.target.value)
   const id_with_option_value={
     _id:id,
     value:option_value
@@ -77,8 +85,9 @@ const handleDelete2 = (userId) => {
  };
 
   return (
-    <>
+    <div className='setting'> 
     <Typography variant='h2' sx={{marginLeft:90}} color='gray'>User Data</Typography>
+    <Button size='medium' variant='contained' color='error' onClick={()=>navigate(-1)} sx={{ml:3}}>Go Back</Button>
     <div className="user-list">
     <table>
       <thead>
@@ -129,6 +138,8 @@ const handleDelete2 = (userId) => {
                     <th>Mobile</th>
                     <th>Message</th>
                     <th>Date-of-Query</th>
+                    <th>Isuue-resolved</th>
+                    <th>Applicant-Status</th>
                     <th>Status</th>
                     <th>Confirm</th>
                     <th>Options</th>
@@ -144,11 +155,12 @@ const handleDelete2 = (userId) => {
                       <td>{user.mobile}</td>
                       <td>{user.message}</td>
                       <td>{user.date_of_query}</td>
-                     
+                      <td>{user.date_of_query_closed}</td>
+                      {user.status=='Resolved'?<td style={{backgroundColor:'green'}}>{user.status}</td>:<td style={{backgroundColor:'red'}}>{user.status}</td>} 
                       <td style={{backgroundColor:'darkslategray'}}>
-                      <select value={option_value}  onChange={(e)=>set_option_value(e.target.value)} style={{backgroundColor:'ThreeDDarkShadow'}}>
-                      <option value="solved" color='red' style={{backgroundColor:'blue'}} >Solved</option>
-                      <option value="unsolved" style={{backgroundColor:'blue'}}>Unsolved</option>
+                      <select value={option_value}  onChange={(e)=>set_option_value(e.target.value)} style={{backgroundColor:'firebrick'}}>
+                      <option value="Resolved" color='red' style={{backgroundColor:'blue'}} >Resolved</option>
+                      <option value="Pending" style={{backgroundColor:'blue'}}>Pending</option>
                       </select>
                       </td>
                      <td><button onClick={(e)=>handle_option(user._id,e)}>Submit</button></td> 
@@ -160,7 +172,7 @@ const handleDelete2 = (userId) => {
               </table>
     </div>
     </Box>
-    </>
+    </div>
     
   )
 }
