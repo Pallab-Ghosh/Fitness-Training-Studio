@@ -10,6 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
 
 //https://charts.mongodb.com/charts-fitness_tracker_db-dtmap
 
@@ -47,18 +48,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
  
     <Box display='flex' flexDirection='row'>
     <Typography><Button variant='contained' size='large' color='success' onClick={toggleSidebar} sx={{ml:0.5}}>Menu</Button></Typography>
-<Typography><Button variant='contained' size='large' color='error' onClick={()=>navigate(-1)} sx={{ml:0.5}}>Back</Button></Typography>
     </Box>
 
     <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
     <div className="logo">Admin Details</div>
-   <Typography variant='h5' sx={{mb:4}}> <AdminPanelSettingsIcon/>{`${firstname} ${lastname}`}</Typography>
+   <Typography variant='h5' sx={{mb:1}}> <AdminPanelSettingsIcon/>{`${firstname} ${lastname}`}</Typography>
+   <Typography variant='h6' sx={{mt:0.5,ml:3,mb:4}}><MailIcon/>{`${email}`}</Typography>
     <ul className="menu">
-    <li className="menu-item"><HomeIcon fontSize='medium' /><Link style={{color:'white'}} to='/signin/admin_login/dashboard/home'>Home</Link>  </li>
-    <li className="menu-item"><AccountCircleIcon fontSize='medium' /><Link style={{color:'white'}}>Account Details</Link></li>
-    <li className="menu-item"><AnalyticsIcon fontSize='medium' /><Link style={{color:'white'}}>Settings</Link></li>
+    <li className="menu-item"><HomeIcon fontSize='medium' /><a style={{color:'white'}} href='/signin/admin_login/dashboard/home'>Home</a>  </li>
+    <li className="menu-item"><AnalyticsIcon fontSize='medium' /><a style={{color:'white'}} href='/signin/admin_login/dashboard/settings'>Settings</a></li>
     <li className="menu-item"><ExitToAppIcon fontSize='medium' /><Link style={{color:'white'}} onClick={handle_signout}>Signout</Link></li>
     </ul>
+    <Typography variant='h5' sx={{mt:45,fontSize:'18px'}}>Fitness-Training-Studio</Typography>
   </div>
 
     </div>
