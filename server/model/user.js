@@ -33,6 +33,7 @@ const visitor_schema=new Schema({
     mobile:{type:String},
     message:{type:String},
     date_of_query:{type:String},
+    date_of_query_closed:{type:String},
     status:{type:String}
 })
 exports.visitor_schema=mongoose.model('visitor_details',visitor_schema)
