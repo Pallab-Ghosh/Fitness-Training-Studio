@@ -31,21 +31,26 @@ const Land_page = () => {
             onClick={()=>navigate('/signup')}>New User?Signup</Button>
           </div>
         </section>
+
        <section className="specialities-section">
           <h2>Our Exercise Specialities</h2>
           <div className="specialities">
+          
             <div className="speciality">
               <img src="https://www.themanual.com/wp-content/uploads/sites/9/2021/12/pexels-li-sun-2294361-1.jpg?fit=800%2C800&p=1" alt="Exercise 1" />
               <h3>Cardio Workouts</h3>
             </div>
+
             <div className="speciality">
               <img src="https://www.eatthis.com/wp-content/uploads/sites/4/2023/04/muscular-man-barbell-bicep-curls.jpg?quality=82&strip=1" alt="Exercise 2" />
               <h3>Strength Training</h3>
             </div>
+
             <div className="speciality">
               <img src="https://ghost-cms.s3.ap-south-1.amazonaws.com/2022/11/Yoga-For-Man.png" alt="Exercise 3" />
               <h3>Yoga & Meditation</h3>
             </div>
+
           </div>
 
 
@@ -68,6 +73,7 @@ const Land_page = () => {
 
         </div>
   </section> 
+
       </main>
       <footer className='landing_page_footer'>
         {"Powered By Fitness-Training-Studio"}
