@@ -46,13 +46,10 @@ const handle_click_for_confirmation=async()=>{
 <Box sx={{ width: 900,height: 400, backgroundColor:'white'}}>
 <Typography variant='h4'  sx={{fontWeight:'bold'}}><p>When you deactivate your account</p></Typography>
 <Typography variant='h4'>
-<p>You are logged in your  Account</p>
-<p>Your public profile on Flipkart is no longer visible</p>
-<p>Your reviews/ratings are still visible, while your profile information is shown as ‘unavailable’ as a result of deactivation.</p>
-<p>Your wishlist items are no longer accessible through the associated public hyperlink. Wishlist is shown as ‘unavailable’ as a result of deactivation
-</p>
-<p>You will be unsubscribed from receiving promotional emails from Flipkart</p>
-<p>Your account data is retained and is restored in case you choose to reactivate your account</p>
+<p>You are logged in your  Account.</p>
+<p>You will be unsubscribed from receiving Special Offers emails from FITNESS-TRAINING-STUDIO.</p>
+<p>You can access the tutorials in case you choose to reactivate your Account.</p>
+<p>Documents verification needed for re-admission.</p>
 </Typography>
 </Box>
 
@@ -60,9 +57,9 @@ const handle_click_for_confirmation=async()=>{
 <Typography variant='h4' sx={{fontWeight:'bold'}}><p>How do I reactivate my Flipkart account?</p></Typography>
 <Typography variant='h4'>
 <p>Reactivation is easy.</p>
-<p>Simply login with your registered email id or mobile number and password combination used prior to deactivation. Your account data is fully restored.
- Default settings are applied and you will be subscribed to receive promotional emails from Flipkart.</p>
-<p>Flipkart retains your account data for you to conveniently start off from where you left, if you decide to reactivate your account.</p>
+<p>Fillup Signup form with your email id  mobile number and password username. Your account will be created.
+ Default settings are applied and you will be subscribed to receive promotional emails from our team.</p>
+<p>You can fully access your account like previously</p>
 <p sx={{}}>Remember: Account Reactivation can be done on the Desktop version only.</p>
 </Typography>
 </Box>
