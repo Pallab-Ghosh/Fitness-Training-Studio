@@ -29,7 +29,10 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { programme_data, token_data } from '../../App';
+import fitness_logo from '../icon/fitness-training-studio-logo.png'
+
 
 function Copyright(props) {
     return (
@@ -55,14 +58,16 @@ const tiers = [
     description: [
      <p style={{fontSize:'16px'}}>
      <p> <span style={{ fontWeight: 'bold' }}>"How It Works" </span></p>
-     Meditation, which is the practice of focused concentration, bringing yourself back to the moment over and over again, actually addresses stress, whether positive or negative.
-     Meditation can also reduce the areas of anxiety, chronic pain, depression
+     <p style={{color:'darkblue',textAlign:'justify'}}> <RadioButtonCheckedIcon/> Meditation, which is the practice of focused concentration, bringing yourself back to the moment over and over again, actually addresses stress, whether positive or negative.</p>
+     <p style={{color:'darkblue',textAlign:'justify'}}> <RadioButtonCheckedIcon/> Meditation can also reduce the areas of anxiety, chronic pain, depression</p>
+   
      </p>,
 
      <p style={{fontSize:'16px'}}>
      <p><span style={{ fontWeight: 'bold' }}>"Benefits" </span></p>
-     Gaining p new perspective on stressful situations.Building skills to manage your stress.Increasing self-awareness.
-     Focusing on the present.Reducing negative emotions.Increasing imagination and creativity.
+     <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>Gaining p new perspective on stressful situations.Building skills to manage your stress.Increasing self-awareness.</p>
+     <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>Focusing on the present.Reducing negative emotions.Increasing imagination and creativity.</p>
+ 
      </p>
     ],
     buttonText: 'Sign up for free',
@@ -78,17 +83,14 @@ const tiers = [
     description: [
      <p style={{fontSize:'16px'}}>
      <p><span style={{ fontWeight: 'bold' }}>"How It works" </span></p>
-     Yoga improves strength, balance and flexibility. 
-     Slow movements and deep breathing increase blood flow and warm up muscles,
-      while holding p pose can build strength.
+     <p  style={{color:'darkblue',textAlign:'justify'}}><RadioButtonCheckedIcon/>Yoga improves strength, balance and flexibility. </p>
+     <p  style={{color:'darkblue',textAlign:'justify'}}><RadioButtonCheckedIcon/>Slow movements and deep breathing increase blood flow and warm up muscles,
+     while holding p pose can build strength.</p>
      </p>,
 
      <p style={{fontSize:'16px'}}>
      <p><span style={{ fontWeight: 'bold' }}>"Benefits" </span></p>
-     increased flexibility.
-increased muscle strength and tone.
-improved respiration, energy and vitality.
-maintaining p balanced metabolism.
+     <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>increased flexibility. increased muscle strength and tone. improved respiration, energy and vitality. maintaining p balanced metabolism.</p>
      </p>
     ],
     buttonText: 'Sign up for free',
@@ -103,17 +105,16 @@ maintaining p balanced metabolism.
     description: [
       <p style={{fontSize:'16px'}}>
       <p> <span style={{ fontWeight: 'bold' }}>"How It Works" </span></p>
-    
-      "We take the work out, 
-      by mixing low-intensity and high-intensity moves for an interval-style
-      calorie-burning dance fitness party
+      <p  style={{color:'darkblue',textAlign:'justify'}}><RadioButtonCheckedIcon/>We take the work out,  by mixing low-intensity and high-intensity moves for an interval-style calorie-burning dance fitness party</p>
+   
     </p>,
 
      <p style={{fontSize:'16px'}}>
       <p><span style={{ fontWeight: 'bold' }}>"Benefits" </span></p>
-      'A total workout, combining all elements of fitness
-       – cardio, muscle conditioning, balance and flexibility,
-        boosted energy and p serious dose of awesome each time you leave class 
+      <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>A total workout, combining all elements of fitness
+      – cardio, muscle conditioning, balance and flexibility,
+       boosted energy and p serious dose of awesome each time you leave class </p>
+      
       </p>
     ],
     buttonText: 'Sign up for free',
@@ -128,16 +129,18 @@ maintaining p balanced metabolism.
       description: [
        <p style={{fontSize:'16px'}}>
        <p> <span style={{ fontWeight: 'bold' }}>"How It Works" </span></p>
-       Working the core in p functional, progressive manner will give you nice, 
+       <p style={{color:'darkblue',textAlign:'justify'}}><RadioButtonCheckedIcon/>Working the core in p functional, progressive manner will give you nice, 
        lean muscles that will be on display once that layer of fat is burned off by doing cardio and cleaning up your diet.
-     
+       </p> 
        </p>,
 
        <p style={{fontSize:'16px'}}>
        <p><span style={{ fontWeight: 'bold' }}>"Benefits" </span></p>
-       Core exercises improve your balance and stability
-       The stomach muscles sometimes are called abs. Core exercises train the muscles in your core to work in harmony.
-       This leads to better balance and steadiness, also called stability. 
+       <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>Core exercises improve your balance and stability
+       The stomach muscles sometimes are called abs.</p>
+       <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>Core exercises train the muscles in your core to work in harmony.
+       This leads to better balance and steadiness, also called stability. </p>
+      
        </p>
       ],
       buttonText: 'Sign up for free',
@@ -154,18 +157,21 @@ maintaining p balanced metabolism.
       price: 5500,
       description: [
         <p style={{fontSize:'16px'}}>
-        <p><span style={{ fontWeight: 'bold' }}>"How It works" </span></p>
-        Yoga works more on the internal organs, muscles and glands and removes the toxins.
-         Therefore, it is more effective for detoxification of the body.
-          Gym training is more about toning muscles and improving cardiovascular performance.
+        <p><span style={{ fontWeight: 'bold',textAlign:'justify'}}>"How It works" </span></p>
+
+        <p style={{color:'darkblue',textAlign:'justify'}}><RadioButtonCheckedIcon/>Yoga works more on the internal organs, muscles and glands and removes the toxins.
+        Therefore, it is more effective for detoxification of the body.</p> 
+
+        <p style={{color:'darkblue',textAlign:'justify'}}><RadioButtonCheckedIcon/> Gym training is more about toning muscles and improving cardiovascular performance.</p> 
+
         </p>,
 
         <p style={{fontSize:'16px'}}>
         <p><span style={{ fontWeight: 'bold' }}>"Benefits" </span></p>
-        Yoga is definitely p great choice for improving heart health as it is p process of healing from inside.
-         On the other hand, gym training also works on heart health by 
-        burning excess calories, but heavy gym training is not recommended for heart patients.
-         Yoga works brilliantly on mental health.
+        <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>Yoga is definitely p great choice for improving heart health as it is p process of healing from inside.</p>
+        <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>On the other hand, gym training also works on heart health by 
+        burning excess calories, but heavy gym training is not recommended for heart patients.</p> 
+        <p style={{color:'brown',textAlign:'justify'}}><RadioButtonCheckedIcon/>Yoga works brilliantly on mental health.</p> 
         </p>
         
       ],
@@ -330,27 +336,27 @@ export const Programme_page = () => {
     </Container>
 
     {/* End hero unit */}
-    <Container maxWidth="lg" component="main" style={{backgroundColor:'steelblue'}} >
+    <Container maxWidth="xl" component="main" style={{backgroundColor:'cadetblue'}} >
       <Grid container spacing={5} alignItems="flex-end" id='pricing'>
         {tiers.map((tier) => (
           // Enterprise card is full width at sm breakpoint
           <Grid
             item
-           
             key={tier.title}
             xs={12}
             sm={tier.title === 'Pro' ? 12 : 6}
             md={4}
           >
-            <Card  style={{backgroundColor:"lightblue"}}>
+            <Card  style={{backgroundColor:"lightblue",width:'400px'}}>
 
               <CardHeader
                 title={tier.title}
                 subheader={tier.subheader}
-                titleTypographyProps={{ align: 'center' }}
+                titleTypographyProps={{ align: 'center',fontWeight:'bolder' }}
                 action={tier.title === 'Pro' ? <StarIcon /> : null}
                 subheaderTypographyProps={{
                   align: 'center',
+                  fontSize:'larger'
                 }}
                 sx={{
                backgroundColor: (theme) =>theme.palette.mode ==='light' ? theme.palette.grey[200] : theme.palette.grey[700], color:'maroon',
@@ -403,7 +409,7 @@ export const Programme_page = () => {
 
     {/* Footer */}
     <Container
-      maxWidth="lg"
+      maxWidth="xl"
       component="footer"
       sx={{
         borderTop: (theme) => `1px solid ${theme.palette.divider}`,
@@ -530,7 +536,11 @@ export const Programme_page = () => {
       </MDBContainer>
     </section>
   </MDBFooter>
+  <div style={{marginLeft:'380px',marginTop:'100px'}}>
+  <img src={fitness_logo} alt="logo" style={{ width:'700px',height:'500px',margin:'0px 20px'}}/>
 
+  </div>
+ 
 </Container>
     {/* End footer */}
   </ThemeProvider>
