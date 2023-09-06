@@ -208,7 +208,7 @@ export const Signin = () =>{
                 
 
                <Box sx={{ mt: 5}}>
-               <Button variant='contained' color='error' size='large' onClick={()=>navigate('/')}>Back to Main Page</Button>
+               <Button variant='contained' color='error' size='large' onClick={()=>navigate('/signin')}>Back to Main Page</Button>
                </Box>
 
               </Grid>
