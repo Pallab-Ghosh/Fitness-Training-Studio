@@ -18,35 +18,44 @@ const AdminLoginPage = () => {
     e.preventDefault();
       
     //console.log(admin_data)
-     axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login`,admin_data)
+    if(admin_data.username.includes('admin') && admin_data.email=='gpallab405@gmail.com')
+    {
+      axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login`,admin_data)
 
-    .then((resolve)=>{
-     console.log(resolve.data)
-      if(resolve.data.token)
-      {
-      
-        localStorage.setItem('userdata_with_token',JSON.stringify(resolve.data))
-        window.location.href='/signin/admin_login/dashboard'
-      }
-      else if(resolve.data.id===2)
-      {
-        alert('Error')
-      }
+      .then((resolve)=>{
+       console.log(resolve.data)
+        if(resolve.data.token)
+        {
+        
+          localStorage.setItem('userdata_with_token',JSON.stringify(resolve.data))
+          window.location.href='/signin/admin_login/dashboard'
+        }
+        else if(resolve.data.id===2)
+        {
+          alert('Error')
+        }
+  
+        else if(resolve.data.id===7)
+        {
+          alert('Admin not registered')
+        }
+        
+        else
+        {
+         
+         alert(`Wrong credential`)
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    }
 
-      else if(resolve.data.id===7)
-      {
-        alert('Admin not registered')
-      }
-      
-      else
-      {
-       
-       alert(`Wrong credential`)
-      }
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+    else
+    {
+      alert('Credential not match')
+    }
+     
     set_admin_data({username:'',password:'',email:''})
   
     
