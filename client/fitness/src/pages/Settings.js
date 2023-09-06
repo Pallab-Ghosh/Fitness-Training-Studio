@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react'
 import './Adminsetting.css'
 import { Box, Button, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-
+import fitness_logo from './icon/fitness-training-studio-logo.png'
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Settings = () => {
 const [all_data,set_all_data]=useState([])
@@ -63,6 +65,12 @@ const handle_option=(id,e)=>{
     if(res.data.id==1)
     {
       alert('Status update successfully')
+    
+              axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
+              .then((res)=>{
+                console.log(res)
+                set_visitor_data(res.data)
+                })
     }
   })
 }
@@ -85,9 +93,11 @@ const handleDelete2 = (userId) => {
  };
 
   return (
-    <div className='setting'> 
+    <div style={{marginTop:'50px'}} > 
+    <Typography variant='h2' sx={{mb:'40px',ml:'40px',mt:'4px'}} color='blue'>Fitness-Training-Studio</Typography>
+    <Button size='medium' variant='contained' color='error' onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'1px'}}>Go Back</Button>
     <Typography variant='h2' sx={{marginLeft:90}} color='gray'>User Data</Typography>
-    <Button size='medium' variant='contained' color='error' onClick={()=>navigate(-1)} sx={{ml:3}}>Go Back</Button>
+   
     <div className="user-list">
     <table>
       <thead>
@@ -137,11 +147,11 @@ const handleDelete2 = (userId) => {
                     <th>Email</th>
                     <th>Mobile</th>
                     <th>Message</th>
+                    <th>Applicant-Status</th>
                     <th>Date-of-Query</th>
                     <th>Isuue-resolved</th>
-                    <th>Applicant-Status</th>
                     <th>Status</th>
-                    <th>Confirm</th>
+                    <th>Confirmation</th>
                     <th>Options</th>
                   </tr>
                 </thead>
@@ -154,9 +164,10 @@ const handleDelete2 = (userId) => {
                       <td>{user.email}</td>
                       <td>{user.mobile}</td>
                       <td>{user.message}</td>
+                      {user.status=='Resolved'?<td style={{backgroundColor:'green'}}><DoneIcon/>{user.status}</td>:<td style={{backgroundColor:'red'}}><CloseIcon/>{user.status}</td>} 
                       <td>{user.date_of_query}</td>
                       <td>{user.date_of_query_closed}</td>
-                      {user.status=='Resolved'?<td style={{backgroundColor:'green'}}>{user.status}</td>:<td style={{backgroundColor:'red'}}>{user.status}</td>} 
+                     
                       <td style={{backgroundColor:'darkslategray'}}>
                       <select value={option_value}  onChange={(e)=>set_option_value(e.target.value)} style={{backgroundColor:'firebrick'}}>
                       <option value="Resolved" color='red' style={{backgroundColor:'blue'}} >Resolved</option>
@@ -171,6 +182,8 @@ const handleDelete2 = (userId) => {
                 </tbody>
               </table>
     </div>
+ 
+   
     </Box>
     </div>
     
