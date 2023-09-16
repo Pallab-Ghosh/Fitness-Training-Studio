@@ -17,6 +17,26 @@ import MailIcon from '@mui/icons-material/Mail';
 //92ecd971-3954-4b7e-becf-48c60c5dbeec
 
 
+const get_full_year_and_time=()=>{
+  const currentDate = new Date();
+
+const year = currentDate.getFullYear(); 
+const month = currentDate.getMonth() + 1; 
+const day = currentDate.getDate(); 
+
+const hours = currentDate.getHours(); 
+const minutes = currentDate.getMinutes(); 
+const seconds = currentDate.getSeconds(); 
+
+
+const fullDateTimeString = `${year}-${month}-${day}`
+const fullTime=`${hours}:${minutes}:${seconds}`;
+
+return {date_details:fullDateTimeString,time_details:fullTime}
+
+}
+
+
  
 
  const Admin_Dashboard = () => {
@@ -41,6 +61,10 @@ import MailIcon from '@mui/icons-material/Mail';
      console.log('clcik')
      window.location.href='/';
   }
+
+  const data_and_time=get_full_year_and_time();
+
+  const {date_details,time_details}=data_and_time;
   return (
    <>
     <div style={{height:'90px',backgroundColor:'slateblue'}}>
@@ -59,7 +83,9 @@ import MailIcon from '@mui/icons-material/Mail';
     <li className="menu-item"><AnalyticsIcon fontSize='medium' /><a style={{color:'white'}} href='/signin/admin_login/dashboard/settings'>Settings</a></li>
     <li className="menu-item"><ExitToAppIcon fontSize='medium' /><Link style={{color:'white'}} onClick={handle_signout}>Signout</Link></li>
     </ul>
-    <Typography variant='h5' sx={{mt:45,fontSize:'18px'}}>Fitness-Training-Studio</Typography>
+    <Typography variant='h5' sx={{mt:45,fontSize:'18px'}}>Today</Typography>
+    <Typography variant='h5' sx={{mt:1,fontSize:'18px'}}>{`${date_details}    ${time_details}`}</Typography>
+    <Typography variant='h5' sx={{mt:4,fontSize:'18px'}}>Fitness-Training-Studio</Typography>
   </div>
 
     </div>
