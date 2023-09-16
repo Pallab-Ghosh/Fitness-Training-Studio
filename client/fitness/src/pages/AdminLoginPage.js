@@ -17,7 +17,8 @@ const AdminLoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
       
-    //console.log(admin_data)
+    console.log(admin_data)
+    //check admin or not
     if(admin_data.username.includes('admin') && admin_data.email=='gpallab405@gmail.com')
     {
       axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login`,admin_data)
@@ -40,16 +41,13 @@ const AdminLoginPage = () => {
           alert('Admin not registered')
         }
         
-        else
-        {
-         
-         alert(`Wrong credential`)
-        }
+        
       })
       .catch((err)=>{
         console.log(err)
       })
     }
+    
 
     else
     {
@@ -73,6 +71,7 @@ const AdminLoginPage = () => {
             variant="outlined"
             margin="normal"
             fullWidth
+            inputProps={{style: {fontSize: 18}}}
             label="Username"
             value={admin_data.username}
             onChange={(e) => set_admin_data({...admin_data,username:e.target.value})}
@@ -83,6 +82,7 @@ const AdminLoginPage = () => {
           variant="outlined"
           margin="normal"
           fullWidth
+          inputProps={{style: {fontSize: 18}}}
           label="Email"
           value={admin_data.email}
           onChange={(e) => set_admin_data({...admin_data,email:e.target.value})}
@@ -92,6 +92,7 @@ const AdminLoginPage = () => {
             variant="outlined"
             margin="normal"
             fullWidth
+            inputProps={{style: {fontSize: 18}}}
             label="Password"
             type="password"
             value={admin_data.password}
