@@ -1,17 +1,35 @@
 import axios, { all } from 'axios'
 import React, { useEffect, useState } from 'react'
 import './Adminsetting.css'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import fitness_logo from './icon/fitness-training-studio-logo.png'
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
+import MailIcon from '@mui/icons-material/Mail';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
 
 const Settings = () => {
 const [all_data,set_all_data]=useState([])
 const[all_visitor_data,set_visitor_data]=useState([])
-const [option_value,set_option_value]=useState('Pending')
+const [option_value,set_option_value]=useState('')
 const navigate=useNavigate()
+const[user_account_details,set_user_details]=useState({})
+const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
+
+useEffect(()=>{
+  axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+  .then((res)=>{
+    set_user_details(res.data)
+  })
+},[])
+
+
+
+const handleChange = (event) => {
+  set_option_value(event.target.value);
+}
 
 useEffect(()=>{
   console.log("1")
@@ -50,6 +68,7 @@ const handleDelete = (userId) => {
     })
   };
 
+ ;
 
 const handle_option=(id,e)=>{
   e.preventDefault()
@@ -93,8 +112,10 @@ const handleDelete2 = (userId) => {
  };
 
   return (
-    <div style={{marginTop:'50px'}} > 
-    <Typography variant='h2' sx={{mb:'40px',ml:'40px',mt:'4px'}} color='blue'>Fitness-Training-Studio</Typography>
+    <div style={{marginTop:'30px'}} > 
+    <Typography variant='h2' sx={{mb:'20px',ml:'600px',mt:'4px'}} color='blue'>Fitness-Training-Studio</Typography>
+    <Typography variant='h5' sx={{mb:1}}> <AdminPanelSettingsIcon/>{`${firstname} ${lastname}`}</Typography>
+   <Typography variant='h6' sx={{mt:0.5,ml:3,mb:4}}><MailIcon/>{`${email}`}</Typography>
     <Button size='medium' variant='contained' color='error' onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'1px'}}>Go Back</Button>
     <Typography variant='h2' sx={{marginLeft:90}} color='gray'>User Data</Typography>
    
@@ -150,7 +171,7 @@ const handleDelete2 = (userId) => {
                     <th>Applicant-Status</th>
                     <th>Date-of-Query</th>
                     <th>Isuue-resolved</th>
-                    <th>Status</th>
+                    <th >Status</th>
                     <th>Confirmation</th>
                     <th>Options</th>
                   </tr>
@@ -169,11 +190,25 @@ const handleDelete2 = (userId) => {
                       <td>{user.date_of_query_closed}</td>
                      
                       <td style={{backgroundColor:'darkslategray'}}>
-                      <select value={option_value}  onChange={(e)=>set_option_value(e.target.value)} style={{backgroundColor:'firebrick'}}>
-                      <option value="Resolved" color='red' style={{backgroundColor:'blue'}} >Resolved</option>
-                      <option value="Pending" style={{backgroundColor:'blue'}}>Pending</option>
-                      </select>
+                      <FormControl  sx={{ m: 1, width: 180 }}>
+                      <InputLabel id="demo-simple-select-standard-label" sx={{color:'black',fontSize:'12px'}}>Status</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        autoWidth
+                        value={option_value}
+                        label="Select Issue status"
+                        onChange={handleChange}
+                        style={{backgroundColor:'Scrollbar'}}
+                      >
+                      <MenuItem value=""> <em style={{fontSize:'12px',fontWeight:'bolder'}}>None </em></MenuItem>
+                        <MenuItem value={'Resolved'} style={{width:180,fontSize:'12px',color:'brown',fontWeight:'bolder'}}>Resolved</MenuItem>
+                        <MenuItem value={'Unresolved'} style={{width:180,fontSize:'12px',color:'brown',fontWeight:'bolder'}}>Unresolved</MenuItem>
+                        <MenuItem value={'Pending'} style={{width:180,fontSize:'12px',color:'brown',fontWeight:'bolder'}}>Pending</MenuItem>
+                      </Select>
+                    </FormControl>
                       </td>
+
                      <td><button onClick={(e)=>handle_option(user._id,e)}>Submit</button></td> 
                      <td> <button  onClick={() => handleDelete2(user._id)}  color='success'>Delete</button> </td>
                     </tr>
@@ -182,9 +217,10 @@ const handleDelete2 = (userId) => {
                 </tbody>
               </table>
     </div>
- 
-   
     </Box>
+    <footer style={{marginLeft:'600px',fontSize:'37px',color:'red'}}>
+    Maintained By Fitness-Training-Studio
+   </footer>
     </div>
     
   )
