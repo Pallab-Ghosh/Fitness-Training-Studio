@@ -30,6 +30,11 @@ import { login_handler, token_data} from '../App';
 import { Paper } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -69,11 +74,34 @@ export const Signin = () =>{
       {
       
         localStorage.setItem('userdata_with_token',JSON.stringify(resolve.data))
+        toast.success('Signin successfully!!!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          style:{color:'black'}
+          });
        window.location.href='/home'
       }
+
       else if(resolve.data.id===2)
       {
-        alert('Error')
+       // alert('Error')
+       toast.error('Error!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        style:{color:'black'}
+        });
       }
 
       else if(resolve.data.id===7)
@@ -84,7 +112,18 @@ export const Signin = () =>{
       else
       {
        
-       alert(`Wrong credential`)
+      // alert(`Wrong credential`)
+      toast.warning('Wrong credential!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme:"colored",
+        style:{color:'black'}
+        });
       }
     })
     .catch((err)=>{
@@ -208,7 +247,7 @@ export const Signin = () =>{
                 
 
                <Box sx={{ mt: 5}}>
-               <Button variant='contained' color='error' size='large' onClick={()=>navigate('/signin')}>Back to Main Page</Button>
+               <Button variant='contained' color='error' size='large' onClick={()=>navigate('/')}>Back to Main Page</Button>
                </Box>
 
               </Grid>

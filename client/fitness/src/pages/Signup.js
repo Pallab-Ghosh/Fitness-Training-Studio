@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Alert from '@mui/material/Alert';
+
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 import axios from 'axios'
@@ -29,7 +29,8 @@ import * as Yup from 'yup'
 import { ClassNames } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
 
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
   const refresh = () => window.location.reload(true)
@@ -94,17 +95,53 @@ export const Signup = () => {
                  if(resolve.data.id==1)
                  {
                 
-                    alert('Signup successfully!!!')
+                    //alert('Signup successfully!!!')
+                    toast.success('Signup successfully!!!', {
+                      position: "top-right",
+                      autoClose: 2000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "colored",
+                      style:{color:'black'}
+                      });
+
                     navigate('/')
                   } 
                   else if(resolve.data.id==2)
                   {
-                    alert('Error')
+                   // alert('Error')
+                   toast.error('Error!!!', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    style:{color:'black'}
+                    });
+
                   }
 
                 else 
                    { 
-                     alert('Already have an account or Error in input')
+
+                     //alert('Already have an account or Error in input')
+                     toast.warning('Already have an account or Error in input!!!', {
+                      position: "top-right",
+                      autoClose: 2000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme:"colored",
+                      style:{color:'black'}
+                      });
                    }
              })
         
@@ -112,7 +149,7 @@ export const Signup = () => {
       });
 
 
-
+//
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -289,13 +326,10 @@ export const Signup = () => {
               helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
             />
           </Grid>
-
-
-
-      
           </Grid>
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} > Sign Up </Button>
-          
+
+
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/signin" variant="h5" >
@@ -307,7 +341,6 @@ export const Signup = () => {
         </Box>
      
       </Box>
-  
     </Container>
   </ThemeProvider>
   )
