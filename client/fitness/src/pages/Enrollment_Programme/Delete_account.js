@@ -4,7 +4,8 @@ import { TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import { Button } from 'rsuite';
 import { useNavigate } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
   
 
@@ -28,12 +29,34 @@ const handle_click_for_confirmation=async()=>{
  const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_account`,{otp:otp})
   if(response.data.id==1)
   {
-    alert('Delete account succeessfully')
+   // alert('Delete account succeessfully')
+   toast.success('Account Deleted successfully!!!', {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    style:{color:'black'}
+    });
     navigate('/')
   }
   else
   {
-    alert('Not deleteted')
+    //alert('Not deleteted')
+    toast.warning('Not deleteted!!!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme:"colored",
+      style:{color:'black'}
+      });
   }
   set_otp('')
 }

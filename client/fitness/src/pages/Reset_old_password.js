@@ -16,6 +16,10 @@ import axios from 'axios'
 import { Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { accountDetails_holder } from '../App';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 const defaultTheme = createTheme(); 
@@ -75,21 +79,65 @@ const Reset_old_password = () => {
                  console.log(resolve.data)
                  if(resolve.data.id==1)
                  {
-                   alert(' Password Reset successfully!!!')
+                  // alert(' Password Reset successfully!!!')
+                  toast.success('Password Reset successfully!!!', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    style:{color:'black'}
+                    });
                   // navigate('/')
                  }
                  else if(resolve.data.id===2)
                  {
-                   alert('Error')
+                  // alert('Error')
+                  toast.error('Error!!!', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    style:{color:'black'}
+                    });
                  }
                  else if(resolve.data.id==0)
                  {
                   
-                    alert('user not found!!')
+                  //  alert('user not found!!')
+                  toast.warning('user not found!!!', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme:"colored",
+                    style:{color:'black'}
+                    });
                  }
                  else
                  {
-                    alert('old password not matched !!')
+                  //  alert('old password not matched !!')
+                  toast.warning('old password not matched!!!', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme:"colored",
+                    style:{color:'black'}
+                    });
                  }
                  //
                })
@@ -98,10 +146,35 @@ const Reset_old_password = () => {
                })
            }
    
-           else
+           else if(user_data.new_password!=user_data.new_password2)
            {
             
-               alert('Mismatch new password')
+              // alert('Mismatch new password')
+              toast.warning('Mismatch new password!!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme:"colored",
+                style:{color:'black'}
+                });
+           }
+           else
+           {
+            toast.error('Error!!!', {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              style:{color:'black'}
+              });
            }
            set_data({old_password:'',new_password:'',new_password2:''})
          };
@@ -116,7 +189,7 @@ const Reset_old_password = () => {
              <LockOutlinedIcon />
            </Avatar>
            <Typography component="h1" variant="h5">
-             Password reset
+             Reset Old Password
            </Typography>
    
            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>

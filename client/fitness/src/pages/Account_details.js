@@ -13,7 +13,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { accountDetails_holder, programme_data } from '../App';
 import { Box } from '@mui/material';
 import { Stack } from 'rsuite';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -66,7 +67,18 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
           set_user_details(res.data)
         })
       
-        alert('Subscription Deleted Successfully')
+        //alert('Subscription Deleted Successfully')
+        toast.success('Subscription Deleted successfully!!!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          style:{color:'black'}
+          });
       })
       .catch((err)=>{
         console.log(err)
@@ -74,7 +86,19 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
      
     }
     else{
-      alert('No Subscription')
+
+     // alert('No Subscription')
+     toast.warning('No Subscription', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme:"colored",
+      style:{color:'black'}
+      });
     }
   
     setOpen2(false);
@@ -99,16 +123,39 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
     console.log(response.data)
      if(response.data.id==1)
      {
-      alert('Send otp to email')
+     // alert('Send otp to email')
+     toast.success('Send Otp to your registered Email', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      style:{color:'black'}
+      });
       navigate('/home/accountDetails/delete_account')
      }
      else
      {
-       alert('error')
+
+      // alert('error')
+      toast.error('Error!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        style:{color:'black'}
+        });
      }
    }
 
-   const delete_subscription_function=()=>{
+  /*  const delete_subscription_function=()=>{
 
        
         if(course!=null && subscription_date!=null && price_of_course!=0)
@@ -121,7 +168,20 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
               set_user_details(res.data)
             })
           
-            alert('Subscription Deleted Successfully')
+          //  alert('Subscription Deleted Successfully')
+          toast.success('Subscription Deleted successfully!!!', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            style:{color:'black'}
+            });
+
+
           })
           .catch((err)=>{
             console.log(err)
@@ -132,7 +192,7 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
           alert('No Subscription')
         }
       
-   }
+   } */
 
 
     const handle_admin_page=()=>{
@@ -261,53 +321,44 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
                </form>
 
                 {/* for reset password*/}
-               <Dialog
-               open={open}
-               onClose={handleClose}
-               aria-labelledby="alert-dialog-title"
-               aria-describedby="alert-dialog-description"
-               >
-               <DialogTitle id="alert-dialog-title" style={{fontSize:'25px'}}>
-                 {"Reset password alert"}
-               </DialogTitle>
+              <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                  <DialogTitle id="alert-dialog-title" style={{fontSize:'25px'}}>
+                    {"Reset password alert"}
+                  </DialogTitle>
                
-               <DialogContent  style={{height:'100px',width:'700px'}}>
-                 <DialogContentText id="alert-dialog-description" style={{fontSize:'22px'}}>
-                 Do you really want to reset your password ?
-                 </DialogContentText>
-               </DialogContent>
+                  <DialogContent  style={{height:'100px',width:'700px'}}>
+                    <DialogContentText id="alert-dialog-description" style={{fontSize:'22px'}}>
+                    Do you really want to reset your password ?
+                    </DialogContentText>
+                  </DialogContent>
                
-               <DialogActions >
-              <Button onClick={handleClose} style={{height:'50px',fontSize:'15px'}} variant='contained'>Disagree</Button>
-              <Button onClick={handleClose2}  style={{height:'50px',fontSize:'15px'}} autoFocus variant='contained'> Agree </Button>
-               </DialogActions>
+                  <DialogActions >
+                  <Button onClick={handleClose} style={{height:'50px',fontSize:'15px'}} variant='contained'>Disagree</Button>
+                  <Button onClick={handleClose2}  style={{height:'50px',fontSize:'15px'}} autoFocus variant='contained'> Agree </Button>
+                  </DialogActions>
                
                </Dialog>
 
 
                {/* for delete subscriptions*/}
-               <Dialog
-               open={open2}
-               onClose={handleClose_for_delete_subscription}
-               aria-labelledby="alert-dialog-title"
-               aria-describedby="alert-dialog-description"
-               >
-               <DialogTitle id="alert-dialog-title" style={{fontSize:'25px'}}>
-                 {"Reset password alert"}
-               </DialogTitle>
+             <Dialog open={open2} onClose={handleClose_for_delete_subscription} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title" style={{fontSize:'25px'}}>
+                      {"Reset password alert"}
+                    </DialogTitle>
                
-               <DialogContent  style={{height:'100px',width:'700px'}}>
-                 <DialogContentText id="alert-dialog-description" style={{fontSize:'22px'}}>
-                 Do you really want to delete your subscriptions ?
-                 </DialogContentText>
-               </DialogContent>
+                    <DialogContent  style={{height:'100px',width:'700px'}}>
+                          <DialogContentText id="alert-dialog-description" style={{fontSize:'22px'}}>
+                          Do you really want to delete your subscriptions ?
+                          </DialogContentText>
+                    </DialogContent>
                
-               <DialogActions >
-               <Button onClick={handleClose_for_delete_subscription} style={{height:'50px',fontSize:'15px'}} variant='contained'>Stay In</Button>
-               <Button onClick={handleClose_for_delete_subscription2}  style={{height:'50px',fontSize:'15px'}} autoFocus variant='contained'> Delete Subscription </Button>
-               </DialogActions>
+                    <DialogActions >
+                      <Button onClick={handleClose_for_delete_subscription} style={{height:'50px',fontSize:'15px'}} variant='contained'>Stay In</Button>
+                      <Button onClick={handleClose_for_delete_subscription2}  style={{height:'50px',fontSize:'15px'}} autoFocus variant='contained'> Delete Subscription </Button>
+                    </DialogActions>
                
                </Dialog>
+
              </div>
            </div>
            </div>

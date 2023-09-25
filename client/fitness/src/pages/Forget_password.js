@@ -16,8 +16,8 @@ import axios from 'axios'
 import { Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+
+
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -62,17 +62,50 @@ export const Forget_password = () => {
         if(resolve.data.id==1)
         {
         
-        alert('Otp sent successfully...')
+        //alert('Otp sent successfully...')
+        toast.success('Otp sent  successfully!!!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          style:{color:'black'}
+          });
         }
        
         else if(resolve.data.id===2)
         {
-          alert('Error')
+          //alert('Error')
+          toast.error('Error!!!', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            style:{color:'black'}
+            });
         }
         else
         {
           
-         alert('Invalid User!!')
+        // alert('Invalid User!!')
+        toast.warning('Invalid User!!!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme:"colored",
+          style:{color:'black'}
+          });
         }
       })
       .catch((err)=>{
@@ -88,16 +121,49 @@ export const Forget_password = () => {
       console.log(resolve.data)
       if(resolve.data?.username)
       {
-           alert('Give a new Password!!!')
+          // alert('Give a new Password!!!')
+          toast.success('Give a new Password!!!', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            style:{color:'black'}
+            });
       }
       else if(resolve.data.id===2)
       {
-        alert('Error')
+       // alert('Error')
+       toast.error('Error!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        style:{color:'black'}
+        });
       }
       else
       {
         
-        alert('Wrong Otp!!!')
+       // alert('Wrong Otp!!!')
+       toast.warning('Wrong Otp!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme:"colored",
+        style:{color:'black'}
+        });
       }
     })
     .catch((err)=>{
@@ -118,17 +184,51 @@ export const Forget_password = () => {
               if(resolve.data.id==1)
               {
                 
-                alert(' Password Reset successfully!!!')
+               // alert(' Password Reset successfully!!!')
+                toast.success(' Password Reset successfully!!!!!', {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                  style:{color:'black'}
+                  });
                 navigate('/')
               }
               else if(resolve.data.id===2)
               {
-                alert('Error')
+
+               // alert('Error')
+               toast.error('Error!!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                style:{color:'black'}
+                });
               }
               else
               {
                
-                 alert('Password not reset!!')
+                // alert('Password not reset!!')
+                toast.warning('Password not rese!!!', {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme:"colored",
+                  style:{color:'black'}
+                  });
               }
               //
             })
@@ -140,7 +240,18 @@ export const Forget_password = () => {
         else
         {
          
-            alert('Mismatch new password')
+          //  alert('Mismatch new password')
+          toast.warning('Mismatch new password!!!', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme:"colored",
+            style:{color:'black'}
+            });
         }
         set_data({emailid:'',new_password:'',new_password2:''})
       };
@@ -222,14 +333,7 @@ export const Forget_password = () => {
           </Grid>
           </Grid>
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Reset
-          </Button>
+          <Button type="submit" fullWidth  variant="contained"  sx={{ mt: 3, mb: 2 }} >  Reset  </Button>
         </Box>
         
        

@@ -106,7 +106,18 @@ export const Signin = () =>{
 
       else if(resolve.data.id===7)
       {
-        alert('User not registered')
+      //  alert('User not registered')
+      toast.warning('User not registered!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme:"colored",
+        style:{color:'black'}
+        });
       }
       
       else
