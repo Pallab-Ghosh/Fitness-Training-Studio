@@ -7,6 +7,7 @@ const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken');
 const otpGenerator = require('otp-generator');
 const { send_verification_mail } = require('../utils/SendverificationMail');
+const {send_mail_subscription}=require('../utils/Send_Mail_For_Subscriptions')
 const { parse } = require('dotenv');
 require('dotenv').config();
 const moment=require('moment')
@@ -69,7 +70,6 @@ console.log("req",req.body)
 
 
 
-
 //forget password from signin page using email to reset password
 var find_user;
 exports.loginEmail=async(req,res) => {
@@ -91,7 +91,8 @@ exports.loginEmail=async(req,res) => {
               //console.log("from email verify",otp_no)
               send_verification_mail(find_user,otp_no);
              return  res.json({id:1})
-            }            
+            }  
+                      
             else(find_user===null)
               {
                return res.json({id:0})
@@ -362,16 +363,17 @@ const date_creation_of_course=()=>{
 
   exports.save_course_data=async(req,res)=>{
       console.log(req.body)
-      const{id_of_package,title_of_package,price_of_package}=req.body
+      const{id_of_package,title_of_package,price_of_package,firstname,lastname,email}=req.body
       if(id_of_package!=null && title_of_package!=null && price_of_package!=null )
       {
         find_user_using_email.course=req.body.title_of_package;
         find_user_using_email.price_of_course=req.body.price_of_package;
         const current_date=date_creation_of_course();
-        console.log("current_date",current_date)
+       // console.log("current_date",current_date)
         find_user_using_email.subscription_date=current_date
         const new_user=await find_user_using_email.save();
         console.log("new_user from save_course_data",new_user)
+        send_mail_subscription(title_of_package,new_user)
         res.json({id:1})
       }
       else
@@ -478,3 +480,9 @@ exports.update_visitor_status=async(req,res)=>{
   console.log(find_visitor_by_id);
   res.json({id:1,status:"status update successfully"})
 }
+
+
+
+
+
+
