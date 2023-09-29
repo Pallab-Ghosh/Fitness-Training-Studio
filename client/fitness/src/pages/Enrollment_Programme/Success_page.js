@@ -1,43 +1,64 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import CheckIcon from '@mui/icons-material/Check';
 import { Button } from '@mui/material';
 import { useNavigate ,UNSAFE_NavigationContext } from 'react-router-dom';
 import { programme_data } from '../../App';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 
 export const Success_page = () => {
+
   const navigate=useNavigate()
   const{programme_detail,set_programme}=useContext(programme_data)
-  
+
 
    useEffect(()=>{
+    
     var coursedata_from_local_storage=JSON.parse(localStorage.getItem("coursedata"))
-    console.log("coursedata_from_local_storage",coursedata_from_local_storage)
+    //console.log("coursedata_from_local_storage",coursedata_from_local_storage)
     set_programme({...programme_detail,...coursedata_from_local_storage})
     localStorage.removeItem("coursedata")
    },[])
 
-   console.log("programme_detail",programme_detail)
+   //console.log("programme_detail",programme_detail)
 
    useEffect(()=>{
+
+
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details`)
     .then((res)=>{
-      console.log("res of coursedata",res)
+     // console.log("res of coursedata",res)
       if(res.data.id==2)
       {
         if(programme_detail?.id_of_package)
         {
           axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/save_course_details`,programme_detail)
           .then((res)=>{
-            console.log(res);
+           // console.log(res);
             if(res.data.id==1)
             {
-              alert('Subscribed Successfully')
+             // alert('Subscribed Successfully')
+             toast.success('Subscribed successfully!!!', {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              style:{color:'black'}
+              });
             }
           })
         }
       }
+
     })
  
    },[programme_detail])
