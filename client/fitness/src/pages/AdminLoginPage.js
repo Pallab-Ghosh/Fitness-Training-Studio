@@ -3,7 +3,8 @@ import { TextField, Button, Container, Paper, Typography, createStyles } from '@
 import { token_data } from '../App';
 import { json, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -18,24 +19,58 @@ const AdminLoginPage = () => {
     e.preventDefault();
     if(admin_data.username.includes('admin') && admin_data.email=='gpallab405@gmail.com' && admin_data.email!=null  )
     {
+
       axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login_email_with_email`,admin_data)
       .then((resolve)=>{
         console.log(resolve.data)
         if(resolve.data.id==1)
         {
          
-        alert('Otp sent successfully...')
+        //alert('Otp sent successfully...')
+        toast.success('Otp Sent to Registered Email!!!', {
+          position:"top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          style:{color:'white'}
+          });
         }
   
       else if(resolve.data.id===2)
       {
-       alert('Error')
+      // alert('Error')
+      toast.error('Error!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        style:{color:'white'}
+        });
       }
   
         else
         {
          
-         alert('Invalid User!!')
+        // alert('Invalid User!!')
+        toast.warning('Invalid Admin Credentials!!!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme:"colored",
+          style:{color:'black'}
+          });
         }
       })
       .catch((err)=>{
@@ -46,7 +81,18 @@ const AdminLoginPage = () => {
 
     else
     {
-       alert('Please provide valid Admin details')
+      // alert('Please provide valid Admin details')
+      toast.warning('Provide Valid Admin Details!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme:"colored",
+        style:{color:'black'}
+        });
        set_admin_data({username:'',password:'',email:''})
     }
  
@@ -55,24 +101,50 @@ const AdminLoginPage = () => {
 
 //when verify otp
 const handle_Otp=async(e)=>{
+  
   e.preventDefault();
+  console.log("admin_data",admin_data)
  
    if(admin_data.otp==='')
    {
-     alert('Please provide Otp')
+     //alert('Please provide Otp')
+     toast.warning('Please provide Otp!!!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme:"colored",
+      style:{color:'black'}
+      });
    }
 
    else if(admin_data.otp!='')
    {
-
+   
     const fetch_data=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email_with_email`,admin_data)
-    console.log(fetch_data.data)
+    console.log("fetch_data.data",fetch_data.data)
+
     if(fetch_data.data.token)
     {
       const{token}={...fetch_data.data}
       console.log("token from api",token)
       localStorage.setItem("userdata_with_token",JSON.stringify(token))
       set_token(JSON.stringify(token))
+      toast.success('Welcome to Admin Dashboard', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        style:{color:'black'}
+        });
+  
       navigate('/signin/admin_login/dashboard')
     }
      
