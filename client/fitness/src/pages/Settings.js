@@ -8,15 +8,28 @@ import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import MailIcon from '@mui/icons-material/Mail';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import '../landing_page/LandingPage.css'
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
+
+
+
+
 
 
 const Settings = () => {
+
+
+
 const [all_data,set_all_data]=useState([])
 const[all_visitor_data,set_visitor_data]=useState([])
 const [option_value,set_option_value]=useState('')
 const navigate=useNavigate()
 const[user_account_details,set_user_details]=useState({})
 const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
+
+
 
 useEffect(()=>{
   axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
@@ -112,11 +125,8 @@ const handleDelete2 = (userId) => {
  };
 
   return (
-    <div style={{marginTop:'30px'}} > 
-    <Typography variant='h2' sx={{mb:'20px',ml:'600px',mt:'4px'}} color='blue'>Fitness-Training-Studio</Typography>
-    <Typography variant='h5' sx={{mb:1}}> <AdminPanelSettingsIcon/>{`${firstname} ${lastname}`}</Typography>
-   <Typography variant='h6' sx={{mt:0.5,ml:3,mb:4}}><MailIcon/>{`${email}`}</Typography>
-    <Button size='medium' variant='contained' color='error' onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'1px'}}>Go Back</Button>
+    <div style={{backgroundColor:'#01234a'}} > 
+    <Button size='medium' variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px'}}>Go Back</Button>
     <Typography variant='h2' sx={{marginLeft:90}} color='gray'>User Data</Typography>
    
     <div className="user-list">
@@ -133,7 +143,7 @@ const handleDelete2 = (userId) => {
           <th>Address</th>
           <th>Date-of-Registration</th>
           <th>Course-details</th>
-          <th>Options</th>
+          <th>Action</th>
         </tr>
       </thead>
 
@@ -150,7 +160,7 @@ const handleDelete2 = (userId) => {
             <td>{user.address}</td>
             <td>{user.date_and_time}</td>
             <td>{user.course}</td>
-            <td> <button onClick={() => handleDelete(user._id)} color='success'>Delete</button> </td>
+            <td> <Button onClick={() => handleDelete(user._id)} fullWidth variant='contained' color='error'  size='large'>Delete</Button> </td>
           </tr>
         ))}
       </tbody>
@@ -163,7 +173,7 @@ const handleDelete2 = (userId) => {
               <table>
                 <thead>
                   <tr>
-                  <th>Visitor-Id</th>
+                    <th>Visitor-Id</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Mobile</th>
@@ -172,8 +182,10 @@ const handleDelete2 = (userId) => {
                     <th>Date-of-Query</th>
                     <th>Isuue-resolved</th>
                     <th >Status</th>
-                    <th>Confirmation</th>
-                    <th>Options</th>
+                        <div style={{display:'flex',justifyContent:'flex-end',marginRight:'-28px'}}>
+                        <th>Action</th>
+                        </div>
+                   
                   </tr>
                 </thead>
 
@@ -189,7 +201,7 @@ const handleDelete2 = (userId) => {
                       <td>{user.date_of_query}</td>
                       <td>{user.date_of_query_closed}</td>
                      
-                      <td style={{backgroundColor:'darkslategray'}}>
+                      <td style={{backgroundColor:'#19293b'}}>
                       <FormControl  sx={{ m: 1, width: 180 }}>
                       <InputLabel id="demo-simple-select-standard-label" sx={{color:'black',fontSize:'12px'}}>Status</InputLabel>
                       <Select
@@ -209,8 +221,8 @@ const handleDelete2 = (userId) => {
                     </FormControl>
                       </td>
 
-                     <td><button onClick={(e)=>handle_option(user._id,e)}>Submit</button></td> 
-                     <td> <button  onClick={() => handleDelete2(user._id)}  color='success'>Delete</button> </td>
+                     <td><Button onClick={(e)=>handle_option(user._id,e)} fullWidth color='success' variant='contained'   size='large'>Submit</Button></td> 
+                     <td> <Button  onClick={() => handleDelete2(user._id)} fullWidth color='error'  variant='contained'  size='large' >Delete</Button> </td>
                     </tr>
                  
                   ))}
@@ -218,9 +230,9 @@ const handleDelete2 = (userId) => {
               </table>
     </div>
     </Box>
-    <footer style={{marginLeft:'600px',fontSize:'37px',color:'red'}}>
-    Maintained By Fitness-Training-Studio
-   </footer>
+    <footer className='landing_page_footer'>
+        {"Powered By Fitness-Training-Studio"}
+      </footer>
     </div>
     
   )
