@@ -33,6 +33,10 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { programme_data, token_data } from '../../App';
 import fitness_logo from '../icon/fitness-training-studio-logo.png'
 import '../../landing_page/LandingPage.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 function Copyright(props) {
     return (
@@ -193,17 +197,28 @@ const tiers = [
 
 export const Programme_page = () => {
 
-
+  const[user_account_details,set_user_details]=useState({})
+  const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
   const navigate=useNavigate()
   const {user_token,set_token}=useContext(token_data)
 
   const{programme_detail,set_programme}=useContext(programme_data)
+
   useEffect(()=>{
-  
+    const get_details=async()=>{
+      const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+      //console.log("resolve_data.data from get",resolve_data.data)
+      set_user_details(resolve_data.data)
+     // console.log("user_account_details",user_account_details)
+    }
+    get_details();
+   },[])
+   
+  useEffect(()=>{
+
    var data=JSON.parse(localStorage.getItem("userdata_with_token"));
    var{token}=data;
    set_token(token);
-
  },[])
 
 
@@ -240,6 +255,10 @@ export const Programme_page = () => {
       id_of_package:id,
       title_of_package:title,
       price_of_package:price,
+      email,
+      firstname,
+      lastname
+
     }
     
     
@@ -252,7 +271,18 @@ export const Programme_page = () => {
         stripe_payment(newdata);
       }
       else{
-        alert('Already Have Subscriptions')
+       // alert('Already Have Subscriptions')
+       toast.warning('Already Have Subscriptions with this Account!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme:"colored",
+        style:{color:'black'}
+        });
       }
     })
     
