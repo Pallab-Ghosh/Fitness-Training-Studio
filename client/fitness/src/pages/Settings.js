@@ -10,6 +10,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import '../landing_page/LandingPage.css'
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -75,7 +77,18 @@ const handleDelete = (userId) => {
       console.log(res);
       if(res.data.id==1)
       {
-        alert('Deleted user successfully')
+        //alert('Deleted user successfully')
+        toast.success('User Deleted Successfully', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          style:{color:'black'}
+          });
       }
       
     })
@@ -96,8 +109,18 @@ const handle_option=(id,e)=>{
     console.log(res)
     if(res.data.id==1)
     {
-      alert('Status update successfully')
-    
+              //alert('Status update successfully')
+              toast.success('Status Update Successfully', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                style:{color:'black'}
+                });
               axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
               .then((res)=>{
                 console.log(res)
@@ -118,7 +141,23 @@ const handleDelete2 = (userId) => {
      console.log(res);
      if(res.data.id==1)
      {
-       alert('Deleted Visitor successfully')
+       //alert('Deleted Visitor successfully')
+       toast.success('Visitor Deleted Successfully', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        style:{color:'black'}
+        });
+
+        axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
+        .then((res)=>{
+          console.log(res)
+          set_visitor_data(res.data)})
      }
      
    })
@@ -126,8 +165,8 @@ const handleDelete2 = (userId) => {
 
   return (
     <div style={{backgroundColor:'#01234a'}} > 
-    <Button size='medium' variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px'}}>Go Back</Button>
-    <Typography variant='h2' sx={{marginLeft:90}} color='gray'>User Data</Typography>
+    <Button size='medium' variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px'}}>Go Back</Button>
+    <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>User Data</Typography>
    
     <div className="user-list">
     <table>
@@ -149,6 +188,7 @@ const handleDelete2 = (userId) => {
 
       <tbody>
         {all_data.map((user) => (
+        
           <tr key={user._id}>
             <td>{user._id}</td>
             <td>{user.firstname}</td>
@@ -160,15 +200,16 @@ const handleDelete2 = (userId) => {
             <td>{user.address}</td>
             <td>{user.date_and_time}</td>
             <td>{user.course}</td>
-            <td> <Button onClick={() => handleDelete(user._id)} fullWidth variant='contained' color='error'  size='large'>Delete</Button> </td>
+            <td> <Button onClick={() => handleDelete(user._id)} fullWidth variant='contained' color='error'  size='large' style={{fontSize:'13px'}}>Delete</Button> </td>
           </tr>
+        
         ))}
       </tbody>
     </table>
     </div>
 
     <Box sx={{mt:'140px'}}>
-    <Typography variant='h2' sx={{marginLeft:90}} color='gray'>Visitor Data</Typography>
+    <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>Visitor Data</Typography>
       <div className="user-list2">
               <table>
                 <thead>
@@ -203,26 +244,27 @@ const handleDelete2 = (userId) => {
                      
                       <td style={{backgroundColor:'#19293b'}}>
                       <FormControl  sx={{ m: 1, width: 180 }}>
-                      <InputLabel id="demo-simple-select-standard-label" sx={{color:'black',fontSize:'12px'}}>Status</InputLabel>
+                    
                       <Select
+                        displayEmpty
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         autoWidth
                         value={option_value}
                         label="Select Issue status"
                         onChange={handleChange}
-                        style={{backgroundColor:'Scrollbar'}}
+                        style={{backgroundColor:'#3956cc',color:'white',fontSize:'14px'}}
                       >
-                      <MenuItem value=""> <em style={{fontSize:'12px',fontWeight:'bolder'}}>None </em></MenuItem>
-                        <MenuItem value={'Resolved'} style={{width:180,fontSize:'12px',color:'brown',fontWeight:'bolder'}}>Resolved</MenuItem>
-                        <MenuItem value={'Unresolved'} style={{width:180,fontSize:'12px',color:'brown',fontWeight:'bolder'}}>Unresolved</MenuItem>
-                        <MenuItem value={'Pending'} style={{width:180,fontSize:'12px',color:'brown',fontWeight:'bolder'}}>Pending</MenuItem>
+                      <MenuItem value=""> <em style={{fontSize:'17px',fontWeight:'bolder',textAlign:'center'}}>None </em></MenuItem>
+                        <MenuItem value={'Resolved'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Resolved</MenuItem>
+                        <MenuItem value={'Unresolved'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Unresolved</MenuItem>
+                        <MenuItem value={'Pending'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Pending</MenuItem>
                       </Select>
                     </FormControl>
                       </td>
 
-                     <td><Button onClick={(e)=>handle_option(user._id,e)} fullWidth color='success' variant='contained'   size='large'>Submit</Button></td> 
-                     <td> <Button  onClick={() => handleDelete2(user._id)} fullWidth color='error'  variant='contained'  size='large' >Delete</Button> </td>
+                     <td><Button onClick={(e)=>handle_option(user._id,e)} fullWidth color='success' variant='contained'   size='large' style={{fontSize:'13px'}}>Submit</Button></td> 
+                     <td> <Button  onClick={() => handleDelete2(user._id)} fullWidth color='error'  variant='contained'  size='large' style={{fontSize:'13px'}} >Delete</Button> </td>
                     </tr>
                  
                   ))}
