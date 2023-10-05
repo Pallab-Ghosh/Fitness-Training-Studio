@@ -12,12 +12,13 @@ const AdminLoginPage = () => {
 
   const [admin_data, set_admin_data] = useState({username:'',password:'',email:'',otp:''});
   const navigate = useNavigate()
+  const[error,seterror]=useState(false)
   const{user_token,set_token}=useContext(token_data)
 
 //when send the otp to email
   const handle_click=(e)=>{
     e.preventDefault();
-    if(admin_data.username.includes('admin') && admin_data.email=='gpallab405@gmail.com' && admin_data.email!=null  )
+    if(admin_data.username.includes('admin') && admin_data.email=='gpallab405@gmail.com' && admin_data.password!=null  )
     {
 
       axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login_email_with_email`,admin_data)
@@ -72,7 +73,9 @@ const AdminLoginPage = () => {
           style:{color:'black'}
           });
         }
+
       })
+      
       .catch((err)=>{
         console.log(err)
       })
@@ -121,7 +124,7 @@ const handle_Otp=async(e)=>{
       });
    }
 
-   else if(admin_data.otp!='')
+   else
    {
    
     const fetch_data=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email_with_email`,admin_data)
@@ -147,7 +150,11 @@ const handle_Otp=async(e)=>{
   
       navigate('/signin/admin_login/dashboard')
     }
-     
+    else if(fetch_data.data===0)
+    {
+      alert ('Otp Mismatch')
+    }
+   
    
    }
 
@@ -164,11 +171,13 @@ const handle_Otp=async(e)=>{
         <Typography component="h1" variant="h5">
           Admin Login
         </Typography>
-        <form style={{ width: '100%', marginTop: 1,}}>
+        <form style={{ width: '100%', marginTop: 1,}} onSubmit={handle_click}>
           <TextField
             variant="outlined"
             margin="normal"
             fullWidth
+            required
+            type='text'
             inputProps={{style: {fontSize: 18}}}
             label="Username"
             value={admin_data.username}
@@ -187,7 +196,9 @@ const handle_Otp=async(e)=>{
           value={admin_data.email}
           onChange={(e) => set_admin_data({...admin_data,email:e.target.value})}
           autoFocus
+          
         />
+      
           <TextField
             variant="outlined"
             margin="normal"
@@ -199,23 +210,23 @@ const handle_Otp=async(e)=>{
             onChange={(e) => set_admin_data({...admin_data,password:e.target.value})}
           />
 
-          <Button type="submit" fullWidth  variant="contained"  color="primary" sx={{marginTop:5}} onClick={handle_click}> Send Otp  </Button>
+          <Button type="submit" fullWidth  variant="contained"  color="primary" sx={{marginTop:5}} > Send Otp  </Button>
 
-          <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          placeholder='Please provide Otp'
-          inputProps={{style: {fontSize: 18}}}
-          label="OTP"
-          type="text"
-          required
-          value={admin_data.otp}
-          onChange={(e) => set_admin_data({...admin_data,otp:e.target.value})}
-        />
-
-         <Button type="submit" fullWidth  variant="contained"  color="primary" sx={{marginTop:5}} onClick={handle_Otp} > Login  </Button>
         </form>
+        <TextField
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        placeholder='Please provide Otp'
+        inputProps={{style: {fontSize: 18}}}
+        label="OTP"
+        type="text"
+        required
+        value={admin_data.otp}
+        onChange={(e) => set_admin_data({...admin_data,otp:e.target.value})}
+      />
+
+       <Button type="submit" fullWidth  variant="contained"  color="primary" sx={{marginTop:5}} onClick={handle_Otp} > Login  </Button>
       </Paper>
     </Container>
   );
