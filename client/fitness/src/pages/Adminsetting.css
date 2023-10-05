@@ -1,13 +1,13 @@
 .user-list {
     margin: 20px;
-    height:550px; /* Adjust the max height as needed */
+    height:550px;
     overflow-y:auto;
     background-color: whitesmoke;
   }
 
   .user-list2 {
     margin: 20px;
-    height:550px; /* Adjust the max height as needed */
+    height:550px; 
     overflow-y:auto;
     background-color: whitesmoke;
   }
@@ -16,8 +16,12 @@
     width: 100%;
     border-collapse: collapse;
     border: 1px solid black;
-    background-color:darkslategray;
+    background-color:#19293b;
+    height:550px; 
+  
   }
+
+
   
   th,
   td {
@@ -27,7 +31,10 @@
   }
   
   th {
-    background-color:rgb(207, 237, 237);
+    background-color:rgba(173, 188, 226, 0.842);
+    font-size: larger;
+    color: #120105;
+    font-weight: bolder;
   }
   
   button {
@@ -51,4 +58,4 @@
     color: azure;
   }
 
-  
+ 
