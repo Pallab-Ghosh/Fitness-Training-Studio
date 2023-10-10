@@ -18,7 +18,7 @@ const userSchema=new Schema({
         unique:true,
         required:true
     },
-    password:{type:String,minLength:8,required:true},
+    password:{type:String,minLength:8},
     course:{type:String},
     price_of_course:{type:Number},
     subscription_date:{type:String},
