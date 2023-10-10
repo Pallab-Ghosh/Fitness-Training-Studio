@@ -21,4 +21,5 @@ user_router
 .get('/visitor_data',user_functions_module.get_all_visitor_data)
 .patch('/update_status',user_functions_module.update_visitor_status)
 .delete('/delete_visitor/:id',user_functions_module.delete_visitor)
+.post('/add_new_user',user_functions_module.add_new_user)
 exports.user_router_module=user_router;
