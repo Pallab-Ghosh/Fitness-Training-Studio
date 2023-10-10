@@ -1,7 +1,7 @@
 import axios, { all } from 'axios'
 import React, { useEffect, useState } from 'react'
 import './Adminsetting.css'
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import fitness_logo from './icon/fitness-training-studio-logo.png'
 import DoneIcon from '@mui/icons-material/Done';
@@ -12,7 +12,11 @@ import '../landing_page/LandingPage.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 
@@ -22,7 +26,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Settings = () => {
 
-
+  const [open, setOpen] = React.useState(false);
 
 const [all_data,set_all_data]=useState([])
 const[all_visitor_data,set_visitor_data]=useState([])
@@ -30,6 +34,25 @@ const [option_value,set_option_value]=useState('')
 const navigate=useNavigate()
 const[user_account_details,set_user_details]=useState({})
 const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
+const[new_user,set_new_user]=useState({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:''})
+
+
+
+
+
+
+
+//dialog box for add new user
+const handleClickOpen = () => {
+  setOpen(true);
+};
+
+const handleClose = () => {
+  setOpen(false);
+};
+
+
+
 
 
 
@@ -110,6 +133,12 @@ const handle_option=(id,e)=>{
     if(res.data.id==1)
     {
               //alert('Status update successfully')
+              axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
+              .then((res)=>{
+                console.log(res)
+                set_visitor_data(res.data)
+            })
+
               toast.success('Status Update Successfully', {
                 position: "top-right",
                 autoClose: 2000,
@@ -131,6 +160,92 @@ const handle_option=(id,e)=>{
 }
 
 
+const calculateAge = (dob) => {
+  const dobDate = new Date(dob);
+  const currentDate = new Date();
+  const timeDiff = currentDate - dobDate;
+  const ageDate = new Date(timeDiff);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
+
+
+const handle_form_submission=async(e)=>{
+  e.preventDefault()
+  console.log("new_user.age",new_user.age)
+  let converted_age=calculateAge(new_user.age)
+  console.log(converted_age)
+  console.log(typeof(converted_age))
+  const new_updated_user={...new_user,age:converted_age}
+  console.log("newuser",new_updated_user)
+
+  axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/add_new_user`,new_updated_user)
+         .then((resolve)=>{
+           console.log(resolve)
+           if(resolve.data.id==1)
+           {
+
+
+            axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
+            .then((res)=>{
+              
+                console.log(res)
+                set_all_data(res.data)
+            })
+            //  handleClose()
+               setOpen(false)
+              //alert('Signup successfully!!!')
+              toast.success('User Registration successfully!!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                style:{color:'black'}
+                });
+            } 
+            else if(resolve.data.id==2)
+            {
+             // alert('Error')
+             toast.error('Error!!!', {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              style:{color:'black'}
+              });
+
+            }
+
+          else 
+             { 
+
+               //alert('Already have an account or Error in input')
+               toast.warning('Already have an account or Error in input!!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme:"colored",
+                style:{color:'black'}
+                });
+             }
+       })
+   set_new_user({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:''})
+  }
+
+
+
+
 const handleDelete2 = (userId) => {
   console.log(userId)
    const updated_visitor_data = all_visitor_data.filter((user) => user._id !== userId);
@@ -142,6 +257,11 @@ const handleDelete2 = (userId) => {
      if(res.data.id==1)
      {
        //alert('Deleted Visitor successfully')
+       axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
+       .then((res)=>{
+         console.log(res)
+         set_visitor_data(res.data)
+     })
        toast.success('Visitor Deleted Successfully', {
         position: "top-right",
         autoClose: 2000,
@@ -165,7 +285,8 @@ const handleDelete2 = (userId) => {
 
   return (
     <div style={{backgroundColor:'#01234a'}} > 
-    <Button size='medium' variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px'}}>Go Back</Button>
+  <Button  variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px'}}>Go Back</Button>
+  <Button  variant='contained' color='success' size='large'  sx={{ml:'1555px',mb:'-108px',fontSize:'14px'}} onClick={handleClickOpen}>Add User</Button>
     <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>User Data</Typography>
    
     <div className="user-list">
@@ -270,8 +391,35 @@ const handleDelete2 = (userId) => {
                   ))}
                 </tbody>
               </table>
+
+
+
     </div>
     </Box>
+
+    <form onSubmit={handle_form_submission}>
+    <Dialog open={open} onClose={handleClose} >
+    <DialogTitle sx={{fontSize:'20px',backgroundColor:'#3e82f7',color:'#e6e7f0'}}>New User Registration</DialogTitle>
+    <DialogContent sx={{backgroundColor:'#dee2fa'}}>
+    
+     
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="firstname"  label="Firstname"  type="text"  fullWidth  variant="standard" value={new_user.firstname} onChange={(e)=>set_new_user({...new_user,firstname:e.target.value})} />
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="lastname"   label="Lastname"   type="text"  fullWidth  variant="standard"  value={new_user.lastname}   onChange={(e)=>set_new_user({...new_user,lastname:e.target.value})} />
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="age"              type="date"  fullWidth  variant="standard"  value={new_user.age}   onChange={(e)=>set_new_user({...new_user,age:e.target.value})} />
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="email"      label="Email Address"  type="email"  fullWidth  variant="standard"  value={new_user.email}  onChange={(e)=>set_new_user({...new_user,email:e.target.value})}  />
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="mobile"     label="Mobile"  type="number"  fullWidth  variant="standard" value={new_user.mobile}  onChange={(e)=>set_new_user({...new_user,mobile:e.target.value})}  />
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="address"    label="Address"  type="text"  fullWidth  variant="standard" value={new_user.address}  onChange={(e)=>set_new_user({...new_user,address:e.target.value})}  />
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="username"    label="Username"  type="text"  fullWidth  variant="standard" value={new_user.username}  onChange={(e)=>set_new_user({...new_user,username:e.target.value})}  />
+     
+   
+    </DialogContent>
+
+    <DialogActions sx={{backgroundColor:'#dee2fa'}}>
+      <Button onClick={handleClose} variant='contained' color='error'>Cancel</Button>
+      <Button onClick={handle_form_submission} variant='contained' color='success'>Submit</Button>
+    </DialogActions>
+  </Dialog>
+  </form>
     <footer className='landing_page_footer'>
         {"Powered By Fitness-Training-Studio"}
       </footer>
