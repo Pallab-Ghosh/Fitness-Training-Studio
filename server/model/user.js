@@ -13,11 +13,7 @@ const userSchema=new Schema({
     address:{type:String,required:true},
     username:{type:String,required:true ,unique:true},
     date_and_time:{type:String},
-    email:{
-        type:String,
-        unique:true,
-        required:true
-    },
+    email:{ type:String,  unique:true,required:true },
     password:{type:String,minLength:8},
     course:{type:String},
     price_of_course:{type:Number},
@@ -30,7 +26,7 @@ const userSchema=new Schema({
 const visitor_schema=new Schema({
     name:{type:String},
     email:{type:String},
-    mobile:{type:String},
+    mobile:{type:Number},
     message:{type:String},
     date_of_query:{type:String},
     date_of_query_closed:{type:String},
