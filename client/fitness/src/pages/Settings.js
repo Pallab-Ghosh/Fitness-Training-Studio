@@ -34,7 +34,7 @@ const [option_value,set_option_value]=useState('')
 const navigate=useNavigate()
 const[user_account_details,set_user_details]=useState({})
 const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
-const[new_user,set_new_user]=useState({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:''})
+const[new_user,set_new_user]=useState({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:'',password:''})
 
 
 
@@ -67,6 +67,12 @@ useEffect(()=>{
 
 const handleChange = (event) => {
   set_option_value(event.target.value);
+}
+
+
+
+const handle_course_value=(event)=>{
+  set_new_user({...new_user,course:event.target.value})
 }
 
 useEffect(()=>{
@@ -175,7 +181,8 @@ const handle_form_submission=async(e)=>{
   let converted_age=calculateAge(new_user.age)
   console.log(converted_age)
   console.log(typeof(converted_age))
-  const new_updated_user={...new_user,age:converted_age}
+  const generate_new_password=`hello${new_user.username}`
+  const new_updated_user={...new_user,age:converted_age,password:generate_new_password}
   console.log("newuser",new_updated_user)
 
   axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/add_new_user`,new_updated_user)
@@ -206,6 +213,7 @@ const handle_form_submission=async(e)=>{
                 style:{color:'black'}
                 });
             } 
+
             else if(resolve.data.id==2)
             {
              // alert('Error')
@@ -227,7 +235,7 @@ const handle_form_submission=async(e)=>{
              { 
 
                //alert('Already have an account or Error in input')
-               toast.warning('Already have an account or Error in input!!!', {
+               toast.warning('Already have an Account ', {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -240,7 +248,7 @@ const handle_form_submission=async(e)=>{
                 });
              }
        })
-   set_new_user({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:''})
+   set_new_user({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:'',email:''})
   }
 
 
@@ -343,7 +351,7 @@ const handleDelete2 = (userId) => {
                     <th>Applicant-Status</th>
                     <th>Date-of-Query</th>
                     <th>Isuue-resolved</th>
-                    <th >Status</th>
+                    <th >Application Status</th>
                         <div style={{display:'flex',justifyContent:'flex-end',marginRight:'-28px'}}>
                         <th>Action</th>
                         </div>
@@ -359,12 +367,12 @@ const handleDelete2 = (userId) => {
                       <td>{user.email}</td>
                       <td>{user.mobile}</td>
                       <td>{user.message}</td>
-                      {user.status=='Resolved'?<td style={{backgroundColor:'green'}}><DoneIcon/>{user.status}</td>:<td style={{backgroundColor:'red'}}><CloseIcon/>{user.status}</td>} 
+                      {user.status=='Resolved'?<td style={{color:'green'}}><DoneIcon/>{user.status}</td>:<td style={{color:'red'}}><CloseIcon/>{user.status}</td>} 
                       <td>{user.date_of_query}</td>
                       <td>{user.date_of_query_closed}</td>
                      
                       <td style={{backgroundColor:'#19293b'}}>
-                      <FormControl  sx={{ m: 1, width: 180 }}>
+                      <FormControl  sx={{ width: 160,height:60,textAlign:'center' }}>
                     
                       <Select
                         displayEmpty
@@ -374,7 +382,7 @@ const handleDelete2 = (userId) => {
                         value={option_value}
                         label="Select Issue status"
                         onChange={handleChange}
-                        style={{backgroundColor:'#3956cc',color:'white',fontSize:'14px'}}
+                        style={{backgroundColor:'#3956cc',color:'white',fontSize:'14px',height:40,marginTop:8}}
                       >
                       <MenuItem value=""> <em style={{fontSize:'17px',fontWeight:'bolder',textAlign:'center'}}>None </em></MenuItem>
                         <MenuItem value={'Resolved'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Resolved</MenuItem>
@@ -397,29 +405,48 @@ const handleDelete2 = (userId) => {
     </div>
     </Box>
 
-    <form onSubmit={handle_form_submission}>
+  
     <Dialog open={open} onClose={handleClose} >
     <DialogTitle sx={{fontSize:'20px',backgroundColor:'#3e82f7',color:'#e6e7f0'}}>New User Registration</DialogTitle>
     <DialogContent sx={{backgroundColor:'#dee2fa'}}>
     
-     
+    
         <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="firstname"  label="Firstname"  type="text"  fullWidth  variant="standard" value={new_user.firstname} onChange={(e)=>set_new_user({...new_user,firstname:e.target.value})} />
         <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="lastname"   label="Lastname"   type="text"  fullWidth  variant="standard"  value={new_user.lastname}   onChange={(e)=>set_new_user({...new_user,lastname:e.target.value})} />
         <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="age"              type="date"  fullWidth  variant="standard"  value={new_user.age}   onChange={(e)=>set_new_user({...new_user,age:e.target.value})} />
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="email"      label="Email Address"  type="email"  fullWidth  variant="standard"  value={new_user.email}  onChange={(e)=>set_new_user({...new_user,email:e.target.value})}  />
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="email"  required    label="Email Address"  type="email"  fullWidth  variant="standard"  value={new_user.email}  onChange={(e)=>set_new_user({...new_user,email:e.target.value})}  />
         <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="mobile"     label="Mobile"  type="number"  fullWidth  variant="standard" value={new_user.mobile}  onChange={(e)=>set_new_user({...new_user,mobile:e.target.value})}  />
         <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="address"    label="Address"  type="text"  fullWidth  variant="standard" value={new_user.address}  onChange={(e)=>set_new_user({...new_user,address:e.target.value})}  />
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="username"    label="Username"  type="text"  fullWidth  variant="standard" value={new_user.username}  onChange={(e)=>set_new_user({...new_user,username:e.target.value})}  />
+        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="username"  required  label="Username"  type="text"  fullWidth  variant="standard" value={new_user.username}  onChange={(e)=>set_new_user({...new_user,username:e.target.value})}  />
+        
+    
+        <label style={{fontSize:19,color:'black'}}>Select Course</label>
+              <Select  displayEmpty='true'
+                   labelId="demo-simple-select-label" 
+                   id="demo-simple-select" 
+                   autoWidth 
+                   value={new_user.course}
+                   label="Select Issue status"
+                   onChange={handle_course_value} 
+                   style={{backgroundColor:'#dee2fa',color:'black',fontSize:'14px'}}  >
+                   <MenuItem value=""> <em style={{fontSize:'17px',fontWeight:'bolder',textAlign:'center'}}>None </em></MenuItem>
+          <MenuItem value={'Meditation'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Meditation</MenuItem>
+          <MenuItem value={'Yoga'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Yoga</MenuItem>
+          <MenuItem value={'Zumba'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Zumba</MenuItem>
+          <MenuItem value={'Core Workout'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Core Workout</MenuItem>
+          <MenuItem value={'Pro'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Pro</MenuItem>
+          
+        </Select>
      
-   
     </DialogContent>
 
     <DialogActions sx={{backgroundColor:'#dee2fa'}}>
       <Button onClick={handleClose} variant='contained' color='error'>Cancel</Button>
       <Button onClick={handle_form_submission} variant='contained' color='success'>Submit</Button>
     </DialogActions>
+
   </Dialog>
-  </form>
+  
     <footer className='landing_page_footer'>
         {"Powered By Fitness-Training-Studio"}
       </footer>
