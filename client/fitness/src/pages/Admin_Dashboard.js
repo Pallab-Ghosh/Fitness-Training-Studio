@@ -96,6 +96,10 @@ return {date_details:fullDateTimeString,time_details:fullTime}
     src="https://charts.mongodb.com/charts-fitness_tracker_db-dtmap/embed/dashboards?id=92ecd971-3954-4b7e-becf-48c60c5dbeec&theme=dark&autoRefresh=true&maxDataAge=60&showTi
     tleAndDesc=false&scalingWidth=fixed&scal
     ingHeight=fixed&&attribution=false"></iframe>
+    <footer className='landing_page_footer'>
+    {"Powered By Fitness-Training-Studio"}
+  </footer>
+
     </div>
   
     </>
