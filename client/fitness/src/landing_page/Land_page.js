@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LandingPage.css'; // Import your CSS file for styling
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'rsuite';
-import { Typography } from '@mui/material';
+import {InputLabel, Rating,TextField,Typography} from '@mui/material';
+import Review from '../components/Review';
 
 
 
 const Land_page = () => {
   const navigate=useNavigate()
+  const [open,setopen]=useState(false)
+  const [value, setValue] = useState(null)
+  const [input,setinput]=useState('')
+
+  console.log(value)
+    
+  const handle_change=(e,newvalue)=>{
+      setValue(newvalue);
+  }
+
+
+
+  
   return (
     <div className="landing-page">
       <header className='land_page_header'>
@@ -73,9 +87,11 @@ const Land_page = () => {
 
         </div>
   </section> 
-
+       <Review  input={input} setinput={setinput} value={value} setValue={setValue} handle_change={handle_change} />
       </main>
+
       <footer className='landing_page_footer'>
+    
         {"Powered By Fitness-Training-Studio"}
       </footer>
     </div>
