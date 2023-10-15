@@ -22,4 +22,5 @@ user_router
 .patch('/update_status',user_functions_module.update_visitor_status)
 .delete('/delete_visitor/:id',user_functions_module.delete_visitor)
 .post('/add_new_user',user_functions_module.add_new_user)
+.patch('/update_review',user_functions_module.give_review_and_star)
 exports.user_router_module=user_router;
