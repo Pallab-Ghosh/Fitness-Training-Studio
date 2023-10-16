@@ -18,7 +18,10 @@ const userSchema=new Schema({
     course:{type:String},
     price_of_course:{type:Number},
     subscription_date:{type:String},
-    age:{type:Number}
+    age:{type:Number},
+    review:{type:String,default:'sample'},
+    rating:{type:Number,default:0},
+    review_date:{type:String}
 })
 
 
@@ -30,7 +33,8 @@ const visitor_schema=new Schema({
     message:{type:String},
     date_of_query:{type:String},
     date_of_query_closed:{type:String},
-    status:{type:String}
+    status:{type:String},
+
 })
 exports.visitor_schema=mongoose.model('visitor_details',visitor_schema)
 exports.user_Schema=mongoose.model('User_details',userSchema)
