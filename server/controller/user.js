@@ -8,10 +8,12 @@ const jwt=require('jsonwebtoken');
 const otpGenerator = require('otp-generator');
 const { send_verification_mail } = require('../utils/SendverificationMail');
 const {send_mail_subscription}=require('../utils/Send_Mail_For_Subscriptions')
+const {send_mail_admission}=require('../utils/Send_Mail_For_Admission')
 const { parse } = require('dotenv');
 require('dotenv').config();
 const moment=require('moment')
-
+var generator = require('generate-password');
+var randomstring = require("randomstring");
 
 var find_user_using_email,otp_no;
 
@@ -34,7 +36,7 @@ exports.get_details=async(req,res)=>{
 //sigin from signin page
 
 exports.login=async(req,res)=>{
-console.log("req",req.body)
+console.log("req body when signin",req.body)
  if(req?.body?.username?.length===0 ||req?.body?.password?.length===0  )
   {
     res.json({id:2})
@@ -46,10 +48,11 @@ console.log("req",req.body)
     
     if(find_user_using_email)
     {
-      console.log(find_user_using_email)
+     // console.log(find_user_using_email)
    
                 const password_check=bcrypt.compareSync(req.body.password,find_user_using_email.password);
                 const token_id=jwt.sign({email:find_user_using_email.email},process.env.Jwt_secret_key)
+                console.log("password_check",password_check)
                 if(password_check)
                 {
                 return  res.json({token:token_id});
@@ -198,7 +201,7 @@ if(req?.body?.email===null || req?.body?.new_password2?.length===0 || req?.body?
  
  exports.verify_email_With_Email=async(req,res) => {
  
-   if(req?.body==null)
+   if(req?.body=='')
    {
      return res.json({id:2});
    }
@@ -206,11 +209,11 @@ if(req?.body?.email===null || req?.body?.new_password2?.length===0 || req?.body?
    else{
  
      const user_otp=req.body.otp;
-     //console.log("user_otp ",user_otp)
-     //console.log("otp_no",otp_no)
-     if(user_otp===otp_no)
+     console.log("user_otp ",user_otp)
+     console.log("otp_no",otp_no)
+     if(user_otp===otp_no && user_otp!='' && otp_no!=null)
      {
-       //console.log("if from verify")
+       console.log("if from verify")
        const token_id=jwt.sign({email:find_user_using_email.email},process.env.Jwt_secret_key)
        return res.json( {find_user_using_email:find_user_using_email,token:token_id})
      }
@@ -402,9 +405,8 @@ const date_creation_of_course=()=>{
   
   exports.create_visitor=async(req,res)=>{
     console.log(req.body)
-    find_user=await visitor_schema.findOne({email:req.body.email})
-    if(!find_user)
-    {
+   
+   
       if(req.body)
       {
           const new_visitor=new visitor_schema(req.body);
@@ -418,13 +420,9 @@ const date_creation_of_course=()=>{
            const save_visitor=await new_visitor.save();
            res.json({id:1})
       }
-    }
-    else
-    {
-      return res.json({id:2})
-    }
-   
   }
+    
+  
 
 
 
@@ -484,5 +482,96 @@ exports.update_visitor_status=async(req,res)=>{
 
 
 
+//add new user
+
+
+
+const get_the_date=()=>{
+  const currentDate=new Date();
+  const date=currentDate.getDate().toString()
+  const month=(currentDate.getMonth()+1).toString()
+  const year=currentDate.getFullYear().toString()
+  const date_data=`${date}-${month}-${year}`
+  return date_data;
+}
+
+
+exports.add_new_user=async(req,res)=>{
+ 
+    if(req.body.firstname==='' ||  req.body.lastname==='' ||  req.body.address===''|| 
+       req.body.mobile==='' || req.body.email===''|| req.body.username==='')
+    {
+     return res.json({id:2})
+    }
+ 
+ 
+   else
+    {
+        const old_user=await user_Schema.find({email:req.body.email,username:req.body.username})
+        if(old_user!='')
+        {
+          console.log("old_user",old_user)
+          res.json({id:3,status:'User has already registered'})
+        }
+
+        else{
+
+          const new_user= new user_Schema(req.body);
+          const date_data=get_the_date()
+          new_user.date_and_time=date_data;
+          let price=0;
+          if(req.body.course==='Meditation')
+          price=2500;
+
+          else if(req.body.course==='Yoga')
+          price=3500;
+
+          else if(req.body.course==='Zumba')
+          price=4000;
+
+          else if(req.body.course==='Core Workout')
+          price=4800;
+
+          else
+          price=5500;
+
+   
+          const hash_password=bcrypt.hashSync(req.body.password,10);
+
+          new_user.password=hash_password;
+          new_user.course=req.body.course;
+          new_user.price_of_course=price;
+          const get_subscription_date=date_creation_of_course();
+          new_user.subscription_date=get_subscription_date;
+          const save_user=await new_user.save();
+
+          send_mail_admission(req.body.course,new_user,req.body.password)
+          console.log("save_user from signup",save_user)
+          return  res.json({id:1})
+         
+        }
+       
+    }
+ 
+ }
+
+
+ // function for adding the 
+
+ exports.give_review_and_star=async(req,res)=>{
+
+      const {user_id,review,rating}=req.body;
+      console.log(user_id,review,rating);
+      const date=get_the_date();
+      const obj={...req.body,review_date:date}
+      console.log(obj)
+     const find_user=await user_Schema.findByIdAndUpdate({_id:user_id},obj,{new:true})
+   
+      console.log(find_user);
+      res.json(find_user)
+      
+
+ }
+ 
 
 
