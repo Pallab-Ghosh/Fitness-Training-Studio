@@ -17,9 +17,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-
-
+import AddIcon from '@mui/icons-material/Add';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 
@@ -293,8 +293,8 @@ const handleDelete2 = (userId) => {
 
   return (
     <div style={{backgroundColor:'#01234a'}} > 
-  <Button  variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px'}}>Go Back</Button>
-  <Button  variant='contained' color='success' size='large'  sx={{ml:'1555px',mb:'-108px',fontSize:'14px'}} onClick={handleClickOpen}>Add User</Button>
+  <Button  variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px'}} startIcon={<ArrowBackIcon/>}>Go Back</Button>
+  <Button  variant='contained' color='success' size='large'  sx={{ml:'1528px',mb:'-108px',fontSize:'14px'}} onClick={handleClickOpen} startIcon={<AddIcon/>}>Add User</Button>
     <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>User Data</Typography>
    
     <div className="user-list">
@@ -329,7 +329,7 @@ const handleDelete2 = (userId) => {
             <td>{user.address}</td>
             <td>{user.date_and_time}</td>
             <td>{user.course}</td>
-            <td> <Button onClick={() => handleDelete(user._id)} fullWidth variant='contained' color='error'  size='large' style={{fontSize:'13px'}}>Delete</Button> </td>
+            <td> <Button onClick={() => handleDelete(user._id)} fullWidth variant='outlined' color='error'  size='large' style={{fontSize:'13px'}} startIcon={<DeleteIcon />}>Delete</Button> </td>
           </tr>
         
         ))}
@@ -392,8 +392,8 @@ const handleDelete2 = (userId) => {
                     </FormControl>
                       </td>
 
-                     <td><Button onClick={(e)=>handle_option(user._id,e)} fullWidth color='success' variant='contained'   size='large' style={{fontSize:'13px'}}>Submit</Button></td> 
-                     <td> <Button  onClick={() => handleDelete2(user._id)} fullWidth color='error'  variant='contained'  size='large' style={{fontSize:'13px'}} >Delete</Button> </td>
+                     <td><Button onClick={(e)=>handle_option(user._id,e)} fullWidth color='success' variant='outlined'   size='large' style={{fontSize:'13px'}}>Submit</Button></td> 
+                     <td> <Button  onClick={() => handleDelete2(user._id)} fullWidth color='error'  variant='outlined'  size='large' style={{fontSize:'13px'}} startIcon={<DeleteIcon />} >Delete</Button> </td>
                     </tr>
                  
                   ))}
@@ -441,7 +441,7 @@ const handleDelete2 = (userId) => {
     </DialogContent>
 
     <DialogActions sx={{backgroundColor:'#dee2fa'}}>
-      <Button onClick={handleClose} variant='contained' color='error'>Cancel</Button>
+      <Button onClick={handleClose} variant='contained' color='error' startIcon={<CancelIcon/>}>Cancel</Button>
       <Button onClick={handle_form_submission} variant='contained' color='success'>Submit</Button>
     </DialogActions>
 
