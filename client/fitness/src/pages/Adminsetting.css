@@ -58,4 +58,8 @@
     color: azure;
   }
 
- 
+  .MuiFormLabel-root {
+    font-size: 20px !important;
+    color: #19293b;
+  
+  }
