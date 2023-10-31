@@ -1,22 +1,16 @@
-/* Reset some default styling */
 
-  /* Reset some default styling */
+body{
+  overflow-x: hidden;
+}
 
-  
-  /* Basic styling for the landing page */
-  .landing-page {
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Header styles */
  .land_page_header {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color:  #2c2d2e;
     padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
+   
   }
   
   .land_page_nav ul {
@@ -36,9 +30,11 @@
 
   .hero-section { 
     height: 100vh;
-    background-image: url(' https://cdn.pixabay.com/photo/2017/05/25/15/08/jogging-2343558_1280.jpg');
-    background-size: cover;
-    background-position: center;
+  
+    background-image: url(' https://img.freepik.com/free-photo/gym-with-dumbbells-floor_1340-37013.jpg');
+    background-size:cover;
+    background-position:center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,6 +43,7 @@
   .hero-content {
     text-align: center;
     color: #ffffff;
+    margin-top: 80px;
   }
   
   .hero-section h1 {
@@ -68,6 +65,9 @@
   .specialities-section {
     padding: 100px 0;
     text-align: center;
+    margin-top: 40px;
+    margin-left: 15px;
+    margin-right: 8px;
   }
   
   .specialities-section h2 {
@@ -85,8 +85,8 @@
   .speciality {
     flex-basis: 30%;
     padding: 20px;
-    background-color:bisque;
-    border-radius: 5px;
+    background-color:#333232;
+    border-radius: 30px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
   }
@@ -99,7 +99,7 @@
   
   .speciality h3 {
     font-size: 2.2rem;
-    color: #333333;
+    color: white;
   }
   
   .speciality:hover {
@@ -116,5 +116,6 @@
     display: flex;
     justify-content: center;
     align-items: center; 
+    margin-top: 50px;
   }
   
