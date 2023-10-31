@@ -358,7 +358,7 @@ export const Programme_page = () => {
       >
        Pricing <LocalOfferIcon color='success' style={{fontSize:'50px'}}/> 
       </Typography>
-      <Typography variant="h5" align="center"  component="p">
+      <Typography  sx={{fontSize:'18px'}} align="center"  component="p">
       We have various memberships types to suit your requirement. You will get the most value from fitness 
       when it's part of your everyday life. That's why we offer  12-month membership as standard.
      
@@ -438,6 +438,49 @@ export const Programme_page = () => {
     </Container>
 
     {/* Footer */}
+
+    <section className="specialities-section">
+    <h2>Our Exercise Specialities</h2>
+    <div className="specialities">
+    
+      <div className="speciality">
+        <img src="https://www.themanual.com/wp-content/uploads/sites/9/2021/12/pexels-li-sun-2294361-1.jpg?fit=800%2C800&p=1" alt="Exercise 1" />
+        <h3>Cardio Workouts</h3>
+      </div>
+  
+      <div className="speciality">
+        <img src="https://www.eatthis.com/wp-content/uploads/sites/4/2023/04/muscular-man-barbell-bicep-curls.jpg?quality=82&strip=1" alt="Exercise 2" />
+        <h3>Strength Training</h3>
+      </div>
+  
+      <div className="speciality">
+        <img src="https://ghost-cms.s3.ap-south-1.amazonaws.com/2022/11/Yoga-For-Man.png" alt="Exercise 3" />
+        <h3>Yoga & Meditation</h3>
+      </div>
+  
+    </div>
+  
+  
+    <div className="specialities">
+  
+    <div className="speciality">
+      <img src="https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/sites/1/2015/11/zumba.jpg" />
+      <h3>Zumba classes</h3>
+    </div>
+  
+    <div className="speciality">
+      <img src="https://www.healthdigest.com/img/gallery/what-happens-to-your-body-when-you-take-a-spin-class-every-day/intro-1656003195.jpg" alt="Exercise 2" />
+      <h3>Spinning Classes</h3>
+    </div>
+  
+    <div className="speciality">
+      <img src="https://www.regymenfitness.com/wp-content/uploads/2021/01/fitness-classes-1080x675.jpg" alt="Exercise 3" />
+      <h3> Body conditioning classes</h3>
+    </div>
+  
+  </div>
+  </section> 
+
     <Container
       maxWidth="xl"
       component="footer"
@@ -566,47 +609,7 @@ export const Programme_page = () => {
       </MDBContainer>
     </section>
   </MDBFooter>
-  <section className="specialities-section">
-  <h2>Our Exercise Specialities</h2>
-  <div className="specialities">
-  
-    <div className="speciality">
-      <img src="https://www.themanual.com/wp-content/uploads/sites/9/2021/12/pexels-li-sun-2294361-1.jpg?fit=800%2C800&p=1" alt="Exercise 1" />
-      <h3>Cardio Workouts</h3>
-    </div>
-
-    <div className="speciality">
-      <img src="https://www.eatthis.com/wp-content/uploads/sites/4/2023/04/muscular-man-barbell-bicep-curls.jpg?quality=82&strip=1" alt="Exercise 2" />
-      <h3>Strength Training</h3>
-    </div>
-
-    <div className="speciality">
-      <img src="https://ghost-cms.s3.ap-south-1.amazonaws.com/2022/11/Yoga-For-Man.png" alt="Exercise 3" />
-      <h3>Yoga & Meditation</h3>
-    </div>
-
-  </div>
-
-
-  <div className="specialities">
-
-  <div className="speciality">
-    <img src="https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/sites/1/2015/11/zumba.jpg" />
-    <h3>Zumba classes</h3>
-  </div>
-
-  <div className="speciality">
-    <img src="https://www.healthdigest.com/img/gallery/what-happens-to-your-body-when-you-take-a-spin-class-every-day/intro-1656003195.jpg" alt="Exercise 2" />
-    <h3>Spinning Classes</h3>
-  </div>
-
-  <div className="speciality">
-    <img src="https://www.regymenfitness.com/wp-content/uploads/2021/01/fitness-classes-1080x675.jpg" alt="Exercise 3" />
-    <h3> Body conditioning classes</h3>
-  </div>
-
-</div>
-</section> 
+ 
 </Container>
     {/* End footer */}
   </ThemeProvider>
