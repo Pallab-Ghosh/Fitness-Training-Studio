@@ -47,14 +47,20 @@ function Copyright(props) {
 export const Forget_password = () => {
 
    
-    const[mail,set_mail]=useState({email:'',otp:''})
+  const[mail,set_mail]=useState({email:'',otp:''})
  const [user_data,set_data]=useState({emailid:'',new_password:'',new_password2:''})
  const navigate=useNavigate()
+ const [submitting,setsubmitting]=useState(false)
+ const [submitting_for_validation,setsubmitting_for_validation]=useState(false)
+ const [submitting_for_password_change,setsubmitting_for_password_change]=useState(false)
     
     const handle_password=(e)=>{
       console.log("mail",mail)
       set_data({...user_data,emailid:mail.email})
       e.preventDefault();
+      setsubmitting(true)
+
+  
       axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login_email`,mail)
 
       .then((resolve)=>{
@@ -63,6 +69,7 @@ export const Forget_password = () => {
         {
         
         //alert('Otp sent successfully...')
+        setsubmitting(false);
         toast.success('Otp sent  successfully!!!', {
           position: "top-right",
           autoClose: 2000,
@@ -111,17 +118,41 @@ export const Forget_password = () => {
       .catch((err)=>{
         console.log(err)
       })
-      set_mail({...mail,email:''})
+      set_mail({...mail,email:''}) 
    }
  
+
+
+
    const handle_Otp_from_mail=(e)=>{
     e.preventDefault();
+    
+    if(mail.otp==='')
+    {
+      toast.warning('Please Provide Otp!!!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme:"colored",
+        style:{color:'black'}
+        });
+    }
+
+    else
+    {
+
+      setsubmitting_for_validation(true)
     axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email`,mail)
     .then((resolve)=>{
       console.log(resolve.data)
       if(resolve.data?.username)
       {
           // alert('Give a new Password!!!')
+          setsubmitting_for_validation(false)
           toast.success('Give a new Password!!!', {
             position: "top-right",
             autoClose: 2000,
@@ -170,14 +201,20 @@ export const Forget_password = () => {
       console.log(err)
     })
     set_mail({...mail,otp:''})
+  }
  }
  
 
     const handleSubmit = async(event) => {
+
+
         event.preventDefault();
         console.log("user_details from forget password ",user_data)
-        if( user_data.new_password==user_data.new_password2)
+
+
+        if(user_data.new_password!='' && user_data.new_password2!='' && user_data.new_password==user_data.new_password2)
         {
+          setsubmitting_for_password_change(true)
             axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/forget_password`,user_data)
             .then((resolve)=>{
               console.log(resolve.data)
@@ -185,6 +222,7 @@ export const Forget_password = () => {
               {
                 
                // alert(' Password Reset successfully!!!')
+               setsubmitting_for_password_change(false)
                 toast.success(' Password Reset successfully!!!!!', {
                   position: "top-right",
                   autoClose: 2000,
@@ -218,7 +256,7 @@ export const Forget_password = () => {
               {
                
                 // alert('Password not reset!!')
-                toast.warning('Password not rese!!!', {
+                toast.warning('User Not Found!!!', {
                   position: "top-right",
                   autoClose: 2000,
                   hideProgressBar: false,
@@ -235,6 +273,21 @@ export const Forget_password = () => {
             .catch((err)=>{
               console.log(err)
             })
+        }
+
+        else if(user_data.new_password==='' && user_data.new_password2==='' )
+        {
+          toast.warning('Please Provide Password!!!', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme:"colored",
+            style:{color:'black'}
+            });
         }
 
         else
@@ -266,7 +319,7 @@ export const Forget_password = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Password reset
+          Password Reset
         </Typography>
 
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -286,7 +339,12 @@ export const Forget_password = () => {
         />
       </Grid>
 
-<Button onClick={handle_password} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Send Otp</Button>
+<Button onClick={handle_password} fullWidth variant="contained" sx={{ mt: 3, mb: 2,fontSize:14,borderRadius:'12px' }} disabled={submitting}>
+
+ { submitting ? 'Sending....':'SEND OTP'}
+
+</Button>
+
 
   <TextField
   margin="normal"
@@ -301,7 +359,11 @@ export const Forget_password = () => {
   onChange={(e)=>set_mail({...mail,otp:e.target.value})}
   />
 
-  <Button onClick={handle_Otp_from_mail} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} >Validate Otp</Button>
+  <Button onClick={handle_Otp_from_mail} fullWidth variant="contained" sx={{ mt: 3, mb: 2 ,fontSize:14,borderRadius:'12px' }} disabled={submitting_for_validation} >
+  
+    {submitting_for_validation ? "VALIDATING": "VALIDATE OTP"}   
+  
+  </Button>
 
             <Grid item xs={12}>
               <TextField
@@ -333,13 +395,17 @@ export const Forget_password = () => {
           </Grid>
           </Grid>
 
-          <Button type="submit" fullWidth  variant="contained"  sx={{ mt: 3, mb: 2 }} >  Reset  </Button>
+          <Button type="submit" fullWidth  variant="contained"  sx={{ mt: 3, mb: 2,fontSize:14,borderRadius:'12px'  }} disabled={submitting_for_password_change} > 
+          
+           {submitting_for_password_change ? 'Submitting' : 'Reset'} 
+          
+          </Button>
         </Box>
         
        
 
       </Box>
-      <Copyright sx={{ mt: 5 }} />
+ 
     </Container>
   </ThemeProvider>
   )
