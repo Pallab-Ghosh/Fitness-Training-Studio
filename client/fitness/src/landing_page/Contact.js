@@ -55,7 +55,7 @@ const Contact = () => {
       <main>
         <section className="contact-section">
             <Typography variant='h2' color='red' >Contact Us</Typography>
-            <Typography variant='h5'  >We'd love to hear from you. Reach out to us using the form below.</Typography>
+            <Typography variant='h4'>We'd love to hear from you. Reach out to us using the form below.</Typography>
             <form className='contact_form' onSubmit={handle_visitor_data_submit}> 
   
               <div className="contact_form-group">
@@ -114,7 +114,7 @@ const Contact = () => {
             />
               </div>
   
-          <Button size='lg' variant="contained" type="submit" color='primary'  disabled={submitting}>
+          <Button size='large' variant="contained" type="submit" color='primary'  disabled={submitting}>
           {submitting ? 'Submitting...': 'Submit'}
           </Button>
             </form>
