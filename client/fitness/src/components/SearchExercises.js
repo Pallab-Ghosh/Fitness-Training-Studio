@@ -5,7 +5,7 @@ import { HorizontalScrollbar } from './HorizontalScrollbar'
 import { exercise_data_details } from '../pages/Home'
 import Autocomplete from '@mui/material/Autocomplete';
 import toast, { Toaster } from 'react-hot-toast';
-
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
 
 //set these 2 array where we store some  values for suggestions in input field
@@ -151,8 +151,7 @@ export const SearchExercises = () => {
 
   return (
     <Stack alignItems="center" mt="37px" justifyContent="center" p="20px" >
-    <Typography fontWeight={700} sx={{fontSize:{lg:'44px', xs:'30px'}}}
-     mb='50px' textAlign="center">
+    <Typography fontWeight={700} sx={{fontSize:{lg:'44px', xs:'30px'}}} mb='50px' textAlign="center">
     
    Awesome Exercises You <br/> 
     Should Know
@@ -164,8 +163,8 @@ export const SearchExercises = () => {
       input:{fontWeight:'700',border:'none',borderRadius:'4px'},
       width:{lg:'800px',xs:'350px'},
       backgroundColor:'#fff',
-      borderRadius:'40px'
-                    }}
+      borderRadius:'40px', }}
+      inputProps={{style: {fontSize: 15}}}
    height="76px"
    value={search} 
    onChange={handle_change}
@@ -191,19 +190,8 @@ export const SearchExercises = () => {
  
 
    {/*button for search results */}
-  <Button
-    className='search-btn'
-    sx={{
-    bgcolor:'#FF2625',
-    color:'#fff',
-    textTransform:'none',
-    width:{lg:'170px',xs:'80px'},
-    fontSize:{lg:'20px',xs:'14px'},
-    height:'56px',
-    position:'absolute'
-  }} 
-  disabled={btn_disable}
-  onClick={handlesearch}>Search</Button>    
+  <Button  className='search-btn'  sx={{  bgcolor:'#FF2625',  color:'#fff',  textTransform:'none',  width:{lg:'170px',xs:'80px'},  fontSize:{lg:'20px',xs:'14px'},  height:'56px',  position:'absolute' }}   disabled={btn_disable} onClick={handlesearch}  endIcon={<ZoomInIcon/>} >Search</Button>    
+  
   <Toaster 
   toastOptions={{
     className: '',
