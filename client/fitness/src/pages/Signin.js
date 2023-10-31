@@ -21,7 +21,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { ToastContainer, toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -29,7 +29,7 @@ import Stack from '@mui/material/Stack';
 import { login_handler, token_data} from '../App';
 import { Paper } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -214,17 +214,15 @@ export const Signin = () =>{
               onChange={(e)=>set_user_details({...user_details,password: e.target.value})}
               />
 
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+             
 
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color='success'
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: '3px', mb: '15px' ,fontSize:'15px',borderRadius:'10px'}}
+
               >
                 Sign In
               </Button>
@@ -258,7 +256,7 @@ export const Signin = () =>{
                 
 
                <Box sx={{ mt: 5}}>
-               <Button variant='contained' color='error' size='large' onClick={()=>navigate('/')}>Back to Main Page</Button>
+               <Button fullWidth variant='contained' color='error' size='large' onClick={()=>navigate('/')} sx={{fontSize:'15px',mt: '3px', mb: '2px',ml:'50px',borderRadius:'10px'}}>Back to Main Page</Button>
                </Box>
 
               </Grid>
