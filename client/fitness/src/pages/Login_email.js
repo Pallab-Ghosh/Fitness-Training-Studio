@@ -16,10 +16,14 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Router, Routes, useNavigate } from 'react-router-dom';
 import { redirect } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { login_handler, token_data } from '../App';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const defaultTheme = createTheme();
 
 
@@ -43,70 +47,134 @@ export const Login_email = () => {
  const[email_and_otp,setemail_andotp]=useState({email:'',otp:''})
  const navigate=useNavigate()
  const {user_token,set_token}=useContext(token_data)
- console.log("token from login_email",user_token)
+  const[sendind_otp,set_sending_otp]=useState(false);
+  const[validating_otp,set_validating_otp]=useState(false);
   
 
 
   const handle_click=(e)=>{
+
+
      e.preventDefault();
-     axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login_email_with_email`,email_and_otp)
-     .then((resolve)=>{
-       console.log(resolve.data)
-       if(resolve.data.id==1)
-       {
-        
-       alert('Otp sent successfully...')
-       }
-
-     else if(resolve.data.id===2)
+     if(email_and_otp.email!='')
      {
-      alert('Error')
-     }
+      set_sending_otp(true)
+      axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login_email_with_email`,email_and_otp)
+      .then((resolve)=>{
+        console.log(resolve.data)
+        if(resolve.data.id==1)
+        {
+         
+        //alert('Otp sent successfully...')
+        set_sending_otp(false)
+        toast.warning('OTP Sent Successfully', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme:"colored",
+          style:{color:'black'}
+          });
+        }
+ 
+      else if(resolve.data.id===2)
+      {
 
-       else
-       {
-        
-        alert('Invalid User!!')
-       }
-     })
-     .catch((err)=>{
-       console.log(err)
-     })
-     setemail_andotp({...email_and_otp,email:''})
-  }
-
-
-const handle_Otp=(e)=>{
-   e.preventDefault();
-   axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email_with_email`,email_and_otp)
-   .then((resolve)=>{
-     console.log(resolve.data)
-     if(resolve.data)
-     {
-      
-       localStorage.setItem('userdata_with_token',JSON.stringify(resolve.data))
-        console.log("local storage data after signin using email ",localStorage.getItem("userdata_with_token"));
-        var data=JSON.parse(localStorage.getItem("userdata_with_token"));
-        console.log(data)
-        var{token}=data;
-        console.log(token)
-        set_token(token);
-       navigate('/home')
-     }
-     
-     else if(resolve.data.id===2)
-     {
-      alert('Error')
+       //alert('Error')
+       toast.warning('Error', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme:"colored",
+        style:{color:'black'}
+        });
+      }
+ 
+        else
+        {
+         
+        // alert('Invalid User!!')
+        toast.warning('Invalid User', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme:"colored",
+          style:{color:'black'}
+          });
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      setemail_andotp({...email_and_otp,email:''})
      }
      else
      {
-      
-       alert('Wrong Otp!!!')
+      toast.warning('Please Provide Email', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme:"colored",
+        style:{color:'black'}
+        });
      }
-   })
-   .catch((err)=>{
-     console.log(err)
-   })
+
+  }
+
+
+const handle_Otp=async(e)=>{
+  e.preventDefault();
+
+
+  if(email_and_otp.otp==='')
+  {
+   // alert('Please provide Otp') 
+    toast.warning('Please Provide OTP', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme:"colored",
+      style:{color:'black'}
+      });
+  }
+
+  else if(email_and_otp.otp!='')
+  {
+    set_validating_otp(true)
+   const fetch_data=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email_with_email`,email_and_otp)
+   console.log(fetch_data.data)
+   if(fetch_data.data.token)
+   {
+    set_validating_otp(false)
+     const{token}={...fetch_data.data}
+     console.log("token from api",token)
+     localStorage.setItem("userdata_with_token",JSON.stringify(token))
+     set_token(JSON.stringify(token))
+    
+     window.location.href='/home'
+   }
+    
+  
+  }
    setemail_andotp({...email_and_otp,otp:''})
 }
 
@@ -135,7 +203,7 @@ const handle_Otp=(e)=>{
             required
             fullWidth
             id="email"
-            label="email"
+            label="Email"
             name="email"
             autoComplete="email"
             inputProps={{style: {fontSize: 15}}}
@@ -146,7 +214,9 @@ const handle_Otp=(e)=>{
           />
         
          
-        <Button onClick={handle_click} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Send Otp</Button>
+        <Button onClick={handle_click} disabled={sendind_otp} fullWidth variant="contained" sx={{ mt: 3, mb: 2,borderRadius:'12px',fontSize:'15px' }}>
+          {sendind_otp ? 'Sending OTP...' :'Send Otp'}  
+        </Button>
 
         <TextField
         margin="normal"
@@ -160,7 +230,9 @@ const handle_Otp=(e)=>{
        value={email_and_otp.otp}
         onChange={(e)=>setemail_andotp({...email_and_otp,otp:e.target.value})}/>
 
-       <Button type="submit" onClick={handle_Otp} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} >Validate Otp</Button>
+       <Button type="submit" disabled={validating_otp}  onClick={handle_Otp} fullWidth variant="contained" sx={{ mt: 3, mb: 2 ,borderRadius:'12px',fontSize:'15px'}} >
+        {validating_otp ? 'Validating OTP...' : 'Validate Otp'}      
+       </Button>
 
 
 
