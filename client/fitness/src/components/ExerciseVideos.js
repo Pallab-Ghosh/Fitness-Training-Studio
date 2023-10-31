@@ -15,10 +15,7 @@ export const ExerciseVideos = ({exercisevideos,name}) => {
       Click to Watch <span style={{color:'#ff2625',textTransform:'capitalize'}}>{name}</span> exercise videos
       </Typography>
   
-      <Stack justifyContent="flex-start" flexWrap="wrap" alignItems="center" 
-      sx={{
-        flexDirection:{lg:'row'},
-        gap:{lg:'110px',xs:'0'} }}>
+      <Stack justifyContent="flex-start" flexWrap="wrap" alignItems="center" sx={{marginLeft:'146px',  flexDirection:{lg:'row'},  gap:{lg:'110px',xs:'0'} }}>
         
         {
           exercisevideos?.slice(0,6).map((item,index)=>(
@@ -28,8 +25,9 @@ export const ExerciseVideos = ({exercisevideos,name}) => {
           target='_blank'
           rel='noreferrer'>
            <img src={item.video.thumbnails[0].url} alt={item.video.title}/>
+
            <Box>
-             <Typography variant='h5' color='black'>
+             <Typography variant='h3' color='black'>
              {item.video.tiile}
              </Typography>
              
@@ -46,6 +44,7 @@ export const ExerciseVideos = ({exercisevideos,name}) => {
              </Typography>
   
            </Box>
+
           </a>
         ))}
       
