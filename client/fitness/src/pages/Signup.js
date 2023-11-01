@@ -31,7 +31,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { TailSpin } from 'react-loader-spinner';
+import CreateIcon from '@mui/icons-material/Create';
 
   const refresh = () => window.location.reload(true)
 
@@ -44,6 +45,9 @@ const defaultTheme = createTheme();
 export const Signup = () => {
 
     const navigate=useNavigate()
+    const [submitting,set_submitting]=useState(false);
+
+
 
       const phoneRegExp =  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
       const validationSchema = Yup.object({
@@ -61,6 +65,9 @@ export const Signup = () => {
           age:Yup.date().required('Date of Birth is required'),
 
       });
+
+
+
       
  const calculateAge = (dob) => {
     const dobDate = new Date(dob);
@@ -69,6 +76,10 @@ export const Signup = () => {
     const ageDate = new Date(timeDiff);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
+
+
+
+
 
       const formik = useFormik({
         initialValues: {
@@ -85,10 +96,12 @@ export const Signup = () => {
         validationSchema: validationSchema,
 
         onSubmit: async(values)=>{
+          set_submitting(true)
         console.log("values",values)
         let converted_age=calculateAge(values.age)
         values={...values,age:converted_age}
         console.log("newvalues",values)
+
         axios.post(`${process.env.REACT_APP_EXPRESS_URL}/auth/signup`,values)
                .then((resolve)=>{
                  console.log(resolve)
@@ -96,6 +109,7 @@ export const Signup = () => {
                  {
                 
                     //alert('Signup successfully!!!')
+                    set_submitting(false)
                     toast.success('Signup successfully!!!', {
                       position: "top-right",
                       autoClose: 2000,
@@ -149,6 +163,7 @@ export const Signup = () => {
       });
 
 
+
 //
 
   return (
@@ -169,7 +184,7 @@ export const Signup = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-
+      
         <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3, backgroundColor: "white", }} >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -327,7 +342,9 @@ export const Signup = () => {
             />
           </Grid>
           </Grid>
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} > Sign Up </Button>
+      <Button type="submit" disabled={submitting}  startIcon={<CreateIcon/>}  fullWidth variant="contained" sx={{ mt: 3, mb: 2,fontSize:'15px' }} >
+        {submitting ? 'Please wait....' : 'Sign Up'}     
+       </Button>
 
 
           <Grid container justifyContent="flex-end">
