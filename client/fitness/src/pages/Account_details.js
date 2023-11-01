@@ -308,11 +308,11 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
 
 
 
-                   <Stack  justifyContent="flex-start" style={{gap:'2px'}}>
-                   <Button variant='contained' size='large' color='error' onClick={()=>navigate(-1)}>Go Back</Button>
-                   <Button variant='contained' size='large' color='success' onClick={handleClickOpen} >Reset password</Button>
-                   <Button variant='contained' size='large' color='primary' onClick={handle_delete_function} >DELETE ACCOUNT</Button>
-                   <Button variant='contained' size='large' color='warning' onClick={handleClickOpen_for_delete_subscription}>Cancel Subscriptions</Button>
+                   <Stack  justifyContent="flex-start" style={{gap:'4px'}}>
+                   <Button sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' size='large' color='error' onClick={()=>navigate(-1)}>Go Back</Button>
+                   <Button sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' size='large' color='success' onClick={handleClickOpen} >Reset password</Button>
+                   <Button sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' size='large' color='primary' onClick={handle_delete_function} >DELETE ACCOUNT</Button>
+                   <Button sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' size='large' color='warning' onClick={handleClickOpen_for_delete_subscription}>Cancel Subscriptions</Button>
                  
                    </Stack>
                   
@@ -333,8 +333,8 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
                   </DialogContent>
                
                   <DialogActions >
-                  <Button onClick={handleClose} style={{height:'50px',fontSize:'15px'}} variant='contained'>Disagree</Button>
-                  <Button onClick={handleClose2}  style={{height:'50px',fontSize:'15px'}} autoFocus variant='contained'> Agree </Button>
+                  <Button onClick={handleClose} style={{height:'50px',fontSize:'15px'}} sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained'>Disagree</Button>
+                  <Button onClick={handleClose2}  style={{height:'50px',fontSize:'15px'}} autoFocus sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained'> Agree </Button>
                   </DialogActions>
                
                </Dialog>
@@ -353,8 +353,8 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
                     </DialogContent>
                
                     <DialogActions >
-                      <Button onClick={handleClose_for_delete_subscription} style={{height:'50px',fontSize:'15px'}} variant='contained'>Stay In</Button>
-                      <Button onClick={handleClose_for_delete_subscription2}  style={{height:'50px',fontSize:'15px'}} autoFocus variant='contained'> Delete Subscription </Button>
+                      <Button onClick={handleClose_for_delete_subscription} style={{height:'50px',fontSize:'15px'}} sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained'>Stay In</Button>
+                      <Button onClick={handleClose_for_delete_subscription2}  style={{height:'50px',fontSize:'15px'}} autoFocus sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained'> Delete Subscription </Button>
                     </DialogActions>
                
                </Dialog>
