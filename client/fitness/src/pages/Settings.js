@@ -37,7 +37,10 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
 const[new_user,set_new_user]=useState({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:'',password:''})
 
 
-
+//For Resposiveness of Button
+const[adding_user,set_adding_user]=useState(false);
+const[deleting_user,set_deleting_user]=useState(false);
+const[submitting_status,set_submitting_status]=useState(false)
 
 
 
@@ -97,16 +100,19 @@ useEffect(()=>{
 
 
 const handleDelete = (userId) => {
+
    console.log(userId)
     const updatedUsers = all_data.filter((user) => user._id !== userId);
     console.log(updatedUsers);
     set_all_data(updatedUsers);
+    set_deleting_user(true)
     axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_user/${userId}`)
     .then((res)=>{
       console.log(res);
       if(res.data.id==1)
       {
         //alert('Deleted user successfully')
+        set_deleting_user(false)
         toast.success('User Deleted Successfully', {
           position: "top-right",
           autoClose: 2000,
@@ -132,7 +138,7 @@ const handle_option=(id,e)=>{
     _id:id,
     value:option_value
   }
-
+set_submitting_status(true)
   axios.patch(`${process.env.REACT_APP_EXPRESS_URL}/user/update_status`,id_with_option_value)
   .then((res)=>{
     console.log(res)
@@ -144,7 +150,7 @@ const handle_option=(id,e)=>{
                 console.log(res)
                 set_visitor_data(res.data)
             })
-
+            set_submitting_status(false)
               toast.success('Status Update Successfully', {
                 position: "top-right",
                 autoClose: 2000,
@@ -176,79 +182,103 @@ const calculateAge = (dob) => {
 
 
 const handle_form_submission=async(e)=>{
+
   e.preventDefault()
-  console.log("new_user.age",new_user.age)
+
+  //console.log("new_user.age",new_user.age)
   let converted_age=calculateAge(new_user.age)
-  console.log(converted_age)
-  console.log(typeof(converted_age))
-  const generate_new_password=`hello${new_user.username}`
+ /*  console.log(converted_age)
+  console.log(typeof(converted_age)) */
+
+  let random_number=Math.floor(Math.random() * 1000) + 1;
+
+  const generate_new_password=`hello${new_user.username}${random_number} `
   const new_updated_user={...new_user,age:converted_age,password:generate_new_password}
   console.log("newuser",new_updated_user)
 
-  axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/add_new_user`,new_updated_user)
-         .then((resolve)=>{
-           console.log(resolve)
-           if(resolve.data.id==1)
-           {
+   if(new_updated_user.username!='')
+   { 
+     set_adding_user(true)
+    axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/add_new_user`,new_updated_user)
+    .then((resolve)=>{
+      console.log(resolve)
+      if(resolve.data.id==1)
+      {
 
-
-            axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
-            .then((res)=>{
-              
-                console.log(res)
-                set_all_data(res.data)
-            })
-            //  handleClose()
-               setOpen(false)
-              //alert('Signup successfully!!!')
-              toast.success('User Registration successfully!!!', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-                style:{color:'black'}
-                });
-            } 
-
-            else if(resolve.data.id==2)
-            {
-             // alert('Error')
-             toast.error('Error!!!', {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-              style:{color:'black'}
-              });
-
-            }
-
-          else 
-             { 
-
-               //alert('Already have an account or Error in input')
-               toast.warning('Already have an Account ', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme:"colored",
-                style:{color:'black'}
-                });
-             }
+        set_adding_user(false)
+       axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
+       .then((res)=>{
+         
+           console.log(res)
+           set_all_data(res.data)
        })
-   set_new_user({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:'',email:''})
+       //  handleClose()
+          setOpen(false)
+         //alert('Signup successfully!!!')
+         toast.success('User Registration successfully!!!', {
+           position: "top-right",
+           autoClose: 2000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "colored",
+           style:{color:'black'}
+           });
+       } 
+
+       else if(resolve.data.id==2)
+       {
+        // alert('Error')
+        toast.error('Error!!!', {
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "colored",
+         style:{color:'black'}
+         });
+
+       }
+
+     else 
+        { 
+
+          //alert('Already have an account or Error in input')
+          toast.warning('Already have an Account ', {
+           position: "top-right",
+           autoClose: 2000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme:"colored",
+           style:{color:'black'}
+           });
+        }
+  })
+set_new_user({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:'',email:''})
+   }
+   else
+   {
+    toast.warning('Provide Information For Registration', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme:"colored",
+      style:{color:'black'}
+      });
+   }
+ 
   }
 
 
@@ -293,8 +323,8 @@ const handleDelete2 = (userId) => {
 
   return (
     <div style={{backgroundColor:'#01234a'}} > 
-  <Button  variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px'}} startIcon={<ArrowBackIcon/>}>Go Back</Button>
-  <Button  variant='contained' color='success' size='large'  sx={{ml:'1528px',mb:'-108px',fontSize:'14px'}} onClick={handleClickOpen} startIcon={<AddIcon/>}>Add User</Button>
+  <Button  variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px',borderRadius:'12px'}} startIcon={<ArrowBackIcon/>}>Go Back</Button>
+  <Button  variant='contained' color='success' size='large'  sx={{ml:'1528px',mb:'-108px',fontSize:'14px',borderRadius:'12px'}} onClick={handleClickOpen} startIcon={<AddIcon/>}>Add User</Button>
     <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>User Data</Typography>
    
     <div className="user-list">
@@ -329,7 +359,9 @@ const handleDelete2 = (userId) => {
             <td>{user.address}</td>
             <td>{user.date_and_time}</td>
             <td>{user.course}</td>
-            <td> <Button onClick={() => handleDelete(user._id)} fullWidth variant='outlined' color='error'  size='large' style={{fontSize:'13px'}} startIcon={<DeleteIcon />}>Delete</Button> </td>
+            <td> <Button onClick={() => handleDelete(user._id)} disabled={deleting_user} fullWidth variant='contained' color='error'  size='large' style={{fontSize:'13px',borderRadius:'12px'}} startIcon={<DeleteIcon />}>
+                  {deleting_user ? 'Deleting...' : 'Delete'}    
+                 </Button> </td>
           </tr>
         
         ))}
@@ -392,8 +424,10 @@ const handleDelete2 = (userId) => {
                     </FormControl>
                       </td>
 
-                     <td><Button onClick={(e)=>handle_option(user._id,e)} fullWidth color='success' variant='outlined'   size='large' style={{fontSize:'13px'}}>Submit</Button></td> 
-                     <td> <Button  onClick={() => handleDelete2(user._id)} fullWidth color='error'  variant='outlined'  size='large' style={{fontSize:'13px'}} startIcon={<DeleteIcon />} >Delete</Button> </td>
+                     <td><Button onClick={(e)=>handle_option(user._id,e)} disabled={submitting_status} fullWidth color='success' variant='contained'   size='large' style={{fontSize:'13px',borderRadius:'12px'}}>
+                           {submitting_status ? 'Submitting' : 'Submit'}     
+                          </Button></td> 
+                     <td> <Button  onClick={() => handleDelete2(user._id)} fullWidth color='error'  variant='contained'  size='large' style={{fontSize:'13px',borderRadius:'12px'}} startIcon={<DeleteIcon />} >Delete</Button> </td>
                     </tr>
                  
                   ))}
@@ -441,8 +475,10 @@ const handleDelete2 = (userId) => {
     </DialogContent>
 
     <DialogActions sx={{backgroundColor:'#dee2fa'}}>
-      <Button onClick={handleClose} variant='contained' color='error' startIcon={<CancelIcon/>}>Cancel</Button>
-      <Button onClick={handle_form_submission} variant='contained' color='success'>Submit</Button>
+      <Button size='large' onClick={handleClose} variant='contained' color='error' startIcon={<CancelIcon/>} sx={{borderRadius:'12px',fontSize:'15px'}} >Cancel</Button>
+      <Button size='large'   onClick={handle_form_submission} variant='contained' color='success' sx={{borderRadius:'12px',fontSize:'15px'}}>
+        {adding_user ? 'Please Wait...' : 'Submit'}  
+      </Button>
     </DialogActions>
 
   </Dialog>
