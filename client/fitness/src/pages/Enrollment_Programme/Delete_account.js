@@ -149,9 +149,9 @@ onChange={(e)=>set_otp(e.target.value)}
 
 
 <Box display='flex' flexDirection='column' style={{gap:'2px'}}> 
-<Button variant="contained" color="primary" style={{width:'380px'}} onClick={handle_click_for_confirmation}>CONFIRM DEACTIVATION</Button><br/>
+<Button variant="contained" color="primary" style={{width:'380px',borderRadius:'12px'}} onClick={handle_click_for_confirmation}>CONFIRM DEACTIVATION</Button><br/>
 
-<Button variant="text" color="primary" style={{width:'380px'}} onClick={()=>navigate(-1)}>NO,LET ME STAY</Button><br/>
+<Button variant="text" color="primary" style={{width:'380px',borderRadius:'12px'}} onClick={()=>navigate(-1)}>NO,LET ME STAY</Button><br/>
 </Box>
 
 </Box>
