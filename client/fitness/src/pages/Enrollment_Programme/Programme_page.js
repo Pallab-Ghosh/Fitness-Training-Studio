@@ -315,7 +315,7 @@ export const Programme_page = () => {
             sx={{ my: 1, mx: 1.5 }}
             underline='hover'
           >
-          <ContactPhoneIcon color='inherit' /> Contact us
+           <ContactPhoneIcon color='inherit' /> Contact us
           </Link>
 
           <Link
@@ -425,7 +425,7 @@ export const Programme_page = () => {
               </CardContent>
               <CardActions>
                
-                <Button fullWidth variant='contained' onClick={(e)=>handle_click2(e,tier.title,tier.id,tier.price)} color='error' size='large'>
+                <Button fullWidth sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' onClick={(e)=>handle_click2(e,tier.title,tier.id,tier.price)} color='error' size='large'>
                <ShoppingCartIcon /> {tier.buttonText2}
               </Button>
 
