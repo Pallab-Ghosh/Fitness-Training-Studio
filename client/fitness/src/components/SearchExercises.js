@@ -190,7 +190,7 @@ export const SearchExercises = () => {
  
 
    {/*button for search results */}
-  <Button  className='search-btn'  sx={{  bgcolor:'#FF2625',  color:'#fff',  textTransform:'none',  width:{lg:'170px',xs:'80px'},  fontSize:{lg:'20px',xs:'14px'},  height:'56px',  position:'absolute' }}   disabled={btn_disable} onClick={handlesearch}  endIcon={<ZoomInIcon/>} >Search</Button>    
+  <Button  className='search-btn'  sx={{  bgcolor:'#FF2625',  color:'#fff',  textTransform:'none',  width:{lg:'170px',xs:'80px'},  fontSize:{lg:'20px',xs:'14px'},  height:'56px',  position:'absolute',borderRadius:'12px' }}   disabled={btn_disable} onClick={handlesearch}  endIcon={<ZoomInIcon/>} >Search</Button>    
   
   <Toaster 
   toastOptions={{
