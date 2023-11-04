@@ -135,6 +135,7 @@ exports.verify_email=async(req,res) => {
 
 
 exports.forget_password=async(req,res)=>{
+  console.log(req.body)
 if(req?.body?.email===null || req?.body?.new_password2?.length===0 || req?.body?.new_password?.length===0)
   {
    return  res.json({id:2})
@@ -507,14 +508,11 @@ exports.add_new_user=async(req,res)=>{
  
    else
     {
-        const old_user=await user_Schema.find({email:req.body.email,username:req.body.username})
-        if(old_user!='')
-        {
-          console.log("old_user",old_user)
-          res.json({id:3,status:'User has already registered'})
-        }
+        const old_user=await user_Schema.find({email:req.body.email})
+        console.log("old_user",old_user)
 
-        else{
+        if(Object.keys(old_user).length === 0)
+        {
 
           const new_user= new user_Schema(req.body);
           const date_data=get_the_date()
@@ -537,18 +535,24 @@ exports.add_new_user=async(req,res)=>{
 
    
           const hash_password=bcrypt.hashSync(req.body.password,10);
-
           new_user.password=hash_password;
+
           new_user.course=req.body.course;
           new_user.price_of_course=price;
           const get_subscription_date=date_creation_of_course();
           new_user.subscription_date=get_subscription_date;
+
           const save_user=await new_user.save();
 
           send_mail_admission(req.body.course,new_user,req.body.password)
           console.log("save_user from signup",save_user)
           return  res.json({id:1})
          
+        }
+        else
+        {
+          console.log("User has already registered")
+          res.json({id:3,status:'User has already registered'})
         }
        
     }
