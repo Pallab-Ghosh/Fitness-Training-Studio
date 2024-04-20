@@ -6,6 +6,7 @@ import { exercise_data_details } from '../pages/Home'
 import Autocomplete from '@mui/material/Autocomplete';
 import toast, { Toaster } from 'react-hot-toast';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import { usedebounce } from '../utils/debounce'
 
 
 //set these 2 array where we store some  values for suggestions in input field
@@ -34,6 +35,7 @@ export const SearchExercises = () => {
 
   //set the state of select to select the value
   const[select,setselect]=useState("")
+  
     
 
   useEffect(()=>{
@@ -114,24 +116,42 @@ export const SearchExercises = () => {
      }
   } 
 
-//this function is called when when user type something in search field and give the suggestions that it is available or not in the suggestions
-  const handle_change=(e)=>{
-    //console.log(e.target.value)
-    let search_value=e.target.value
+//this function is called when  user type something in search field and give the suggestions that it is available or not in the suggestions
+ 
+ 
+ 
+  const handle_change=()=>{
+   
+    console.log('handle_change called')
+    console.log('e.target.value', search)
+
+    let search_value=search
     let matches = [];
 
     if (search_value.length >= 1)
      {
       //find the keyword in data which is stored in op
-    const regex = new RegExp(`${search_value}`, "gi");
-    matches = op.filter((item) => regex.test(item)); 
+      const regex = new RegExp(`${search_value}`, "gi");
+      matches = op.filter((item) => regex.test(item)); 
      }
  
     //console.log(matches)
-  set_suggestions(matches);
-  setsearch(search_value)
-  
-  }
+     set_suggestions(matches);
+     setsearch(search_value)
+  } 
+
+  useEffect(()=>{
+    let timer;
+
+     timer = setTimeout(() => {
+      handle_change();
+     }, 2000);
+
+    return ()=>clearTimeout(timer)
+    
+  },[search])
+
+
 
   //this function run when user select the value from list 
   const selectValue = (item) => {
@@ -165,10 +185,11 @@ export const SearchExercises = () => {
       backgroundColor:'#fff',
       borderRadius:'40px', }}
       inputProps={{style: {fontSize: 15}}}
-   height="76px"
-   value={search} 
-   onChange={handle_change}
-   placeholder='Search Exercises' type='text'
+      height="76px"
+      value={search}
+      onChange={(e)=>setsearch(e.target.value)}
+      placeholder='Search Exercises'
+       type='text'
    />
    {/*showing the list of sesrch keyword */}
 
