@@ -6,7 +6,7 @@ import { exercise_data_details } from '../pages/Home'
 import Autocomplete from '@mui/material/Autocomplete';
 import toast, { Toaster } from 'react-hot-toast';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import { usedebounce } from '../utils/debounce'
+import { useDebouncedValue } from '../utils/debounce'
 
 
 //set these 2 array where we store some  values for suggestions in input field
@@ -35,8 +35,8 @@ export const SearchExercises = () => {
 
   //set the state of select to select the value
   const[select,setselect]=useState("")
-  
-    
+ 
+    const debounce_value= useDebouncedValue(search,3000);
 
   useEffect(()=>{
  
@@ -125,22 +125,28 @@ export const SearchExercises = () => {
     console.log('handle_change called')
     console.log('e.target.value', search)
 
-    let search_value=search
+    let search_value=debounce_value
     let matches = [];
 
-    if (search_value.length >= 1)
-     {
+    
+   if(search_value)
+   {
+      if (search_value?.length >= 1)
+      {
       //find the keyword in data which is stored in op
       const regex = new RegExp(`${search_value}`, "gi");
       matches = op.filter((item) => regex.test(item)); 
-     }
- 
+      }
+      set_suggestions(matches);
+      setsearch(search_value)
+
+   }
+   
     //console.log(matches)
-     set_suggestions(matches);
-     setsearch(search_value)
+    
   } 
 
-  useEffect(()=>{
+/*   useEffect(()=>{
     let timer;
 
      timer = setTimeout(() => {
@@ -150,7 +156,10 @@ export const SearchExercises = () => {
     return ()=>clearTimeout(timer)
     
   },[search])
-
+ */
+   useEffect(()=>{
+    handle_change();
+   },[debounce_value])
 
 
   //this function run when user select the value from list 
