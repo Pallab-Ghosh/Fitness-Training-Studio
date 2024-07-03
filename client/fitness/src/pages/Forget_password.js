@@ -48,29 +48,33 @@ export const Forget_password = () => {
 
    
   const[mail,set_mail]=useState({email:'',otp:''})
- const [user_data,set_data]=useState({emailid:'',new_password:'',new_password2:''})
- const navigate=useNavigate()
- const [submitting,setsubmitting]=useState(false)
- const [submitting_for_validation,setsubmitting_for_validation]=useState(false)
- const [submitting_for_password_change,setsubmitting_for_password_change]=useState(false)
-    
+  const [user_data,set_data]=useState({new_password:'',new_password2:'' , email_Id:''})
+  const navigate=useNavigate()
+  const [submitting,setsubmitting]=useState(false)
+  const [submitting_for_validation,setsubmitting_for_validation]=useState(false)
+  const [submitting_for_password_change,setsubmitting_for_password_change]=useState(false);
+  let user_email;
+
+
+
     const handle_password=(e)=>{
-      console.log("mail",mail)
-      set_data({...user_data,emailid:mail.email})
+     
       e.preventDefault();
+      
+      set_data({...user_data,email_Id:mail.email})
       setsubmitting(true)
 
   
       axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login_email`,mail)
-
+     
       .then((resolve)=>{
         console.log(resolve.data)
+       
         if(resolve.data.id==1)
         {
-        
-        //alert('Otp sent successfully...')
-        setsubmitting(false);
-        toast.success('Otp sent  successfully!!!', {
+          localStorage.setItem("user_otp", resolve.data.user_otp)
+          setsubmitting(false);
+          toast.success('Otp sent  successfully!!!', {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -146,62 +150,71 @@ export const Forget_password = () => {
     {
 
       setsubmitting_for_validation(true)
-    axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email`,mail)
-    .then((resolve)=>{
-      console.log(resolve.data)
-      if(resolve.data?.username)
-      {
-          // alert('Give a new Password!!!')
-          setsubmitting_for_validation(false)
-          toast.success('Give a new Password!!!', {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-            style:{color:'black'}
-            });
-      }
-      else if(resolve.data.id===2)
-      {
-       // alert('Error')
-       toast.error('Error!!!', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        style:{color:'black'}
-        });
-      }
-      else
-      {
-        
-       // alert('Wrong Otp!!!')
-       toast.warning('Wrong Otp!!!', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme:"colored",
-        style:{color:'black'}
-        });
-      }
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-    set_mail({...mail,otp:''})
+      const get_otp = localStorage.getItem("user_otp")
+     // console.log('get_otp' , get_otp)
+      if(get_otp === mail.otp)
+        {
+          console.log('goes in if otp')
+            axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email`,mail)
+             .then((resolve)=>{
+                 console.log(resolve.data)
+                   if(resolve.data?.username)
+                    {
+                       // alert('Give a new Password!!!')
+                       setsubmitting_for_validation(false)
+                       toast.success('Give a new Password!!!', {
+                      position: "top-right",
+                      autoClose: 2000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "colored",
+                      style:{color:'black'}
+                      });
+                    }
+
+                    else if(resolve.data.id===2)
+                    {
+                    // alert('Error')
+                    toast.error('Error!!!', {
+                      position: "top-right",
+                      autoClose: 2000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "colored",
+                      style:{color:'black'}
+                      });
+                    }
+            })
+
+            .catch((err)=>{
+              console.log(err)
+            })
+        }
+        else
+        {
+          
+           // alert('Wrong Otp!!!')
+            toast.warning('Wrong Otp!!!', {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme:"colored",
+              style:{color:'black'}
+              });
+        }
+          set_mail({...mail,otp:''})
   }
+
  }
  
 
@@ -209,20 +222,20 @@ export const Forget_password = () => {
 
 
         event.preventDefault();
-        console.log("user_details from forget password ",user_data)
+        console.log('user_email '.user_email)
+        console.log("user_details from forget password ",{...user_data , emailId:user_email})
 
 
         if(user_data.new_password!='' && user_data.new_password2!='' && user_data.new_password==user_data.new_password2)
         {
-          setsubmitting_for_password_change(true)
+            setsubmitting_for_password_change(true)
             axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/forget_password`,user_data)
             .then((resolve)=>{
               console.log(resolve.data)
               if(resolve.data.id==1)
               {
                 
-               // alert(' Password Reset successfully!!!')
-               setsubmitting_for_password_change(false)
+                setsubmitting_for_password_change(false)
                 toast.success(' Password Reset successfully!!!!!', {
                   position: "top-right",
                   autoClose: 2000,
@@ -236,6 +249,7 @@ export const Forget_password = () => {
                   });
                 navigate('/')
               }
+
               else if(resolve.data.id===2)
               {
 
