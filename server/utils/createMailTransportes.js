@@ -5,7 +5,7 @@ const createMailTransporter=()=>{
     service:"hotmail",
     auth:{
         user:'gpallab1997@outlook.com',
-        pass:'samsungcorby1997@'
+        email_password:process.env.email_password
     }
   })
   return transporter
