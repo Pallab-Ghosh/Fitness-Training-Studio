@@ -7,7 +7,7 @@ const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken');
 const otpGenerator = require('otp-generator');
 const { send_verification_mail } = require('../utils/SendverificationMail');
-const {send_mail_subscription}=require('../utils/Send_Mail_For_Subscriptions')
+const {send_mail_subscription}=require('../utils/Send_Mail_For_Subscriptions.js')
 const {send_mail_admission}=require('../utils/Send_Mail_For_Admission')
 const { parse } = require('dotenv');
 require('dotenv').config();
@@ -86,17 +86,17 @@ exports.loginEmail=async(req,res) => {
    { 
           const fetch_email=req.body.email
            find_user=await user_Schema.findOne({email:fetch_email});
-            //console.log("find_user from loginemail ",find_user);
+            console.log("find_user from loginemail ",find_user);
             if(find_user)
             {
               otp_no=otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
                    
               //console.log("from email verify",otp_no)
               send_verification_mail(find_user,otp_no);
-             return  res.json({id:1})
+             return  res.json({id:1 , user_otp:otp_no})
             }  
                       
-            else(find_user===null)
+            else if(find_user===null)
               {
                return res.json({id:0})
               }
@@ -117,7 +117,7 @@ exports.verify_email=async(req,res) => {
     const user_otp=req.body.otp;
     //console.log("user_otp ",user_otp)
     //console.log("otp_no",otp_no)
-    if(user_otp==otp_no)
+    if(user_otp)
     {
       //console.log("if from verify")
       return res.json(find_user)
@@ -135,32 +135,26 @@ exports.verify_email=async(req,res) => {
 
 
 exports.forget_password=async(req,res)=>{
-  console.log(req.body)
-if(req?.body?.email===null || req?.body?.new_password2?.length===0 || req?.body?.new_password?.length===0)
-  {
-   return  res.json({id:2})
-  }
-  else
-  {
-    const find_user=await user_Schema.findOne({email:req.body.emailid});
- 
-    if(find_user===null)
-    {
-      //console.log("find_user from forget password in else",find_user)
-       return res.json({id:0})
-    }
-    else{
-        //console.log("find_user from forget password in else",find_user)
-        const hash=bcrypt.hashSync(req.body.new_password2,10);
-        find_user.password=hash;
-        const newuser= await find_user.save();
-        //console.log(newuser);
-        return res.json({id:1})
-    }
-  
-  }
+           console.log('req.body for forget_password function',req.body)
+    
+        const find_user=await user_Schema.findOne({email:req.body.email_Id});
+    
+        if(find_user===null)
+        {
+          //console.log("find_user from forget password in else",find_user)
+          return res.json({id:0})
+        }
+        else{
+            //console.log("find_user from forget password in else",find_user)
+            const hash=bcrypt.hashSync(req.body.new_password2,10);
+            find_user.password=hash;
+            const newuser= await find_user.save();
+            //console.log(newuser);
+            return res.json({id:1})
+        }
+      
+      }
 
-  }
 
 
 
