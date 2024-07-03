@@ -9,25 +9,7 @@ import LeftArrowIcon from '../assets/icons/left-arrow.png';
 import RightArrowIcon from '../assets/icons/right-arrow.png';
 import { Loader } from './Loader'
 
-const LeftArrow = () => {
-  const {isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
-
-  return (
-    <Typography onClick={() => scrollPrev()} disabled={isFirstItemVisible} className="right-arrow" >
-      <img src={LeftArrowIcon} alt="left-arrow" />
-    </Typography>
-  );
-};
-
-const RightArrow = () => {
-  const { isLastItemVisible,scrollNext } = useContext(VisibilityContext);
-
-  return (
-    <Typography onClick={() => scrollNext()} disabled={isLastItemVisible} className="left-arrow">
-      <img src={RightArrowIcon} alt="right-arrow" />
-    </Typography>
-  );
-};
+ 
 
 
 
