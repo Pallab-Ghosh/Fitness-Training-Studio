@@ -163,7 +163,7 @@ exports.forget_password=async(req,res)=>{
 
 
 
-//login and verify email from signin page
+//login and verify email from admin signin page
 
   exports.loginEmailWithEmail=async(req,res) => {
 
@@ -179,13 +179,13 @@ exports.forget_password=async(req,res)=>{
              //console.log(" find_user_using_email from loginemail ", find_user_using_email);
              if( find_user_using_email)
              {
-               otp_no=otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
-               //console.log("from email verify",otp_no)
-               send_verification_mail( find_user_using_email,otp_no);
-              return  res.json({id:1})
+              let otp=otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
+               console.log("from admin email verify",otp)
+               send_verification_mail( find_user_using_email,otp);
+               return  res.json({id:1 , admin_otp :otp})
              }  
 
-             else( find_user_using_email===null)
+             else if( find_user_using_email===null)
                {
                 return res.json({id:0})
                }
@@ -205,13 +205,15 @@ exports.forget_password=async(req,res)=>{
  
      const user_otp=req.body.otp;
      console.log("user_otp ",user_otp)
-     console.log("otp_no",otp_no)
-     if(user_otp===otp_no && user_otp!='' && otp_no!=null)
+    
+
+     if(user_otp!='')
      {
-       console.log("if from verify")
+       console.log("if from verify admin verify_email_With_Email ")
        const token_id=jwt.sign({email:find_user_using_email.email},process.env.Jwt_secret_key)
        return res.json( {find_user_using_email:find_user_using_email,token:token_id})
      }
+     
      else
      {
        //console.log("else from verify")
