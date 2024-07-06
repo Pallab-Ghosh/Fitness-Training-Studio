@@ -16,6 +16,7 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import HomeIcon from '@mui/icons-material/Home';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from 'react-router-dom';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 
 
 export const DrawerList =({sidebarOpen , toggleSidebar})=>{
@@ -40,11 +41,18 @@ export const DrawerList =({sidebarOpen , toggleSidebar})=>{
               <ListItemText primary="Home"  primaryTypographyProps={{fontSize: 15}} />
             </ListItemButton>
 
-            <ListItemButton onClick={()=>navigate('/signin/admin_login/dashboard/settings')}>
+            <ListItemButton onClick={()=>navigate('/signin/admin_login/dashboard')}>
               <ListItemIcon>
                  <AnalyticsIcon sx={{height:'20px' , width:'20px'}}/>
               </ListItemIcon>
               <ListItemText primary="Analytics" primaryTypographyProps={{fontSize: 15}} />
+            </ListItemButton>
+
+            <ListItemButton onClick={()=>navigate('/signin/admin_login/dashboard/settings')}>
+              <ListItemIcon>
+                 <SubscriptionsIcon sx={{height:'20px' , width:'20px'}}/>
+              </ListItemIcon>
+              <ListItemText primary="Subscription" primaryTypographyProps={{fontSize: 15}} />
             </ListItemButton>
 
             <ListItemButton onClick={handle_signout}>
@@ -54,6 +62,8 @@ export const DrawerList =({sidebarOpen , toggleSidebar})=>{
               <ListItemText primary="Exit"   primaryTypographyProps={{fontSize: 15}} />
             </ListItemButton>
           </ListItem>
+
+          
       </List>
  
        
