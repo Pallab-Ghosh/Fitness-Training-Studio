@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import './Adminsetting.css'
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import fitness_logo from './icon/fitness-training-studio-logo.png'
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import MailIcon from '@mui/icons-material/Mail';
@@ -20,7 +19,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import AdminRouteLayout from './admin_route_layout'
+import { sidebarcontext } from '../App'
+import DensitySmallOutlinedIcon from '@mui/icons-material/DensitySmallOutlined';
 
 
 
@@ -34,7 +35,10 @@ const [option_value,set_option_value]=useState('')
 const navigate=useNavigate()
 const[user_account_details,set_user_details]=useState({})
 const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
-const[new_user,set_new_user]=useState({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:'',password:''})
+const[new_user,set_new_user]=useState({firstname:'',lastname:'',email:'',address:'',mobile:'',course:'',age:'',username:'',password:''})
+
+
+
 
 
 //For Resposiveness of Button
@@ -42,7 +46,7 @@ const[adding_user,set_adding_user]=useState(false);
 const[deleting_user,set_deleting_user]=useState(false);
 const[submitting_status,set_submitting_status]=useState(false)
 
-
+const {sidebarOpen , toggleSidebar} = React.useContext(sidebarcontext)
 
 
 //dialog box for add new user
@@ -53,9 +57,6 @@ const handleClickOpen = () => {
 const handleClose = () => {
   setOpen(false);
 };
-
-
-
 
 
 
@@ -71,8 +72,6 @@ useEffect(()=>{
 const handleChange = (event) => {
   set_option_value(event.target.value);
 }
-
-
 
 const handle_course_value=(event)=>{
   set_new_user({...new_user,course:event.target.value})
@@ -94,9 +93,6 @@ useEffect(()=>{
   })
 
 },[])
-
-
-
 
 
 const handleDelete = (userId) => {
@@ -181,6 +177,7 @@ const calculateAge = (dob) => {
 };
 
 
+
 const handle_form_submission=async(e)=>{
 
   e.preventDefault()
@@ -190,10 +187,20 @@ const handle_form_submission=async(e)=>{
  /*  console.log(converted_age)
   console.log(typeof(converted_age)) */
 
+   //npm geneerator function for username
+
+
   let random_number=Math.floor(Math.random() * 1000) + 1;
 
-  const generate_new_password=`hello${new_user.username}${random_number} `
-  const new_updated_user={...new_user,age:converted_age,password:generate_new_password}
+  //create unique username
+  const string_array_from_email=new_user.email.split("@")
+  const generate_new_username=`${string_array_from_email[0]}${random_number} `
+
+//create unique password
+  const generate_new_password=`new_${generate_new_username}`
+  console.log(generate_new_password)
+
+  const new_updated_user={...new_user,age:converted_age,password:generate_new_password,username:generate_new_username}
   console.log("newuser",new_updated_user)
 
    if(new_updated_user.username!='')
@@ -228,42 +235,27 @@ const handle_form_submission=async(e)=>{
            });
        } 
 
-       else if(resolve.data.id==2)
+       else if(resolve.data.id==3)
        {
         // alert('Error')
-        toast.error('Error!!!', {
-         position: "top-right",
-         autoClose: 2000,
-         hideProgressBar: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         theme: "colored",
-         style:{color:'black'}
-         });
-
+        toast.warning('Already have an Account ', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme:"colored",
+          style:{color:'black'}
+          });
        }
 
-     else 
-        { 
-
-          //alert('Already have an account or Error in input')
-          toast.warning('Already have an Account ', {
-           position: "top-right",
-           autoClose: 2000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-           theme:"colored",
-           style:{color:'black'}
-           });
-        }
   })
 set_new_user({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',username:'',email:''})
    }
+
+
    else
    {
     toast.warning('Provide Information For Registration', {
@@ -280,8 +272,6 @@ set_new_user({firstname:'',lastname:'',address:'',mobile:'',course:'',age:'',use
    }
  
   }
-
-
 
 
 const handleDelete2 = (userId) => {
@@ -322,10 +312,18 @@ const handleDelete2 = (userId) => {
  };
 
   return (
+    <AdminRouteLayout>
     <div style={{backgroundColor:'#01234a'}} > 
-  <Button  variant='contained' color='error' size='large'  onClick={()=>navigate(-1)} sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px',borderRadius:'12px'}} startIcon={<ArrowBackIcon/>}>Go Back</Button>
-  <Button  variant='contained' color='success' size='large'  sx={{ml:'1528px',mb:'-108px',fontSize:'14px',borderRadius:'12px'}} onClick={handleClickOpen} startIcon={<AddIcon/>}>Add User</Button>
-    <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>User Data</Typography>
+       <Typography variant='h2' sx={{marginLeft:90,marginBottom:-6,marginTop:'10'}} color='#e6ebed'>Dashboard Analytics</Typography>
+
+       <Button  variant='contained'  size='large' onClick={toggleSidebar} 
+        sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px',borderRadius:'12px'}} 
+        startIcon={<DensitySmallOutlinedIcon/>}
+        >
+            
+          </Button>
+       <Button  variant='contained' color='success' size='large'  sx={{ml:'1528px',mb:'-108px',fontSize:'14px',borderRadius:'12px'}} onClick={handleClickOpen} startIcon={<AddIcon/>}>Add User</Button>
+       <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>User Data</Typography>
    
     <div className="user-list">
     <table>
@@ -451,8 +449,8 @@ const handleDelete2 = (userId) => {
         <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="email"  required    label="Email Address"  type="email"  fullWidth  variant="standard"  value={new_user.email}  onChange={(e)=>set_new_user({...new_user,email:e.target.value})}  />
         <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="mobile"     label="Mobile"  type="number"  fullWidth  variant="standard" value={new_user.mobile}  onChange={(e)=>set_new_user({...new_user,mobile:e.target.value})}  />
         <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="address"    label="Address"  type="text"  fullWidth  variant="standard" value={new_user.address}  onChange={(e)=>set_new_user({...new_user,address:e.target.value})}  />
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="username"  required  label="Username"  type="text"  fullWidth  variant="standard" value={new_user.username}  onChange={(e)=>set_new_user({...new_user,username:e.target.value})}  />
-        
+      { /*  <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="username"  required  label="Username"  type="text"  fullWidth  variant="standard" value={new_user.username}  onChange={(e)=>set_new_user({...new_user,username:e.target.value})}  />
+                  */}
     
         <label style={{fontSize:19,color:'black'}}>Select Course</label>
               <Select  displayEmpty='true'
@@ -487,6 +485,7 @@ const handleDelete2 = (userId) => {
         {"Powered By Fitness-Training-Studio"}
       </footer>
     </div>
+    </AdminRouteLayout>
     
   )
 }
