@@ -15,35 +15,44 @@ import { Divider } from '@mui/material';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import HomeIcon from '@mui/icons-material/Home';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useNavigate } from 'react-router-dom';
 
 
 export const DrawerList =({sidebarOpen , toggleSidebar})=>{
+
+  const navigate=useNavigate();
+
+  const handle_signout =()=>{
+    localStorage.removeItem("userdata_with_token");
+    console.log('clcik')
+    window.location.href='/';
+ }
+
       return(
-    <Box sx={{ width:180 , display:'flex' , justifyContent:'flex-start' }} role="presentation" onClick={toggleSidebar}>
-      <List sx={{bgcolor: 'background.paper' , }}>
+    <Box sx={{ width:180 ,maxWidth: 360, display:'flex' , justifyContent:'flex-start' }} role="presentation" onClick={toggleSidebar}>
+      <List sx={{bgcolor: 'background.paper' , display:'flex', width:'100%', marginRight:'5px'}}>
          
-          <ListItem disablePadding sx={{display:'flex' , flexDirection:'column'}}>
-            <ListItemButton>
+          <ListItem disablePadding sx={{display:'flex' , flexDirection:'column' , bgcolor:'ButtonFace', width:'100%', alignItems:'flex-start'}}>
+            <ListItemButton onClick={()=>navigate('/signin/admin_login/dashboard/home')}>
               <ListItemIcon>
-                 <HomeIcon/>
+                 <HomeIcon sx={{height:'20px' , width:'20px'}} />
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <ListItemText primary="Home"  primaryTypographyProps={{fontSize: 15}} />
             </ListItemButton>
 
-            <ListItemButton>
+            <ListItemButton onClick={()=>navigate('/signin/admin_login/dashboard/settings')}>
               <ListItemIcon>
-                 <AnalyticsIcon/>
+                 <AnalyticsIcon sx={{height:'20px' , width:'20px'}}/>
               </ListItemIcon>
-              <ListItemText primary="Analytics" />
+              <ListItemText primary="Analytics" primaryTypographyProps={{fontSize: 15}} />
             </ListItemButton>
 
-            <ListItemButton>
+            <ListItemButton onClick={handle_signout}>
               <ListItemIcon>
-                 <ExitToAppIcon/>
+                 <ExitToAppIcon sx={{height:'20px' , width:'20px'}}/>
               </ListItemIcon>
-              <ListItemText primary="Exit" />
+              <ListItemText primary="Exit"   primaryTypographyProps={{fontSize: 15}} />
             </ListItemButton>
-
           </ListItem>
       </List>
  
