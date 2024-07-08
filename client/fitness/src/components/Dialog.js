@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AlertDialog({useriD , name}) 
+export default function AlertDialog({useriD , name , username}) 
 {
   const [open, setOpen] = React.useState(false);
 
@@ -31,7 +31,7 @@ export default function AlertDialog({useriD , name})
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {` Do you want to delete user ${name} ?`}
+          {` Do you want to delete ${name} with username ${username} ?`}
         </DialogTitle>
 
         <DialogContent>

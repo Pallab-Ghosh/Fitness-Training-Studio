@@ -373,7 +373,7 @@ const handleDelete2 = (userId) => {
             <td>{user.date_and_time}</td>
             <td>{user.course}</td>
             <td> 
-                      <AlertDialog  userId={user._id}  name = {`${user.firstname} ${user.lastname}`} />        
+                      <AlertDialog  userId={user._id}  name = {`${user.firstname} ${user.lastname}`} username={user.username} />        
             </td>
           </tr>
         
