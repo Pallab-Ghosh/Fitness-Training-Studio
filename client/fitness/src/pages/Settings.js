@@ -22,6 +22,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AdminRouteLayout from './admin_route_layout'
 import { sidebarcontext } from '../App'
 import DensitySmallOutlinedIcon from '@mui/icons-material/DensitySmallOutlined';
+import AlertDialog from '../components/Dialog'
 
 
 
@@ -44,6 +45,7 @@ const[new_user,set_new_user]=useState({firstname:'',lastname:'',email:'',address
 //For Resposiveness of Button
 const[adding_user,set_adding_user]=useState(false);
 const[deleting_user,set_deleting_user]=useState(false);
+const[deleting_user_id,set_deleting_user_id]=useState('');
 const[submitting_status,set_submitting_status]=useState(false)
 
 const {sidebarOpen , toggleSidebar} = React.useContext(sidebarcontext)
@@ -97,9 +99,14 @@ useEffect(()=>{
 
 const handleDelete = (userId) => {
 
-   console.log(userId)
+  console.log('userId for delete ',userId)
+
+  set_deleting_user_id(userId)
+
+  console.log('deleting_user_id', deleting_user_id)
+
     const updatedUsers = all_data.filter((user) => user._id !== userId);
-    console.log(updatedUsers);
+   // console.log(updatedUsers);
     set_all_data(updatedUsers);
     set_deleting_user(true)
     axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_user/${userId}`)
@@ -109,6 +116,7 @@ const handleDelete = (userId) => {
       {
         //alert('Deleted user successfully')
         set_deleting_user(false)
+        set_deleting_user_id('')
         toast.success('User Deleted Successfully', {
           position: "top-right",
           autoClose: 2000,
@@ -316,20 +324,28 @@ const handleDelete2 = (userId) => {
     <div style={{backgroundColor:'#01234a'}} > 
        <Typography variant='h2' sx={{marginLeft:90,marginBottom:-6,marginTop:'10'}} color='#e6ebed'>Dashboard Analytics</Typography>
 
-       <Button  variant='contained'  size='large' onClick={toggleSidebar} 
-        sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px',borderRadius:'12px'}} 
-        startIcon={<DensitySmallOutlinedIcon/>}
-        >
-            
+       <Button  variant='contained' 
+         size='large'
+         onClick={toggleSidebar} 
+         sx={{ml:3,mb:'10px',mt:'40px',fontSize:'14px',borderRadius:'12px'}} 
+         startIcon={<DensitySmallOutlinedIcon/>}
+        ></Button>
+        
+
+        <Button  variant='contained'
+          color='success' 
+          size='large'  sx={{ml:'1528px',mb:'-108px',fontSize:'14px',borderRadius:'12px'}}
+          onClick={handleClickOpen} 
+          startIcon={<AddIcon/>}
+          >
+                       Add User
           </Button>
-       <Button  variant='contained' color='success' size='large'  sx={{ml:'1528px',mb:'-108px',fontSize:'14px',borderRadius:'12px'}} onClick={handleClickOpen} startIcon={<AddIcon/>}>Add User</Button>
        <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>User Data</Typography>
    
     <div className="user-list">
     <table>
       <thead>
         <tr>
-          <th>UserId</th>
           <th>Firstname</th>
           <th>Lastname</th>
           <th>Username</th>
@@ -347,7 +363,6 @@ const handleDelete2 = (userId) => {
         {all_data.map((user) => (
         
           <tr key={user._id}>
-            <td>{user._id}</td>
             <td>{user.firstname}</td>
             <td>{user.lastname}</td>
             <td>{user.username}</td>
@@ -357,14 +372,15 @@ const handleDelete2 = (userId) => {
             <td>{user.address}</td>
             <td>{user.date_and_time}</td>
             <td>{user.course}</td>
-            <td> <Button onClick={() => handleDelete(user._id)} disabled={deleting_user} fullWidth variant='contained' color='error'  size='large' style={{fontSize:'13px',borderRadius:'12px'}} startIcon={<DeleteIcon />}>
-                  {deleting_user ? 'Deleting...' : 'Delete'}    
-                 </Button> </td>
+            <td> 
+                      <AlertDialog  userId={user._id}  name = {`${user.firstname} ${user.lastname}`} />        
+            </td>
           </tr>
         
         ))}
       </tbody>
     </table>
+                  
     </div>
 
     <Box sx={{mt:'140px'}}>
@@ -431,8 +447,6 @@ const handleDelete2 = (userId) => {
                   ))}
                 </tbody>
               </table>
-
-
 
     </div>
     </Box>
