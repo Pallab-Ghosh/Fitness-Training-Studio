@@ -24,8 +24,36 @@ import { sidebarcontext } from '../App'
 import DensitySmallOutlinedIcon from '@mui/icons-material/DensitySmallOutlined';
 import AlertDialog from '../components/Dialog'
 import PaperCard from '../components/Paper'
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 
 
+const renderStatus = (status) => {
+
+  switch (status) {
+    case 'Resolved':
+      return (
+        <div style={{ color: 'green' , borderRadius:'20px', backgroundColor:'#025c24', color:'#58c482',justifyContent:'center' , height:'34px',display:'flex',alignItems:'center',gap:'14px' }}>
+          <DoneIcon /> {status}
+        </div>
+      );
+
+    case 'Unresolved':
+      return (
+        <div style={{ color: '#ed872d', backgroundColor:'brown', borderRadius:'20px' ,justifyContent:'center' , height:'34px',display:'flex',alignItems:'center',gap:'14px'}}>
+          <CancelIcon /> {status}
+        </div>
+      );
+
+    case 'Pending':
+      return (
+        <div style={{ color: '#8ecbfa' , backgroundColor:'#034e87', borderRadius:'20px' , justifyContent:'center' , height:'34px',display:'flex',alignItems:'center',gap:'14px' }}>
+          <PendingActionsIcon /> {status}
+        </div>
+      );
+    default:
+      return <td>{status}</td>;
+  }
+};
 
 const Settings = () => {
 
@@ -398,23 +426,12 @@ const handleDelete2 = (userId) => {
                        <td style={{overflow:'hidden', textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:'200px'}}> 
                          {user.message}
                         </td>
-                      {
-                        user.status=='Resolved'?
-                           (
-                            <td style={{color:'green'}}> 
-                                <DoneIcon/>{user.status}
-                            </td>
-                           ):
 
-                            ( 
-                            <td style={{color:'red'}}>
-                                <CloseIcon/>{user.status}
-                            </td>
-                            )
-                            } 
+                        <td>{renderStatus(user.status)}</td>
+
                       <td>{user.date_of_query}</td>  <td>{user.date_of_query_closed}</td>
                      
-                      <td style={{backgroundColor:'#19293b'}}>
+                      <td style={{backgroundColor:'#dde2eb'}}>
                            <FormControl  sx={{ width: 160,height:60,textAlign:'center' }}>
                     
                                 <Select
@@ -559,3 +576,12 @@ const handleDelete2 = (userId) => {
 }
 
 export default Settings
+
+
+
+
+
+ 
+      
+  
+ 
