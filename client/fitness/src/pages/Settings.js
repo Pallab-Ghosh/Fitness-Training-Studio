@@ -38,10 +38,6 @@ const[user_account_details,set_user_details]=useState({})
 const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
 const[new_user,set_new_user]=useState({firstname:'',lastname:'',email:'',address:'',mobile:'',course:'',age:'',username:'',password:''})
 
-
-
-
-
 //For Resposiveness of Button
 const[adding_user,set_adding_user]=useState(false);
 const[deleting_user,set_deleting_user]=useState(false);
@@ -214,33 +210,33 @@ const handle_form_submission=async(e)=>{
    if(new_updated_user.username!='')
    { 
      set_adding_user(true)
-    axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/add_new_user`,new_updated_user)
-    .then((resolve)=>{
+     axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/add_new_user`,new_updated_user)
+     .then((resolve)=>{
       console.log(resolve)
       if(resolve.data.id==1)
       {
 
-        set_adding_user(false)
-       axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
-       .then((res)=>{
-         
-           console.log(res)
-           set_all_data(res.data)
-       })
-       //  handleClose()
-          setOpen(false)
-         //alert('Signup successfully!!!')
-         toast.success('User Registration successfully!!!', {
-           position: "top-right",
-           autoClose: 2000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-           theme: "colored",
-           style:{color:'black'}
-           });
+                set_adding_user(false)
+                axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
+                  .then((res)=>{
+                    
+                      console.log(res)
+                      set_all_data(res.data)
+                  })
+              //  handleClose()
+                  setOpen(false)
+                //alert('Signup successfully!!!')
+                toast.success('User Registration successfully!!!', {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                  style:{color:'black'}
+                  });
        } 
 
        else if(resolve.data.id==3)
@@ -338,7 +334,7 @@ const handleDelete2 = (userId) => {
           onClick={handleClickOpen} 
           startIcon={<AddIcon/>}
           >
-                       Add User
+              Add User
           </Button>
        <Typography variant='h2' sx={{marginLeft:90}} color='#e6ebed'>User Data</Typography>
    
@@ -373,7 +369,12 @@ const handleDelete2 = (userId) => {
             <td>{user.date_and_time}</td>
             <td>{user.course}</td>
             <td> 
-                      <AlertDialog  userId={user._id}  name = {`${user.firstname} ${user.lastname}`} username={user.username} />        
+                <AlertDialog  
+                    userId={user._id}
+                    name = {`${user.firstname} ${user.lastname}`}
+                    username={user.username}
+                    handleDelete={handleDelete}
+                    />        
             </td>
           </tr>
         
@@ -438,10 +439,20 @@ const handleDelete2 = (userId) => {
                     </FormControl>
                       </td>
 
-                     <td><Button onClick={(e)=>handle_option(user._id,e)} disabled={submitting_status} fullWidth color='success' variant='contained'   size='large' style={{fontSize:'13px',borderRadius:'12px'}}>
+                     <td>
+                           <Button onClick={(e)=>handle_option(user._id,e)} disabled={submitting_status} fullWidth color='success' variant='contained'   size='large' style={{fontSize:'13px',borderRadius:'12px'}}>
                            {submitting_status ? 'Submitting' : 'Submit'}     
-                          </Button></td> 
-                     <td> <Button  onClick={() => handleDelete2(user._id)} fullWidth color='error'  variant='contained'  size='large' style={{fontSize:'13px',borderRadius:'12px'}} startIcon={<DeleteIcon />} >Delete</Button> </td>
+                          </Button>
+                      </td> 
+                     <td>
+                        <Button 
+                           onClick={() => handleDelete2(user._id)}
+                           fullWidth color='error'  variant='contained'  size='large' style={{fontSize:'13px',borderRadius:'12px'}} 
+                           startIcon={<DeleteIcon />}
+                           >
+                             Delete
+                          </Button> 
+                      </td>
                     </tr>
                  
                   ))}
@@ -456,26 +467,68 @@ const handleDelete2 = (userId) => {
     <DialogTitle sx={{fontSize:'20px',backgroundColor:'#3e82f7',color:'#e6e7f0'}}>New User Registration</DialogTitle>
     <DialogContent sx={{backgroundColor:'#dee2fa'}}>
     
-    
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="firstname"  label="Firstname"  type="text"  fullWidth  variant="standard" value={new_user.firstname} onChange={(e)=>set_new_user({...new_user,firstname:e.target.value})} />
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="lastname"   label="Lastname"   type="text"  fullWidth  variant="standard"  value={new_user.lastname}   onChange={(e)=>set_new_user({...new_user,lastname:e.target.value})} />
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="age"              type="date"  fullWidth  variant="standard"  value={new_user.age}   onChange={(e)=>set_new_user({...new_user,age:e.target.value})} />
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="email"  required    label="Email Address"  type="email"  fullWidth  variant="standard"  value={new_user.email}  onChange={(e)=>set_new_user({...new_user,email:e.target.value})}  />
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="mobile"     label="Mobile"  type="number"  fullWidth  variant="standard" value={new_user.mobile}  onChange={(e)=>set_new_user({...new_user,mobile:e.target.value})}  />
-        <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="address"    label="Address"  type="text"  fullWidth  variant="standard" value={new_user.address}  onChange={(e)=>set_new_user({...new_user,address:e.target.value})}  />
+      <form onSubmit={handle_form_submission}>
+        <TextField 
+          inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="firstname"  
+          label="Firstname" 
+          type="text"  fullWidth  variant="standard" 
+          value={new_user.firstname} 
+          onChange={(e)=>set_new_user({...new_user,firstname:e.target.value})} 
+          />
+
+        <TextField 
+          inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="lastname" 
+          label="Lastname" 
+          type="text"  fullWidth  variant="standard" 
+          value={new_user.lastname} 
+          onChange={(e)=>set_new_user({...new_user,lastname:e.target.value})} 
+          />
+
+        <TextField  
+          inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="age"
+          type="date"  fullWidth  variant="standard" 
+          value={new_user.age}
+          onChange={(e)=>set_new_user({...new_user,age:e.target.value})} 
+          />
+          
+        <TextField 
+          inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="email"
+          required    label="Email Address"  type="email" 
+          fullWidth  variant="standard"  
+          value={new_user.email} 
+          onChange={(e)=>set_new_user({...new_user,email:e.target.value})}
+          />
+
+        <TextField  
+           inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="mobile" 
+           label="Mobile"  type="number"  fullWidth  variant="standard" 
+           value={new_user.mobile} 
+           onChange={(e)=>set_new_user({...new_user,mobile:e.target.value})}  
+           />
+
+        <TextField  
+          inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="address"
+            label="Address"  type="text"  fullWidth  variant="standard" 
+            value={new_user.address}
+            onChange={(e)=>set_new_user({...new_user,address:e.target.value})} 
+          />
+          
       { /*  <TextField   inputProps={{style: {fontSize: 16}}} size='medium'  autoFocus  margin="dense"  id="username"  required  label="Username"  type="text"  fullWidth  variant="standard" value={new_user.username}  onChange={(e)=>set_new_user({...new_user,username:e.target.value})}  />
                   */}
     
         <label style={{fontSize:19,color:'black'}}>Select Course</label>
-              <Select  displayEmpty='true'
+              <Select 
+                   displayEmpty='true'
                    labelId="demo-simple-select-label" 
                    id="demo-simple-select" 
                    autoWidth 
                    value={new_user.course}
                    label="Select Issue status"
                    onChange={handle_course_value} 
-                   style={{backgroundColor:'#dee2fa',color:'black',fontSize:'14px'}}  >
-                   <MenuItem value=""> <em style={{fontSize:'17px',fontWeight:'bolder',textAlign:'center'}}>None </em></MenuItem>
+                   style={{backgroundColor:'#dee2fa',color:'black',fontSize:'14px'}} 
+                  >
+
+          <MenuItem value=""> <em style={{fontSize:'17px',fontWeight:'bolder',textAlign:'center'}}> None </em></MenuItem>
           <MenuItem value={'Meditation'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Meditation</MenuItem>
           <MenuItem value={'Yoga'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Yoga</MenuItem>
           <MenuItem value={'Zumba'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Zumba</MenuItem>
@@ -483,12 +536,22 @@ const handleDelete2 = (userId) => {
           <MenuItem value={'Pro'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Pro</MenuItem>
           
         </Select>
+        </form>
      
     </DialogContent>
 
     <DialogActions sx={{backgroundColor:'#dee2fa'}}>
-      <Button size='large' onClick={handleClose} variant='contained' color='error' startIcon={<CancelIcon/>} sx={{borderRadius:'12px',fontSize:'15px'}} >Cancel</Button>
-      <Button size='large'   onClick={handle_form_submission} variant='contained' color='success' sx={{borderRadius:'12px',fontSize:'15px'}}>
+        <Button 
+           size='large' color='error' startIcon={<CancelIcon/>} sx={{borderRadius:'12px',fontSize:'15px'}}
+           onClick={handleClose}
+           variant='contained' 
+        >
+           Cancel
+          </Button>
+        
+         <Button size='large' variant='contained' color='success' sx={{borderRadius:'12px',fontSize:'15px'}}
+             type="submit"
+         >
         {adding_user ? 'Please Wait...' : 'Submit'}  
       </Button>
     </DialogActions>
