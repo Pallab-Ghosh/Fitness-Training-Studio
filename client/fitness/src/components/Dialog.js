@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
 
-export default function AlertDialog({userId , name , username , handleDelete}) 
+export default function AlertDialog({userId , name , username , func}) 
 {
   const [open, setOpen] = React.useState(false);
 
@@ -42,13 +42,16 @@ export default function AlertDialog({userId , name , username , handleDelete})
 
         <DialogContent>
           <DialogContentText id="alert-dialog-description" sx={{fontSize:'20px'}}>
-           <p>Do you want to delete {name} username <span style={{fontWeight:'bolder'}}>{username}</span> from portal ?`</p>
+          {username &&  
+             <p>Do you want to delete {name} username <span style={{fontWeight:'bolder'}}>{username}</span> from portal ?`</p> 
+          }
+          {!username && <p>Do you want to delete {name} </p>}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>
 
-          <Button onClick={()=>handleDelete(userId)} autoFocus>
+          <Button onClick={()=>func(userId)} autoFocus>
             Agree
           </Button>
 
