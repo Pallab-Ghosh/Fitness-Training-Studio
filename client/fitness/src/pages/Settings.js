@@ -61,6 +61,7 @@ const Settings = () => {
 
 const [all_data,set_all_data]=useState([])
 const[all_visitor_data,set_visitor_data]=useState([])
+
 const [option_value,set_option_value]=useState('')
 const navigate=useNavigate()
 const[user_account_details,set_user_details]=useState({})
@@ -75,6 +76,12 @@ const[submitting_status,set_submitting_status]=useState(false)
 
 const {sidebarOpen , toggleSidebar} = React.useContext(sidebarcontext)
 
+//for cards 
+const[all_subscriber , set_all_subscriber]=useState(0);
+const[all_visitor , set_all_visitor]= useState(0);
+const[resolved_visitor , set_resolved_visitor]=useState(0);
+const[pending_visitor , set_pending_visitor]=useState(0);
+
 
 //dialog box for add new user
 const handleClickOpen = () => {
@@ -84,7 +91,6 @@ const handleClickOpen = () => {
 const handleClose = () => {
   setOpen(false);
 };
-
 
 
 useEffect(()=>{
@@ -109,14 +115,16 @@ useEffect(()=>{
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
     .then((res)=>{
       
-        console.log(res)
+        //console.log('data for subscriber',res.data)
         set_all_data(res.data)
+        set_all_subscriber(res.data.length);
     })
 
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
     .then((res)=>{
       console.log(res)
       set_visitor_data(res.data)
+      set_all_visitor(res.data.length)
   })
 
 },[])
@@ -124,16 +132,14 @@ useEffect(()=>{
 
 const handleDelete = (userId) => {
 
-  console.log('userId for delete ',userId)
-
-  set_deleting_user_id(userId)
-
-  console.log('deleting_user_id', deleting_user_id)
-
+    set_deleting_user_id(userId)
     const updatedUsers = all_data.filter((user) => user._id !== userId);
-   // console.log(updatedUsers);
+
+    set_all_subscriber(updatedUsers.length);
+
     set_all_data(updatedUsers);
     set_deleting_user(true)
+
     axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_user/${userId}`)
     .then((res)=>{
       console.log(res);
@@ -158,19 +164,19 @@ const handleDelete = (userId) => {
     })
   };
 
- ;
+ 
 
 const handle_option=(id,e)=>{
+
   e.preventDefault()
-  console.log(e.target.value)
-  const id_with_option_value={
-    _id:id,
-    value:option_value
-  }
-set_submitting_status(true)
+  //console.log(e.target.value)
+
+  const id_with_option_value={ _id:id, value:option_value }
+  set_submitting_status(true)
+
   axios.patch(`${process.env.REACT_APP_EXPRESS_URL}/user/update_status`,id_with_option_value)
   .then((res)=>{
-    console.log(res)
+   // console.log(res)
     if(res.data.id==1)
     {
               //alert('Status update successfully')
@@ -191,11 +197,8 @@ set_submitting_status(true)
                 theme: "colored",
                 style:{color:'black'}
                 });
-              axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
-              .then((res)=>{
-                console.log(res)
-                set_visitor_data(res.data)
-                })
+
+            
     }
   })
 }
@@ -355,7 +358,7 @@ const handleDelete2 = (userId) => {
        </div>
 
                <div style={{display:'flex',flexDirection:'column'}}>
-                       <PaperCard/>
+                       <PaperCard all_subscriber ={all_subscriber} all_visitor={all_visitor} />
                        <div style={{display:'flex', justifyContent:'flex-end', marginRight:'16px'}}>
                             <Button 
                               variant='contained'
