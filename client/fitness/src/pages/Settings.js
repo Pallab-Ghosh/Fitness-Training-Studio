@@ -62,7 +62,11 @@ const Settings = () => {
 const [all_data,set_all_data]=useState([])
 const[all_visitor_data,set_visitor_data]=useState([])
 
-const [option_value,set_option_value]=useState('')
+//for handling status of visitor
+const [option_value,set_option_value]=useState({});
+const[submitting_stat,set_submitting_stat]=useState({})
+
+
 const navigate=useNavigate()
 const[user_account_details,set_user_details]=useState({})
 const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
@@ -72,7 +76,7 @@ const[new_user,set_new_user]=useState({firstname:'',lastname:'',email:'',address
 const[adding_user,set_adding_user]=useState(false);
 const[deleting_user,set_deleting_user]=useState(false);
 const[deleting_user_id,set_deleting_user_id]=useState('');
-const[submitting_status,set_submitting_status]=useState(false)
+
 
 const {sidebarOpen , toggleSidebar} = React.useContext(sidebarcontext)
 
@@ -101,32 +105,40 @@ useEffect(()=>{
 },[])
 
 
-
-const handleChange = (event) => {
-  set_option_value(event.target.value);
+const handleChange = (user_id , event) => {
+  set_option_value({...option_value , [user_id] : event.target.value});
 }
 
 const handle_course_value=(event)=>{
   set_new_user({...new_user,course:event.target.value})
 }
 
-useEffect(()=>{
-  console.log("1")
-    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
-    .then((res)=>{
-      
-        //console.log('data for subscriber',res.data)
-        set_all_data(res.data)
-        set_all_subscriber(res.data.length);
-    })
+const status_option_manage =(data)=>{
+  const get_pending_users = data.filter((data)=>data.status==='Pending')
+  set_pending_visitor(get_pending_users.length);
+}
 
-    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
-    .then((res)=>{
-      console.log(res)
-      set_visitor_data(res.data)
-      set_all_visitor(res.data.length)
+
+const subscriber_data_fetch =async()=>{
+  axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
+  .then((res)=>{
+      set_all_data(res.data)
+      set_all_subscriber(res.data.length);
   })
+}
 
+const visitor_data_fetch = async()=>{
+  axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
+  .then((res)=>{
+    set_visitor_data(res.data)
+    set_all_visitor(res.data.length)
+    status_option_manage(res.data)
+  })
+}
+
+useEffect(()=>{
+  subscriber_data_fetch();
+  visitor_data_fetch();
 },[])
 
 
@@ -168,39 +180,35 @@ const handleDelete = (userId) => {
 
 const handle_option=(id,e)=>{
 
-  e.preventDefault()
-  //console.log(e.target.value)
-
-  const id_with_option_value={ _id:id, value:option_value }
-  set_submitting_status(true)
-
-  axios.patch(`${process.env.REACT_APP_EXPRESS_URL}/user/update_status`,id_with_option_value)
-  .then((res)=>{
-   // console.log(res)
-    if(res.data.id==1)
+  e.preventDefault();
+  set_submitting_stat({...submitting_stat , [id] : true});
+   
+ 
+    if(id)
     {
-              //alert('Status update successfully')
-              axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/visitor_data`)
-              .then((res)=>{
-                console.log(res)
-                set_visitor_data(res.data)
-            })
-            set_submitting_status(false)
-              toast.success('Status Update Successfully', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
+     
+      const id_with_option_value={ _id:id, value:option_value[id] }
+     
+    
+      axios.patch(`${process.env.REACT_APP_EXPRESS_URL}/user/update_status`,id_with_option_value)
+      .then((res)=>{
+        if(res.data.id==1)
+        {
+              visitor_data_fetch();
+              toast.success('Status Update Successfully', {position: "top-right",  autoClose: 2000,  hideProgressBar: false,  closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",
-                style:{color:'black'}
-                });
-
-            
+                style:{color:'black'}});
+        }
+      })
+     
     }
-  })
+
+    setTimeout(() => {
+      set_submitting_stat({...submitting_stat , [id] : false});
+    }, 2000);
 }
 
 
@@ -241,6 +249,7 @@ const handle_form_submission=async(e)=>{
                 axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/all_users`)
                   .then((res)=>{
                       set_all_data(res.data)
+                      set_all_subscriber(res.data.length)
                   })
               
                   setOpen(false)
@@ -358,7 +367,9 @@ const handleDelete2 = (userId) => {
        </div>
 
                <div style={{display:'flex',flexDirection:'column'}}>
-                       <PaperCard all_subscriber ={all_subscriber} all_visitor={all_visitor} />
+
+                       <PaperCard all_subscriber ={all_subscriber} all_visitor={all_visitor} pending_visitor={pending_visitor} />
+
                        <div style={{display:'flex', justifyContent:'flex-end', marginRight:'16px'}}>
                             <Button 
                               variant='contained'
@@ -423,16 +434,13 @@ const handleDelete2 = (userId) => {
                 <tbody>
                   {all_visitor_data.map((user) => (
                     <tr key={user._id}>
-                       <td>{user.name}</td> 
-                       <td>{user.email}</td> 
-                       <td>{user.mobile}</td> 
-                       <td style={{overflow:'hidden', textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:'200px'}}> 
-                         {user.message}
-                        </td>
-
+                        <td>{user.name}</td> 
+                        <td>{user.email}</td> 
+                        <td>{user.mobile}</td> 
+                        <td style={{overflow:'hidden', textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:'200px'}}>{user.message}</td>
                         <td>{renderStatus(user.status)}</td>
-
-                      <td>{user.date_of_query}</td>  <td>{user.date_of_query_closed}</td>
+                        <td>{user.date_of_query}</td> 
+                        <td>{user.date_of_query_closed}</td>
                      
                       <td style={{backgroundColor:'#dde2eb'}}>
                            <FormControl  sx={{ width: 160,height:60,textAlign:'center' }}>
@@ -442,9 +450,9 @@ const handleDelete2 = (userId) => {
                                   labelId="demo-simple-select-label"
                                   id="demo-simple-select"
                                   autoWidth
-                                  value={option_value}
+                                  value={option_value[user._id] || ''}
                                   label="Select Issue status"
-                                  onChange={handleChange}
+                                  onChange={(e)=>handleChange(user._id,e)}
                                   style={{backgroundColor:'#3956cc',color:'white',fontSize:'14px',height:40,marginTop:8}}
                                 >
                                   <MenuItem value=""> <em style={{fontSize:'17px',fontWeight:'bolder',textAlign:'center'}}>None </em></MenuItem>
@@ -456,8 +464,14 @@ const handleDelete2 = (userId) => {
                       </td>
 
                      <td>
-                           <Button onClick={(e)=>handle_option(user._id,e)} disabled={submitting_status} fullWidth color='success' variant='contained'   size='large' style={{fontSize:'13px',borderRadius:'12px'}}>
-                           {submitting_status ? 'Submitting' : 'Submit'}     
+                           <Button 
+                             onClick={(e)=>handle_option(user._id,e)} 
+                             disabled={submitting_stat[user._id]}
+                             fullWidth color='success' variant='contained' size='large' 
+                             style={{fontSize:'13px',borderRadius:'12px'}}
+                             >
+
+                           {submitting_stat[user._id] ? 'Submitting...' : 'Submit'}     
                           </Button>
                       </td> 
 
