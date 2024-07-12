@@ -98,11 +98,13 @@ const handleClose = () => {
 
 
 useEffect(()=>{
+  
   axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
   .then((res)=>{
     set_user_details(res.data)
   })
-},[])
+  status_option_manage(all_visitor_data)
+},[all_visitor_data])
 
 
 const handleChange = (user_id , event) => {
@@ -115,7 +117,10 @@ const handle_course_value=(event)=>{
 
 const status_option_manage =(data)=>{
   const get_pending_users = data.filter((data)=>data.status==='Pending')
+  const get_resolved_users = data.filter((data)=>data.status==='Resolved')
   set_pending_visitor(get_pending_users.length);
+  set_resolved_visitor(get_resolved_users.length)
+
 }
 
 
@@ -137,6 +142,7 @@ const visitor_data_fetch = async()=>{
 }
 
 useEffect(()=>{
+   
   subscriber_data_fetch();
   visitor_data_fetch();
 },[])
@@ -196,12 +202,12 @@ const handle_option=(id,e)=>{
         {
           set_visitor_data(prevState =>prevState.map((visitor) => visitor._id === id ?{...visitor,status: option_value[id] } : visitor));
           
-              toast.success('Status Update Successfully', {position: "top-right",  autoClose: 2000,  hideProgressBar: false,  closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-                style:{color:'black'}});
+          toast.success('Status Update Successfully', {position: "top-right",  autoClose: 2000,  hideProgressBar: false,  closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            style:{color:'black'}});
         }
       })
      
@@ -345,7 +351,7 @@ const handleDelete2 = (userId) => {
 
   return (
     <AdminRouteLayout>
-    <div style={{backgroundColor:'#dcdee0'}} > 
+    <div style={{backgroundColor:'#dcdee0' , width:'100vw'}} > 
 
       <div style={{display:'flex'}}>
        
@@ -369,7 +375,7 @@ const handleDelete2 = (userId) => {
 
                <div style={{display:'flex',flexDirection:'column'}}>
 
-                       <PaperCard all_subscriber ={all_subscriber} all_visitor={all_visitor} pending_visitor={pending_visitor} />
+                       <PaperCard all_subscriber ={all_subscriber} all_visitor={all_visitor} pending_visitor={pending_visitor} resolved_visitor={resolved_visitor} />
 
                        <div style={{display:'flex', justifyContent:'flex-end', marginRight:'16px'}}>
                             <Button 
@@ -456,7 +462,7 @@ const handleDelete2 = (userId) => {
                                   onChange={(e)=>handleChange(user._id,e)}
                                   style={{backgroundColor:'#3956cc',color:'white',fontSize:'14px',height:40,marginTop:8}}
                                 >
-                                  <MenuItem value=""> <em style={{fontSize:'17px',fontWeight:'bolder',textAlign:'center'}}>None </em></MenuItem>
+                                    <MenuItem value=""> <em style={{fontSize:'17px',fontWeight:'bolder',textAlign:'center'}}>None</em></MenuItem>
                                     <MenuItem value={'Resolved'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Resolved</MenuItem>
                                     <MenuItem value={'Unresolved'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Unresolved</MenuItem>
                                     <MenuItem value={'Pending'} style={{width:180,fontSize:'14px',color:'black',fontWeight:'bolder'}}>Pending</MenuItem>
