@@ -194,7 +194,8 @@ const handle_option=(id,e)=>{
       .then((res)=>{
         if(res.data.id==1)
         {
-              visitor_data_fetch();
+          set_visitor_data(prevState =>prevState.map((visitor) => visitor._id === id ?{...visitor,status: option_value[id] } : visitor));
+          
               toast.success('Status Update Successfully', {position: "top-right",  autoClose: 2000,  hideProgressBar: false,  closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
