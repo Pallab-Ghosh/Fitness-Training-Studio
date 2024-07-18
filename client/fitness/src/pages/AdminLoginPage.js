@@ -149,6 +149,7 @@ const handle_Otp=async(e)=>{
                 const{token}={...fetch_data.data}
                 console.log("token from api",token)
                 localStorage.setItem("userdata_with_token",JSON.stringify(token))
+                localStorage.setItem("email",JSON.stringify(admin_data.email))
                 set_token(JSON.stringify(token))
                 set_validating_otp(false)
                 toast.success('Welcome to Admin Dashboard', {

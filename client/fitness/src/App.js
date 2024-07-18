@@ -32,7 +32,7 @@ function App() {
   return (
    <div>
     <sidebarcontext.Provider value={{sidebarOpen :sidebarOpen , toggleSidebar:toggleSidebar}}>
-    <token_data.Provider value={{user_token:user_token,set_token:set_token}}>
+    <token_data.Provider value={{user_token:user_token,set_token:set_token , email:''}}>
     <programme_data.Provider value={{programme_detail:programme_detail,set_programme:set_programme}}>
        <div className="App">
          <Allroutes/>
