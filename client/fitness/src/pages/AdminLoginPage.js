@@ -13,7 +13,7 @@ const AdminLoginPage = () => {
   const [admin_data, set_admin_data] = useState({username:'',password:'',email:'',otp:''});
   const navigate = useNavigate()
   const[error,seterror]=useState(false)
-  const{user_token,set_token}=useContext(token_data)
+  const{user_token,set_token , email , set_email}=useContext(token_data)
   const[sending_otp,set_sending_otp]=useState(false);
   const[validating_otp,set_validating_otp]=useState(false);
 
@@ -150,6 +150,7 @@ const handle_Otp=async(e)=>{
                 console.log("token from api",token)
                 localStorage.setItem("userdata_with_token",JSON.stringify(token))
                 localStorage.setItem("email",JSON.stringify(admin_data.email))
+                set_email(admin_data.email)
                 set_token(JSON.stringify(token))
                 set_validating_otp(false)
                 toast.success('Welcome to Admin Dashboard', {
