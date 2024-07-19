@@ -31,7 +31,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { programme_data, token_data } from '../../App';
-import fitness_logo from '../icon/fitness-training-studio-logo.png'
+
 import '../../landing_page/LandingPage.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -200,24 +200,26 @@ export const Programme_page = () => {
   const[user_account_details,set_user_details]=useState({})
   const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
   const navigate=useNavigate()
-  const {user_token,set_token}=useContext(token_data)
+  const {user_token,set_token , user_email}=useContext(token_data)
 
   const{programme_detail,set_programme}=useContext(programme_data)
 
   useEffect(()=>{
+
     const get_details=async()=>{
-      const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
-      //console.log("resolve_data.data from get",resolve_data.data)
+      const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details/${user_email}`)
+      console.log("resolve_data.data from get",resolve_data.data)
       set_user_details(resolve_data.data)
      // console.log("user_account_details",user_account_details)
     }
+
     get_details();
    },[])
    
   useEffect(()=>{
 
    var data=JSON.parse(localStorage.getItem("userdata_with_token"));
-   var{token}=data;
+   var {token}=data;
    set_token(token);
  },[])
 
@@ -252,17 +254,10 @@ export const Programme_page = () => {
    
     e.preventDefault();
     const newdata={
-      id_of_package:id,
-      title_of_package:title,
-      price_of_package:price,
-      email,
-      firstname,
-      lastname
-
-    }
+      id_of_package:id,  title_of_package:title,  price_of_package:price,  email,  firstname,  lastname }
     
     
-    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details`)
+    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details/${user_email}`)
     .then((res)=>{
      // console.log("res of coursedata",res)
       if(res.data.id==2)
@@ -423,12 +418,16 @@ export const Programme_page = () => {
                   ))}
                 </ul>
               </CardContent>
-              <CardActions>
-               
-                <Button fullWidth sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' onClick={(e)=>handle_click2(e,tier.title,tier.id,tier.price)} color='error' size='large'>
-               <ShoppingCartIcon /> {tier.buttonText2}
-              </Button>
 
+              <CardActions>
+                  <Button fullWidth sx={{fontSize:'14px',borderRadius:'12px'}}
+                   variant='contained'
+                   onClick={(e)=>handle_click2(e,tier.title,tier.id,tier.price)} 
+                   color='error' size='large'
+                   >
+                  <ShoppingCartIcon /> 
+                      {tier.buttonText2}
+                </Button>
               </CardActions>
             </Card>
 
