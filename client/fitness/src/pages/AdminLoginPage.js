@@ -33,6 +33,7 @@ const AdminLoginPage = () => {
         if(resolve.data.id==1)
         {
           localStorage.setItem("adminOtp" , resolve.data.admin_otp)
+            set_email(admin_data.email)
         //alert('Otp sent successfully...')
         set_sending_otp(false)
         toast.success('Otp Sent to Registered Email!!!', {
@@ -150,7 +151,7 @@ const handle_Otp=async(e)=>{
                 console.log("token from api",token)
                 localStorage.setItem("userdata_with_token",JSON.stringify(token))
                 localStorage.setItem("email",JSON.stringify(admin_data.email))
-                set_email(admin_data.email)
+             
                 set_token(JSON.stringify(token))
                 set_validating_otp(false)
                 toast.success('Welcome to Admin Dashboard', {
