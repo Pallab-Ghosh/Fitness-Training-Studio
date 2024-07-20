@@ -52,8 +52,6 @@ function Copyright(props) {
 }
   
 
-
-
 const tiers = [
   {
     title: 'Meditation',
@@ -189,17 +187,14 @@ const tiers = [
   
 
  
+const defaultTheme = createTheme();
 
-
-
-
-  const defaultTheme = createTheme();
 
 export const Programme_page = () => {
 
   const[user_account_details,set_user_details]=useState({})
-  const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
   const navigate=useNavigate()
+
   const {user_token,set_token , user_email}=useContext(token_data)
 
   const{programme_detail,set_programme}=useContext(programme_data)
@@ -216,6 +211,8 @@ export const Programme_page = () => {
     get_details();
    },[])
    
+
+
   useEffect(()=>{
 
    var data=JSON.parse(localStorage.getItem("userdata_with_token"));
@@ -225,6 +222,7 @@ export const Programme_page = () => {
 
 
    const stripe_payment=(newdata)=>{
+    console.log('user_token' , user_token)
     axios.post(`${process.env.REACT_APP_EXPRESS_URL}/stripe_payment_page/create-checkout-session`,
     { 
     newdata,
@@ -253,9 +251,8 @@ export const Programme_page = () => {
   const handle_click2=(e,title,id,price)=>{
    
     e.preventDefault();
-    const newdata={
-      id_of_package:id,  title_of_package:title,  price_of_package:price,  email,  firstname,  lastname }
-    
+    const newdata={id_of_package:id,  title_of_package:title,  price_of_package:price,  email:user_email, firstname:user_account_details.firstname , lastname:user_account_details.lastname }
+    console.log('newdata',newdata)
     
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details/${user_email}`)
     .then((res)=>{
