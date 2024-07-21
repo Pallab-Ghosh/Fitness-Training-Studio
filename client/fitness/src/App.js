@@ -21,7 +21,7 @@ export const programme_data =   React.createContext()
 
 function App() {
  const[user_token,set_token]=useState('')
- const[email , set_email]= useState('');
+ const[user_email , set_email]= useState('');
  const[programme_detail,set_programme]=useState({id_of_package:'',title_of_package:'',price_of_package:''})
 
  const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -33,7 +33,7 @@ function App() {
   return (
    <div>
     <sidebarcontext.Provider value={{sidebarOpen :sidebarOpen , toggleSidebar:toggleSidebar}}>
-    <token_data.Provider value={{user_token:user_token,set_token:set_token , user_email:email , set_email:set_email}}>
+    <token_data.Provider value={{user_token:user_token,set_token:set_token , user_email:user_email , set_email:set_email}}>
     <programme_data.Provider value={{programme_detail:programme_detail,set_programme:set_programme}}>
        <div className="App">
          <Allroutes/>
