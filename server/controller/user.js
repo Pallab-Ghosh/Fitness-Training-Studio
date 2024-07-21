@@ -20,7 +20,9 @@ var find_user_using_email,otp_no;
 
 //get details from account_section_page
 exports.get_details=async(req,res)=>{
-  if(find_user_using_email)
+  const email_id = req.body;
+  const find_user = await user_Schema.findOne({email:req.body.email_id})
+  if(find_user)
   {
     console.log("find_user_using_email from get call",find_user_using_email)
     return res.json(find_user_using_email)
@@ -69,7 +71,6 @@ console.log("req body when signin",req.body)
        }
   }
 }
-
 
 
 
@@ -157,12 +158,6 @@ exports.forget_password=async(req,res)=>{
 
 
 
-
-
-
-
-
-
 //login and verify email from admin signin page
 
   exports.loginEmailWithEmail=async(req,res) => {
@@ -194,6 +189,7 @@ exports.forget_password=async(req,res)=>{
  
  }
  
+
  exports.verify_email_With_Email=async(req,res) => {
  
    if(req?.body=='')
@@ -204,13 +200,10 @@ exports.forget_password=async(req,res)=>{
    else{
  
      const user_otp=req.body.otp;
-     console.log("user_otp ",user_otp)
-    
-
      if(user_otp!='')
      {
-       console.log("if from verify admin verify_email_With_Email ")
-       const token_id=jwt.sign({email:find_user_using_email.email},process.env.Jwt_secret_key)
+      // console.log("if from verify admin verify_email_With_Email ")
+       const token_id=jwt.sign({email:req.body.email},process.env.Jwt_secret_key)
        return res.json( {find_user_using_email:find_user_using_email,token:token_id})
      }
      
@@ -224,11 +217,6 @@ exports.forget_password=async(req,res)=>{
      
  }
  
-
-
-
-
-
 
 
 //reset password from accounts_detals section page
@@ -274,7 +262,7 @@ exports.forget_password=async(req,res)=>{
     }
   
 
-    //delete account
+    //delete account --- to be changed
 var account_for_delete
     exports.email_for_delete=async(req,res) => {
            console.log(req.body)
@@ -337,13 +325,18 @@ var account_for_delete
 
 exports.get_course_data=async(req,res)=>{
 
-   if(find_user_using_email?.course)
+   const user_email=req.body;
+   const find_user = user_Schema.findOne({email:user_email});
+
+   if(find_user?.course)
    {
-    console.log("find_user_using_email.course in if",find_user_using_email.course);
+    console.log(" get_course_data if",find_user);
     return res.json({id:1})
    }
+   
    else
    {
+    console.log("get_course_data else");
     return  res.json({id:2})
    }
   
@@ -362,7 +355,7 @@ const date_creation_of_course=()=>{
 
 
   exports.save_course_data=async(req,res)=>{
-      console.log(req.body)
+      console.log('save_course_data',req.body)
       const{id_of_package,title_of_package,price_of_package,firstname,lastname,email}=req.body
       if(id_of_package!=null && title_of_package!=null && price_of_package!=null )
       {
@@ -395,7 +388,6 @@ const date_creation_of_course=()=>{
   }
 
 
-
   //visitor_data store functions
   var find_visitor
 
@@ -421,9 +413,6 @@ const date_creation_of_course=()=>{
     
   
 
-
-
- 
   //get all user details
 
   exports.get_all_users=async(req,res)=>{
@@ -477,12 +466,7 @@ exports.update_visitor_status=async(req,res)=>{
 }
 
 
-
-
 //add new user
-
-
-
 const get_the_date=()=>{
   const currentDate=new Date();
   const date=currentDate.getDate().toString()
@@ -513,7 +497,9 @@ exports.add_new_user=async(req,res)=>{
           const new_user= new user_Schema(req.body);
           const date_data=get_the_date()
           new_user.date_and_time=date_data;
+
           let price=0;
+
           if(req.body.course==='Meditation')
           price=2500;
 
@@ -543,7 +529,6 @@ exports.add_new_user=async(req,res)=>{
           send_mail_admission(req.body.course,new_user,req.body.password)
           console.log("save_user from signup",save_user)
           return  res.json({id:1})
-         
         }
         else
         {
@@ -557,7 +542,6 @@ exports.add_new_user=async(req,res)=>{
 
 
  // function for adding the 
-
  exports.give_review_and_star=async(req,res)=>{
 
       const {user_id,review,rating}=req.body;
