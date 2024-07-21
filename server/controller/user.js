@@ -325,28 +325,29 @@ var account_for_delete
 
 exports.get_course_data=async(req,res)=>{
 
-   const user_email=req.body;
+   const {user_email} = req.body;
    console.log('req.body in get_course_data', req.body)
 
-   if(user_email)
+   if(user_email.length)
    {
+      console.log('hett')
          const find_user = user_Schema.findOne({email:user_email});
   
    
           if(find_user?.course)
           {
-          console.log(" get_course_data if",find_user);
-          return res.json({id:1 ,status :'user has already course'})
+              console.log(" get_course_data if",find_user);
+              return res.json({id:1 ,status :'user has already course'})
           }
           else
           {
-          console.log("get_course_data else");
-          return  res.json({id:2 , status:'user has no course'})
+              console.log("get_course_data else");
+              return  res.json({id:2 , status:'user has no course'})
           }
    }
    else
    {
-       return  res.json({id:0 , status:'user has no valid amail'})
+       return  res.json({id:0 , status:'user has no valid email'})
    }
   
   
