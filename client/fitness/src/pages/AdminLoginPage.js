@@ -24,7 +24,7 @@ const AdminLoginPage = () => {
   const handle_click=(e)=>{
     
     e.preventDefault();
-    
+    console.log('user_email',user_email)
 
     if(admin_data.username.includes('admin') && admin_data.email=='gpallab405@gmail.com' && admin_data.password!=null  )
     {
@@ -221,7 +221,7 @@ const handle_Otp=async(e)=>{
             set_admin_data({...admin_data,email:e.target.value})
             set_email(e.target.value)
           }}
-          
+
           autoFocus
           
         />

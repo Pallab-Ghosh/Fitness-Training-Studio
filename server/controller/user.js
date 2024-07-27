@@ -20,16 +20,18 @@ var find_user_using_email,otp_no;
 
 //get details from account_section_page
 exports.get_details=async(req,res)=>{
-  const email_id = req.body;
-  const find_user = await user_Schema.findOne({email:req.body.email_id})
+  const {user_email} = req.query;
+  console.log('user_email in get_details',user_email)
+  const find_user = await user_Schema.findOne({email:user_email})
+
   if(find_user)
   {
-    console.log("find_user_using_email from get call",find_user_using_email)
-    return res.json(find_user_using_email)
+    console.log("find_user from get call",find_user)
+    return res.json(find_user)
   }
   else
   {
-   return  res.json({id:0})
+   return  res.json({id:0 , 'message': 'No valid user'})
   }
   
 }
