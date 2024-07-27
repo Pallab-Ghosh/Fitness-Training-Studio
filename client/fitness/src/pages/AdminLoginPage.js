@@ -13,18 +13,24 @@ const AdminLoginPage = () => {
   const [admin_data, set_admin_data] = useState({username:'',password:'',email:'',otp:''});
   const navigate = useNavigate()
   const[error,seterror]=useState(false)
-  const{user_token,set_token , email , set_email}=useContext(token_data)
   const[sending_otp,set_sending_otp]=useState(false);
   const[validating_otp,set_validating_otp]=useState(false);
+
+  const{user_token,set_token , user_email , set_email}=useContext(token_data)
+ 
 
 
 //when send the otp to email
   const handle_click=(e)=>{
+    
     e.preventDefault();
+    
 
     if(admin_data.username.includes('admin') && admin_data.email=='gpallab405@gmail.com' && admin_data.password!=null  )
     {
+
        set_sending_otp(true)
+       
        axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login_email_with_email`,admin_data)
       
       .then((resolve)=>{
@@ -33,7 +39,7 @@ const AdminLoginPage = () => {
         if(resolve.data.id==1)
         {
           localStorage.setItem("adminOtp" , resolve.data.admin_otp)
-            set_email(admin_data.email)
+         
         //alert('Otp sent successfully...')
         set_sending_otp(false)
         toast.success('Otp Sent to Registered Email!!!', {
@@ -116,7 +122,7 @@ const AdminLoginPage = () => {
 const handle_Otp=async(e)=>{
   
   e.preventDefault();
-  console.log("admin_data",admin_data)
+  console.log("admin email ",user_email)
  
    if(admin_data.otp==='')
    {
@@ -142,7 +148,7 @@ const handle_Otp=async(e)=>{
 
     if( OTP === admin_data.otp)
       {
-        console.log('admin_data from verify method ', admin_data)
+             // console.log('admin_data from verify method ', admin_data)
              const fetch_data=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email_with_email`,admin_data)
              console.log("fetch_data.data",fetch_data.data)
             if(fetch_data.data.token)
@@ -211,7 +217,11 @@ const handle_Otp=async(e)=>{
           inputProps={{style: {fontSize: 18}}}
           label="Email"
           value={admin_data.email}
-          onChange={(e) => set_admin_data({...admin_data,email:e.target.value})}
+          onChange={(e) => {
+            set_admin_data({...admin_data,email:e.target.value})
+            set_email(e.target.value)
+          }}
+          
           autoFocus
           
         />
