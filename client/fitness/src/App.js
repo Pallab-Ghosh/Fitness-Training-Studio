@@ -10,7 +10,7 @@ import Settings from './pages/Settings';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Test from './Test';
-import { create } from 'zustand'
+
 
 
 export const sidebarcontext =   React.createContext()
@@ -18,12 +18,6 @@ export const token_data     =   React.createContext()
 export const programme_data =   React.createContext()
 export const login_data =       React.createContext()
  
-
-
-export const useStore = create((set) => ({
-  user_email: '',
-  setUserEmail: (email) => set({ user_email: email }),
-}));
 
 
 
