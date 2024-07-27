@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { TextField, Button, Container, Paper, Typography, createStyles } from '@mui/material';
-import { token_data } from '../App';
+import { login_data, token_data } from '../App';
 import { json, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,9 +16,9 @@ const AdminLoginPage = () => {
   const[sending_otp,set_sending_otp]=useState(false);
   const[validating_otp,set_validating_otp]=useState(false);
 
-  const{user_token,set_token , user_email , set_email}=useContext(token_data)
+  const{user_token,set_token}=useContext(token_data)
  
-
+  const {user_email , set_email}= useContext(login_data)
 
 //when send the otp to email
   const handle_click=(e)=>{
@@ -154,12 +154,14 @@ const handle_Otp=async(e)=>{
             if(fetch_data.data.token)
               {
                 const{token}={...fetch_data.data}
-                console.log("token from api",token)
+                //console.log("token from api",token)
+
                 localStorage.setItem("userdata_with_token",JSON.stringify(token))
                 localStorage.setItem("email",JSON.stringify(admin_data.email))
              
                 set_token(JSON.stringify(token))
                 set_validating_otp(false)
+
                 toast.success('Welcome to Admin Dashboard', {
                   position: "top-right",
                   autoClose: 2000,

@@ -16,6 +16,7 @@ import Test from './Test';
 export const sidebarcontext =   React.createContext()
 export const token_data     =   React.createContext()
 export const programme_data =   React.createContext()
+export const login_data =       React.createContext()
  
 
 
@@ -33,11 +34,13 @@ function App() {
   return (
    <div>
     <sidebarcontext.Provider value={{sidebarOpen :sidebarOpen , toggleSidebar:toggleSidebar}}>
-    <token_data.Provider value={{user_token:user_token,set_token:set_token , user_email:user_email , set_email:set_email}}>
+    <token_data.Provider value={{user_token:user_token,set_token:set_token}}>
     <programme_data.Provider value={{programme_detail:programme_detail,set_programme:set_programme}}>
+      <login_data.Provider value={{user_email:user_email , set_email:set_email}}>
        <div className="App">
          <Allroutes/>
        </div>
+       </login_data.Provider>
    </programme_data.Provider>
    </token_data.Provider> 
    </sidebarcontext.Provider>
