@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { TextField, Button, Container, Paper, Typography, createStyles } from '@mui/material';
-import { login_data, token_data } from '../App';
+import { login_data, token_data, useStore } from '../App';
 import { json, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -18,7 +19,8 @@ const AdminLoginPage = () => {
 
   const{user_token,set_token}=useContext(token_data)
  
-  const {user_email , set_email}= useContext(login_data)
+  //const {user_email , set_email}= useContext(login_data)
+  const {user_email , setUserEmail} = useStore()
 
 //when send the otp to email
   const handle_click=(e)=>{
@@ -221,7 +223,7 @@ const handle_Otp=async(e)=>{
           value={admin_data.email}
           onChange={(e) => {
             set_admin_data({...admin_data,email:e.target.value})
-            set_email(e.target.value)
+            setUserEmail(e.target.value)
           }}
 
           autoFocus
