@@ -35,15 +35,7 @@ export const DrawerList = ({ sidebarOpen, toggleSidebar }) => {
     <Box sx={{ width: 180, maxWidth: 360, display: 'flex', justifyContent: 'flex-start' }} role="presentation" onClick={toggleSidebar}>
       <List sx={{ bgcolor: 'background.paper', display: 'flex', width: '100%', marginRight: '5px' }}>
         <ListItem disablePadding sx={{ display: 'flex', flexDirection: 'column', bgcolor: 'ButtonFace', width: '100%', alignItems: 'flex-start' }}>
-          <ListItemButton
-            onClick={() => navigate('/signin/admin_login/dashboard/home')}
-            sx={{ bgcolor: isActive('/signin/admin_login/dashboard/home') ? 'lightblue' : 'inherit' }}
-          >
-            <ListItemIcon>
-              <HomeIcon sx={{ height: '20px', width: '20px' }} />
-            </ListItemIcon>
-            <ListItemText primary="Home" primaryTypographyProps={{ fontSize: 15 }} />
-          </ListItemButton>
+           
 
           <ListItemButton
             onClick={() => navigate('/signin/admin_login/dashboard')}
