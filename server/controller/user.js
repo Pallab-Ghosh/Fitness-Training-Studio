@@ -20,8 +20,12 @@ var find_user_using_email,otp_no;
 
 //get details from account_section_page
 exports.get_details=async(req,res)=>{
+
+
   const {user_email} = req.query;
+
   console.log('user_email in get_details',user_email)
+
   const find_user = await user_Schema.findOne({email:user_email})
 
   if(find_user)
@@ -29,6 +33,7 @@ exports.get_details=async(req,res)=>{
     console.log("find_user from get call",find_user)
     return res.json(find_user)
   }
+  
   else
   {
    return  res.json({id:0 , 'message': 'No valid user'})
@@ -40,7 +45,9 @@ exports.get_details=async(req,res)=>{
 //sigin from signin page
 
 exports.login=async(req,res)=>{
-console.log("req body when signin",req.body)
+
+    console.log("req body login func",req.body)
+
  if(req?.body?.username?.length===0 ||req?.body?.password?.length===0  )
   {
     res.json({id:2})
@@ -56,7 +63,7 @@ console.log("req body when signin",req.body)
    
                 const password_check=bcrypt.compareSync(req.body.password,find_user_using_email.password);
                 const token_id=jwt.sign({email:find_user_using_email.email},process.env.Jwt_secret_key)
-                console.log("password_check",password_check)
+               
                 if(password_check)
                 {
                 return  res.json({token:token_id});
