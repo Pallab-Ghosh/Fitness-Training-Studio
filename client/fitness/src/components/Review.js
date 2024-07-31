@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {InputLabel, Rating,TextField,Typography,Button} from '@mui/material';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import axios from 'axios';
+import { useStore } from '../store';
 
 
 const Review = () => {
@@ -9,8 +10,8 @@ const Review = () => {
   const [rating, setrating] = useState(0)
   const [review,setreview]=useState('')
   const[user,set_user]=useState({});
-  
-  
+  const { user_email , setUserEmail} = useStore()
+  const user_email_id = localStorage.getItem("user_email_id")
 
   const handle_change=(e,newvalue)=>{
     setrating(newvalue);
@@ -21,8 +22,13 @@ const Review = () => {
 useEffect(()=>{
   var resolve_data;
   const get_details=async()=>{
-    resolve_data =await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+    resolve_data =await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`, {
+      params: {
+         user_email: user_email_id
+        }
+      })
    // console.log("resolve_data.data from get",resolve_data.data)
+
     set_user(resolve_data.data);
   }
 
@@ -54,8 +60,8 @@ useEffect(()=>{
 
     <div style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
          <div style={{display:'flex',flexDirection:'row',gap:'20px',justifyContent:'center'}}>
-             <TextField type='text'  fullWidth inputProps={{style: {fontSize: 17,maxLength :55}}} value={review} onChange={(e)=>setreview(e.target.value)} />
-              <Button  color='warning' onClick={handle_review} variant='contained'  size='large' style={{fontSize:'17px',width:'340px'}} endIcon={<ReviewsIcon/>}>Give Review</Button> 
+             <TextField type='text' sx={{borderRadius:'12px'}}  fullWidth inputProps={{style: {fontSize: 17,maxLength :55}}} value={review} onChange={(e)=>setreview(e.target.value)} />
+              <Button  color='warning' onClick={handle_review} variant='contained'  size='large' style={{fontSize:'17px',width:'340px',borderRadius:'12px'}} endIcon={<ReviewsIcon/>}>Give Review</Button> 
         </div>
    
         <div style={{display:'flex',flexDirection:'column', alignItems:'center',margin:'40px'}}>
