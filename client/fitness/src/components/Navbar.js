@@ -9,6 +9,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 
 export const Navbar = () => {
   const navigate=useNavigate()
@@ -36,18 +37,18 @@ export const Navbar = () => {
       <Stack direction="row" gap="30px" fontSize="24px" alignItems="flex-end" >
         <Link to="/home"
          style={{textDecoration:'none',color:'#3A1212', borderBottom:'3px solid #FF2625'}}>
-         
+    
           Home</Link>
 
        {/*  <a href="/home#exercises" style={{textDecoration:'none', color:'#3A1212' }}> Exercises </a>*/}
          
        <Dropdown title="Accounts Summary" style={{textDecoration:'none',color:'#3A1212', borderBottom:'3px solid #FF2625'}}>
 
-        <Dropdown.Item as="a" href="/home/accountDetails">
+        <Dropdown.Item as={Link} to="/home/accountDetails">
          <AccountBoxIcon color="error" /> Account Details
         </Dropdown.Item>
 
-        <Dropdown.Item as="a" href="/home/get_admission" style={{textDecoration:'none',color:'#3A1212'}}>
+        <Dropdown.Item as={Link} to="/home/get_admission" style={{textDecoration:'none',color:'#3A1212'}}>
       <SubscriptionsIcon color='error' />  Enrollment
     </Dropdown.Item>
 
