@@ -3,6 +3,7 @@ import {InputLabel, Rating,TextField,Typography,Button} from '@mui/material';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import axios from 'axios';
 import { login_data } from '../App';
+import { Loader } from './Loader';
 
 
 const Review = () => {
@@ -13,7 +14,7 @@ const Review = () => {
 
   const { user_email , set_email} = useContext(login_data)
 
-  const user_email_id = localStorage.getItem("user_email_id")
+ 
 
   const handle_change=(e,newvalue)=>{
     setrating(newvalue);
@@ -38,7 +39,7 @@ useEffect(()=>{
 
  },[user_email])
 
-
+ 
 
 
     const handle_review=async()=>{
@@ -55,6 +56,8 @@ useEffect(()=>{
         setrating(0);
         setreview('')
     } 
+
+    if(!user_email) return <Loader/>
     
   return (
     <div style={{display:'flex',flexDirection:'column' ,alignItems:'center',margin:'80px'}}>
