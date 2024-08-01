@@ -26,12 +26,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
-import { login_handler, token_data} from '../App';
+import { login_data, login_handler, token_data} from '../App';
 import { Paper } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useStore } from '../store';
+
 
 
 
@@ -64,7 +64,7 @@ export const Signin = () =>{
   const navigate = useNavigate()
 
   const{user_token,set_token}=useContext(token_data);
-  const {user_email , setUserEmail} = useStore()
+  const {user_email , set_email} = useContext(login_data)
  
  
   const handleSubmit=(event) => {
@@ -72,82 +72,84 @@ export const Signin = () =>{
 
       event.preventDefault();
       
-
       console.log('user_email before form',user_email);
 
-      axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login`,user_details)
+      try{
+             axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login`,user_details)
 
-    .then((resolve)=>{
-     
-      if(resolve.data.token)
-      {
-      
-        localStorage.setItem('userdata_with_token',JSON.stringify(resolve.data))
+            .then((resolve)=>{
+            
+              if(resolve.data.token)
+              {
+              
+                localStorage.setItem('userdata_with_token',JSON.stringify(resolve.data))
 
-         toast.success('Signin successfully!!!', {  position: "top-right",   autoClose: 2000,   hideProgressBar: false ,  closeOnClick: true,
-          pauseOnHover: true,draggable: true, progress: undefined, theme: "colored", style:{color:'black'} });
+                toast.success('Signin successfully!!!', {  position: "top-right",   autoClose: 2000,   hideProgressBar: false ,  closeOnClick: true,
+                  pauseOnHover: true,draggable: true, progress: undefined, theme: "colored", style:{color:'black'} });
 
-          window.location.href='/home'
+                  window.location.href='/home'
+              }
+
+              else if(resolve.data.id===2)
+              {
+              // alert('Error')
+              toast.error('Error!!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                style:{color:'black'}
+                });
+              }
+
+              else if(resolve.data.id===7)
+              {
+              //  alert('User not registered')
+              toast.warning('User not registered!!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme:"colored",
+                style:{color:'black'}
+                });
+              }
+              
+              else
+              {
+              
+              // alert(`Wrong credential`)
+              toast.warning('Wrong credential!!!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme:"colored",
+                style:{color:'black'}
+                });
+              }
+            })
+
       }
-
-      else if(resolve.data.id===2)
-      {
-       // alert('Error')
-       toast.error('Error!!!', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        style:{color:'black'}
-        });
-      }
-
-      else if(resolve.data.id===7)
-      {
-      //  alert('User not registered')
-      toast.warning('User not registered!!!', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme:"colored",
-        style:{color:'black'}
-        });
-      }
-      
-      else
-      {
-       
-      // alert(`Wrong credential`)
-      toast.warning('Wrong credential!!!', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme:"colored",
-        style:{color:'black'}
-        });
-      }
-    })
-    .catch((err)=>{
+     catch(err){
       console.log(err)
-    })
+     }
+     finally{
+          set_user_details({username:'',password:''})
+          setemail('');
+     }
 
 
-    set_user_details({username:'',password:''})
-    setemail('');
-    console.log('user_email after form',user_email);
-  
    
   };
 
@@ -217,6 +219,7 @@ export const Signin = () =>{
               inputProps={{style: {fontSize: 15}}}
               value={user_details.email}
               onChange={(e)=>{setemail(e.target.value)
+                set_email(e.target.value);
                 localStorage.setItem('user_email_id',e.target.value )
               }}
               />
