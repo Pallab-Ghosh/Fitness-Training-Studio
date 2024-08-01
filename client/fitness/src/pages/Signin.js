@@ -31,6 +31,7 @@ import { Paper } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Loader } from '../components/Loader';
 
 
 
@@ -64,10 +65,12 @@ export const Signin = () =>{
   const navigate = useNavigate()
 
   const{user_token,set_token}=useContext(token_data);
+
   const {user_email , set_email} = useContext(login_data)
+  
+  
  
- 
-  const handleSubmit=(event) => {
+  const handleSubmit=async(event) => {
     
 
       event.preventDefault();
@@ -75,22 +78,25 @@ export const Signin = () =>{
       console.log('user_email before form',user_email);
 
       try{
-             axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login`,user_details)
 
-            .then((resolve)=>{
+
+            const results = await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/login`,user_details)
             
-              if(resolve.data.token)
+            
+              if(results.data.token)
               {
-              
-                localStorage.setItem('userdata_with_token',JSON.stringify(resolve.data))
+               
+                 localStorage.setItem('userdata_with_token',JSON.stringify(results.data.token));
+                 localStorage.setItem('user_login_email', results.data.user.email)
+                 set_email( localStorage.getItem('user_login_email', results.data.user.email))
 
                 toast.success('Signin successfully!!!', {  position: "top-right",   autoClose: 2000,   hideProgressBar: false ,  closeOnClick: true,
                   pauseOnHover: true,draggable: true, progress: undefined, theme: "colored", style:{color:'black'} });
 
-                  window.location.href='/home'
+                  navigate('/home')
               }
 
-              else if(resolve.data.id===2)
+              else if(results.data.id===2)
               {
               // alert('Error')
               toast.error('Error!!!', {
@@ -106,7 +112,7 @@ export const Signin = () =>{
                 });
               }
 
-              else if(resolve.data.id===7)
+              else if(results.data.id===7)
               {
               //  alert('User not registered')
               toast.warning('User not registered!!!', {
@@ -138,7 +144,7 @@ export const Signin = () =>{
                 style:{color:'black'}
                 });
               }
-            })
+            
 
       }
      catch(err){
@@ -148,10 +154,10 @@ export const Signin = () =>{
           set_user_details({username:'',password:''})
           setemail('');
      }
-
-
    
   };
+
+ 
 
   
   return (
