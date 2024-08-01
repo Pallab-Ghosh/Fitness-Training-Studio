@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {InputLabel, Rating,TextField,Typography,Button} from '@mui/material';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import axios from 'axios';
-import { useStore } from '../store';
+import { login_data } from '../App';
 
 
 const Review = () => {
@@ -10,7 +10,9 @@ const Review = () => {
   const [rating, setrating] = useState(0)
   const [review,setreview]=useState('')
   const[user,set_user]=useState({});
-  const { user_email , setUserEmail} = useStore()
+
+  const { user_email , set_email} = useContext(login_data)
+
   const user_email_id = localStorage.getItem("user_email_id")
 
   const handle_change=(e,newvalue)=>{
@@ -24,7 +26,7 @@ useEffect(()=>{
   const get_details=async()=>{
     resolve_data =await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`, {
       params: {
-         user_email: user_email_id
+         user_email: user_email
         }
       })
    // console.log("resolve_data.data from get",resolve_data.data)
@@ -34,7 +36,7 @@ useEffect(()=>{
 
   get_details();
 
- },[])
+ },[user_email])
 
 
 
@@ -45,7 +47,7 @@ useEffect(()=>{
         const {_id}={...user}
         const review_obj={rating:rating,review:review,user_id:_id};
         console.log("review_obj",review_obj)
-        if(review_obj.rating!='' || review_obj.review!='')
+        if(review_obj.rating!=0 || review_obj.review!='')
         {
         const data=await axios.patch(`${process.env.REACT_APP_EXPRESS_URL}/user/update_review`,review_obj)
         }
