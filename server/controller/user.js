@@ -66,7 +66,7 @@ exports.login=async(req,res)=>{
                
                 if(password_check)
                 {
-                return  res.json({token:token_id});
+                return  res.json({token:token_id , user:find_user_using_email});
                 }
 
                 else{
