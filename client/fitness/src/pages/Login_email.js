@@ -19,7 +19,7 @@ import { redirect } from 'react-router-dom';
 
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import { login_handler, token_data } from '../App';
+import { login_data, login_handler, token_data } from '../App';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -49,7 +49,8 @@ export const Login_email = () => {
  const {user_token,set_token}=useContext(token_data)
   const[sendind_otp,set_sending_otp]=useState(false);
   const[validating_otp,set_validating_otp]=useState(false);
-  
+
+  const {user_email , set_email} = useContext(login_data)
 
 
   const handle_click=(e)=>{
@@ -168,6 +169,8 @@ const handle_Otp=async(e)=>{
      const{token}={...fetch_data.data}
      console.log("token from api",token)
      localStorage.setItem("userdata_with_token",JSON.stringify(token))
+     localStorage.setItem('user_login_email', fetch_data.data.user.email)
+     set_email( localStorage.getItem('user_login_email', fetch_data.data.user.email))
      set_token(JSON.stringify(token))
     
      window.location.href='/home'

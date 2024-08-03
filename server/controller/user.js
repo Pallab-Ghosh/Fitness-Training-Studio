@@ -213,7 +213,7 @@ exports.forget_password=async(req,res)=>{
      {
       // console.log("if from verify admin verify_email_With_Email ")
        const token_id=jwt.sign({email:req.body.email},process.env.Jwt_secret_key)
-       return res.json( {find_user_using_email:find_user_using_email,token:token_id})
+       return res.json( {user:find_user_using_email,token:token_id})
      }
      
      else
