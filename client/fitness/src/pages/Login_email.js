@@ -45,12 +45,13 @@ function Copyright(props) {
 export const Login_email = () => {
 
  const[email_and_otp,setemail_andotp]=useState({email:'',otp:''})
+ const[sendind_otp,set_sending_otp]=useState(false);
+ const[validating_otp,set_validating_otp]=useState(false);
+
  const navigate=useNavigate()
- const {user_token,set_token}=useContext(token_data)
-  const[sendind_otp,set_sending_otp]=useState(false);
-  const[validating_otp,set_validating_otp]=useState(false);
 
   const {user_email , set_email} = useContext(login_data)
+  const {user_token,set_token}=useContext(token_data)
 
 
   const handle_click=(e)=>{
@@ -173,7 +174,7 @@ const handle_Otp=async(e)=>{
      set_email( localStorage.getItem('user_login_email', fetch_data.data.user.email))
      set_token(JSON.stringify(token))
     
-     window.location.href='/home'
+     navigate('/home')
    }
     
   
