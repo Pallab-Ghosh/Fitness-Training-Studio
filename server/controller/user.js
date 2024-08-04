@@ -334,7 +334,7 @@ var account_for_delete
 
 exports.get_course_data=async(req,res)=>{
 
-   const {user_email} = req.body;
+   const {user_email} = req.query;
    console.log('req.body in get_course_data', req.body)
 
    if(user_email.length)
