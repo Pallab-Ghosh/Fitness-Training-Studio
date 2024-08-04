@@ -60,7 +60,7 @@ export const Signin = () =>{
 
 
   const [user_details,set_user_details]=useState({username:'',password:''})
-  const [email , setemail]= useState('')
+  
 
   const navigate = useNavigate()
 
@@ -152,7 +152,6 @@ export const Signin = () =>{
      }
      finally{
           set_user_details({username:'',password:''})
-          setemail('');
      }
    
   };
@@ -215,21 +214,7 @@ export const Signin = () =>{
               onChange={(e)=>set_user_details({...user_details,username: e.target.value})}
               />
 
-              <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="email"
-              label="Email"
-              type="email"
-              inputProps={{style: {fontSize: 15}}}
-              value={user_details.email}
-              onChange={(e)=>{setemail(e.target.value)
-                set_email(e.target.value);
-                localStorage.setItem('user_email_id',e.target.value )
-              }}
-              />
-
+              
 
               <TextField
               margin="normal"
