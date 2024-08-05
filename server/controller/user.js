@@ -335,9 +335,9 @@ var account_for_delete
 exports.get_course_data=async(req,res)=>{
 
    const {user_email} = req.query;
-   console.log('req.body in get_course_data', req.body)
+   console.log('req.body in get_course_data', req.query)
 
-   if(user_email.length)
+   if(user_email)
    {
       console.log('hett')
          const find_user = user_Schema.findOne({email:user_email});
