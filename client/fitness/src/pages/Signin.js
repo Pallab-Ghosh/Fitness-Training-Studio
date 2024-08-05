@@ -86,10 +86,10 @@ export const Signin = () =>{
               if(results.data.token)
               {
                
-                 localStorage.setItem('userdata_with_token',JSON.stringify(results.data.token));
+                const token = localStorage.setItem('userdata_with_token',JSON.stringify(results.data.token));
                  localStorage.setItem('user_login_email', results.data.user.email)
                  set_email( localStorage.getItem('user_login_email', results.data.user.email))
-
+                 set_token(JSON.stringify(results.data.token));
                 toast.success('Signin successfully!!!', {  position: "top-right",   autoClose: 2000,   hideProgressBar: false ,  closeOnClick: true,
                   pauseOnHover: true,draggable: true, progress: undefined, theme: "colored", style:{color:'black'} });
 

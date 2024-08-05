@@ -199,31 +199,20 @@ export const Programme_page = () => {
   const {user_email}= useContext(login_data)
 
   const{programme_detail,set_programme}=useContext(programme_data)
-
+  const token = JSON.parse(localStorage.getItem("userdata_with_token"));
    
-
-
-  useEffect(()=>{
-
-   var data=JSON.parse(localStorage.getItem("userdata_with_token"));
-   var {token}=data;
-   set_token(token);
-   console.log('user_email',user_email)
- },[])
-
-
 
  
 
-   const stripe_payment=(newdata)=>{
-    console.log('user_token' , user_token)
+   const stripe_payment=(newdata , token_id)=>{
+    console.log('user_token in stripe_payment' , token_id)
     axios.post(`${process.env.REACT_APP_EXPRESS_URL}/stripe_payment_page/create-checkout-session`,
     { 
     newdata,
     },
     {
       headers: {
-        Authorization: 'Bearer '+ user_token
+        Authorization: `Bearer ${token_id}`
       }
     },
     
@@ -256,9 +245,7 @@ export const Programme_page = () => {
         params: {
            user_email: user_email
           },
-          headers:{
-            Authorization : user_token
-          }
+         
         
     })
 
@@ -269,7 +256,7 @@ export const Programme_page = () => {
         
         localStorage.setItem("coursedata",JSON.stringify(newdata))
         alert('come')
-        stripe_payment(newdata);
+        stripe_payment(newdata , token);
       }
 
       else if(res.data.id==0)
