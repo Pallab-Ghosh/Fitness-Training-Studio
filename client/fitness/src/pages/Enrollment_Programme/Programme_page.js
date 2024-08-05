@@ -30,7 +30,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import { programme_data, token_data } from '../../App';
+import { login_data, programme_data, token_data } from '../../App';
 
 import '../../landing_page/LandingPage.css'
 import { ToastContainer, toast } from 'react-toastify';
@@ -195,21 +195,11 @@ export const Programme_page = () => {
   const[user_account_details,set_user_details]=useState({})
   const navigate=useNavigate()
 
-  const {user_token,set_token , user_email}=useContext(token_data)
+  const {user_token,set_token}=useContext(token_data)
+  const {user_email}= useContext(login_data)
 
   const{programme_detail,set_programme}=useContext(programme_data)
 
-  useEffect(()=>{
-
-    const get_details=async()=>{
-      const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details/${user_email}`)
-      console.log("resolve_data.data from get",resolve_data.data)
-      set_user_details(resolve_data.data)
-     // console.log("user_account_details",user_account_details)
-    }
-
-    get_details();
-   },[])
    
 
 
@@ -218,8 +208,12 @@ export const Programme_page = () => {
    var data=JSON.parse(localStorage.getItem("userdata_with_token"));
    var {token}=data;
    set_token(token);
+   console.log('user_email',user_email)
  },[])
 
+
+
+ 
 
    const stripe_payment=(newdata)=>{
     console.log('user_token' , user_token)
@@ -239,7 +233,7 @@ export const Programme_page = () => {
       if(response.data.url)
       {
         //console.log(response.data)
-        window.location.href=response.data.url
+        navigate(response.data.url)
       }
     })
     .catch((err)=>{
@@ -248,19 +242,41 @@ export const Programme_page = () => {
    }
 
 
+
+
+
+
   const handle_click2=(e,title,id,price)=>{
    
     e.preventDefault();
     const newdata={id_of_package:id,  title_of_package:title,  price_of_package:price,  email:user_email, firstname:user_account_details.firstname , lastname:user_account_details.lastname }
-    console.log('newdata',newdata)
     
-    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details/${user_email}`)
+    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details`,{
+      user_email:user_email
+    })
+
     .then((res)=>{
-     // console.log("res of coursedata",res)
+     
       if(res.data.id==2)
       {
+        
         localStorage.setItem("coursedata",JSON.stringify(newdata))
         stripe_payment(newdata);
+      }
+
+      else if(res.data.id==0)
+      {
+        toast.warning('Dont get any valid email id!!!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme:"colored",
+          style:{color:'black'}
+          });
       }
       else{
        // alert('Already Have Subscriptions')
@@ -307,7 +323,7 @@ export const Programme_page = () => {
             sx={{ my: 1, mx: 1.5 }}
             underline='hover'
           >
-           <ContactPhoneIcon color='inherit' /> Contact us
+           <ContactPhoneIcon color='inherit' /> Contact us 
           </Link>
 
           <Link

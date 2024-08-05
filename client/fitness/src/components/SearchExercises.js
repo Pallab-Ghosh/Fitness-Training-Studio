@@ -7,6 +7,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import toast, { Toaster } from 'react-hot-toast';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import { useDebouncedValue } from '../utils/debounce'
+import { useStore } from '../store'
+import { Loader } from './Loader'
+import { login_data, token_data } from '../App'
 
 
 //set these 2 array where we store some  values for suggestions in input field
@@ -33,13 +36,14 @@ export const SearchExercises = () => {
 
   //set the state of select to select the value
   const[select,setselect]=useState("")
-   
+  const { user_email } = useContext(login_data)
 
 
 
 
   useEffect(()=>{
  
+     console.log('user_email',user_email)
     const fetchExercisesData=async()=>{
       //fetch the data one time for bodyparts section which is in main page of applications
      const bodyPartsdata=await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList',exercisesOptions)
@@ -101,6 +105,8 @@ export const SearchExercises = () => {
           set_btn_disable(false);
      }
 } 
+
+if(!localStorage.getItem('user_login_email')) return <Loader/>
  
 
   return (
