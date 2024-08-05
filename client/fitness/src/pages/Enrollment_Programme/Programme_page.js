@@ -252,7 +252,14 @@ export const Programme_page = () => {
     const newdata={id_of_package:id,  title_of_package:title,  price_of_package:price,  email:user_email, firstname:user_account_details.firstname , lastname:user_account_details.lastname }
     
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details`,{
-      user_email:user_email
+      
+        params: {
+           user_email: user_email
+          },
+          headers:{
+            Authorization : user_token
+          }
+        
     })
 
     .then((res)=>{
@@ -261,6 +268,7 @@ export const Programme_page = () => {
       {
         
         localStorage.setItem("coursedata",JSON.stringify(newdata))
+        alert('come')
         stripe_payment(newdata);
       }
 
