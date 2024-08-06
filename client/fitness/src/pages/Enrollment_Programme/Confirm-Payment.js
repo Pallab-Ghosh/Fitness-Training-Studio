@@ -7,12 +7,14 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import { Link, useNavigate } from 'react-router-dom';
 
-export default function ConfirmPayment() {
+export default function ConfirmPayment({open , setOpen , paylink}) {
 
-  const [open, setOpen] = React.useState(false);
+ 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -22,34 +24,41 @@ export default function ConfirmPayment() {
     setOpen(false);
   };
 
+  const handleAgreefn =()=>{
+    navigate(paylink)
+    setOpen(false)
+  }
+
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open responsive dialog
-      </Button>
-      
+    
+
       <Dialog
-        fullScreen={fullScreen}
+        
         open={open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
-          {"Use Google's location service?"}
+          {"Do you want to continue with the purchase ?"}
         </DialogTitle>
+
         <DialogContent>
           <DialogContentText>
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
+          You are about to purchase this course. Clicking "Proceed" will redirect you to the secure Stripe payment page to complete the transaction.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
             Disagree
           </Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
-          </Button>
+
+          <Link to={paylink}style={{ textDecoration: 'none' }}>
+        <Button autoFocus>
+          Agree
+        </Button>
+      </Link>
+
         </DialogActions>
       </Dialog>
     </React.Fragment>
