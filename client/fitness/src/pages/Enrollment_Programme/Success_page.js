@@ -15,9 +15,11 @@ export const Success_page = () => {
 
   const navigate=useNavigate()
   const{programme_detail,set_programme}=useContext(programme_data)
-  const[ set_email , user_email]= useContext(login_data)
+  const{ set_email , user_email}= useContext(login_data)
   const token = JSON.parse(localStorage.getItem("userdata_with_token"));
    
+
+
    useEffect(()=>{
     
     let coursedata_from_local_storage=JSON.parse(localStorage.getItem("coursedata"))
@@ -40,6 +42,7 @@ export const Success_page = () => {
      // console.log("res of coursedata",res)
       if(res.data.id==2)
       {
+        console.log('programme_detail in success page',programme_detail)
         if(programme_detail?.id_of_package)
         {
           axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/save_course_details`,programme_detail)

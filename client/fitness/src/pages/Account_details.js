@@ -10,11 +10,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { accountDetails_holder, programme_data } from '../App';
-import { Box } from '@mui/material';
+import { accountDetails_holder, login_data, programme_data, token_data } from '../App';
+import { Box, Typography } from '@mui/material';
 import { Stack } from 'rsuite';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Loader } from '../components/Loader';
+ 
 
 
 
@@ -23,13 +25,56 @@ import 'react-toastify/dist/ReactToastify.css';
 export const Account_details = () => {
   
   const[user_account_details,set_user_details]=useState({})
-const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
-  const{programme_detail,set_programme}=useContext(programme_data);
 
+  const{programme_detail,set_programme}=useContext(programme_data);
+  const{user_token,set_token}=useContext(token_data)
+
+  const { user_email , set_email} = useContext(login_data)
+  const user_email_id = localStorage.getItem("user_email_id")
+  const token = JSON.parse(localStorage.getItem("userdata_with_token"));
+   
 
    const navigate=useNavigate()
    const [open, setOpen] = useState(false);
    const [open2, setOpen2] = useState(false);
+   const [loading , setloading]=useState(false)
+
+
+// fetch the account data
+   useEffect(()=>{
+    
+    const get_details=async()=>{
+
+        try 
+        {
+          setloading(true)
+          console.log('user_email',user_email)
+          const resolve_data= await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`,
+            {
+            params: {
+               user_email: user_email
+              },
+              headers:{
+                Authorization: `Bearer ${token}`  
+              }
+            }
+          )
+          set_user_details(resolve_data.data)
+        } 
+
+        catch (error)
+          {
+          console.log(error)
+          }
+        finally{
+          setloading(false);
+        }
+    }
+
+    get_details();
+
+   },[user_email])
+
 
   
    //for reset password
@@ -105,18 +150,6 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
   }
 
 
-   useEffect(()=>{
-    const get_details=async()=>{
-      const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
-      //console.log("resolve_data.data from get",resolve_data.data)
-      set_user_details(resolve_data.data)
-     // console.log("user_account_details",user_account_details)
-    }
-    get_details();
-   },[])
-
-
-
    const handle_delete_function=async()=>{
    
     const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/send_email_for_delete`,{email_id:email})
@@ -155,7 +188,7 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
      }
    }
 
-  /*  const delete_subscription_function=()=>{
+    const delete_subscription_function=()=>{
 
        
         if(course!=null && subscription_date!=null && price_of_course!=0)
@@ -192,14 +225,22 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
           alert('No Subscription')
         }
       
-   } */
+   } 
 
 
     const handle_admin_page=()=>{
      navigate('/home/accountDetails/dashboard')
     }
+    
+    if(loading)return <Loader/>
+    
+
+
+    const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
+
        return (
            <div>
+           <Typography variant='h2' sx={{marginLeft:70}}>Accounts Summary</Typography>
            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
            <div className="container bootstrap snippets bootdeys">
            <div className="row">
@@ -308,7 +349,7 @@ const{firstname,lastname,username,address,password,mobile,email,course,subscript
 
 
 
-                   <Stack  justifyContent="flex-start" style={{gap:'4px'}}>
+                   <Stack  justifyContent="space-around" style={{gap:'4px'}}>
                    <Button sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' size='large' color='error' onClick={()=>navigate(-1)}>Go Back</Button>
                    <Button sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' size='large' color='success' onClick={handleClickOpen} >Reset password</Button>
                    <Button sx={{fontSize:'14px',borderRadius:'12px'}} variant='contained' size='large' color='primary' onClick={handle_delete_function} >DELETE ACCOUNT</Button>

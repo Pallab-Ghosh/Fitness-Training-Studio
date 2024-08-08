@@ -13,7 +13,8 @@ const Review = () => {
   const[user,set_user]=useState({});
 
   const { user_email , set_email} = useContext(login_data)
-
+  const token = JSON.parse(localStorage.getItem("userdata_with_token"));
+   
  
 
   const handle_change=(e,newvalue)=>{
@@ -28,6 +29,9 @@ useEffect(()=>{
     resolve_data =await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`, {
       params: {
          user_email: user_email
+        },
+        headers:{
+          Authorization:`Bearer ${token}`  
         }
       })
    // console.log("resolve_data.data from get",resolve_data.data)
@@ -57,7 +61,7 @@ useEffect(()=>{
         setreview('')
     } 
 
-    if(!user_email) return <Loader/>
+    
     
   return (
     <div style={{display:'flex',flexDirection:'column' ,alignItems:'center',margin:'80px'}}>
