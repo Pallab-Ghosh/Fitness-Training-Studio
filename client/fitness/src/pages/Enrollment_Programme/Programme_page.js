@@ -35,6 +35,7 @@ import { login_data, programme_data, token_data } from '../../App';
 import '../../landing_page/LandingPage.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ConfirmPayment from './Confirm-Payment';
 
 
 
@@ -194,50 +195,42 @@ export const Programme_page = () => {
 
   const[user_account_details,set_user_details]=useState({})
   const navigate=useNavigate()
+  const [open, setOpen] = React.useState(false);
+  const[paylink , setpaylink]= useState('');
 
   const {user_token,set_token}=useContext(token_data)
-  const {user_email}= useContext(login_data)
+  const {user_email , set_email}= useContext(login_data)
 
   const{programme_detail,set_programme}=useContext(programme_data)
   const token = JSON.parse(localStorage.getItem("userdata_with_token"));
    
-
  
-
-   const stripe_payment=(newdata , token_id)=>{
+ 
+   const stripe_payment= async(newdata , token_id)=>{
     console.log('user_token in stripe_payment' , token_id)
-    axios.post(`${process.env.REACT_APP_EXPRESS_URL}/stripe_payment_page/create-checkout-session`,
-    { 
-    newdata,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token_id}`
-      }
-    },
-    
-    )
+       try 
+       {
 
-    .then((response)=>{
-      if(response.data.url)
-      {
-        //console.log(response.data)
-        navigate(response.data.url)
-      }
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+        const response = await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/stripe_payment_page/create-checkout-session`,
+          {  newdata },
+          {  headers: { Authorization: `Bearer ${token_id}`  }}
+        )
+         
+          setpaylink(response.data.url);
+          console.log('response.data.url',response.data.url)
+
+       } 
+
+       catch (error) {
+         console.log(error)
+       }
    }
-
-
-
-
 
 
   const handle_click2=(e,title,id,price)=>{
    
     e.preventDefault();
+    setOpen(true)
     const newdata={id_of_package:id,  title_of_package:title,  price_of_package:price,  email:user_email, firstname:user_account_details.firstname , lastname:user_account_details.lastname }
     
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details`,{
@@ -245,6 +238,9 @@ export const Programme_page = () => {
         params: {
            user_email: user_email
           },
+          headers:{
+            Authorization: `Bearer ${token}`  
+          }
          
         
     })
@@ -255,7 +251,7 @@ export const Programme_page = () => {
       {
         
         localStorage.setItem("coursedata",JSON.stringify(newdata))
-        alert('come')
+        
         stripe_payment(newdata , token);
       }
 
@@ -442,6 +438,7 @@ export const Programme_page = () => {
           </Grid>
         ))}
       </Grid>
+      <ConfirmPayment open ={open} setOpen={setOpen} paylink={paylink} user_email={user_email} set_email={set_email} />
     </Container>
 
     {/* Footer */}
@@ -499,6 +496,7 @@ export const Programme_page = () => {
     >
    
     <MDBFooter className='text-center text-lg-start text-muted' style={{backgroundColor:'ThreeDFace'}}>
+
     <section className=''>
       <MDBContainer className='text-center text-md-start mt-5'>
         <MDBRow className='mt-3'>
