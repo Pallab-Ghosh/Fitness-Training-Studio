@@ -9,7 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function ConfirmPayment({open , setOpen , paylink}) {
+export default function ConfirmPayment({open , setOpen , paylink , user_email , set_email}) {
 
  
   const theme = useTheme();
@@ -25,8 +25,9 @@ export default function ConfirmPayment({open , setOpen , paylink}) {
   };
 
   const handleAgreefn =()=>{
+
     navigate(paylink)
-    setOpen(false)
+   
   }
 
   return (
@@ -53,11 +54,11 @@ export default function ConfirmPayment({open , setOpen , paylink}) {
             Disagree
           </Button>
 
-          <Link to={paylink}style={{ textDecoration: 'none' }}>
-        <Button autoFocus>
+          
+        <Button autoFocus onClick={handleAgreefn}>
           Agree
         </Button>
-      </Link>
+    
 
         </DialogActions>
       </Dialog>

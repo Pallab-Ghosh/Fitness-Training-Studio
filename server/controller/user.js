@@ -377,6 +377,7 @@ const date_creation_of_course=()=>{
   exports.save_course_data=async(req,res)=>{
       console.log('save_course_data',req.body)
       const{id_of_package,title_of_package,price_of_package,firstname,lastname,email}=req.body
+      
       if(id_of_package!=null && title_of_package!=null && price_of_package!=null )
       {
         find_user_using_email.course=req.body.title_of_package;
