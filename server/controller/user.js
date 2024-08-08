@@ -24,10 +24,16 @@ exports.get_details=async(req,res)=>{
 
 
   const {user_email} = req.query;
+  const token=req.get('Authorization').split(" ")[1]
+  console.log("token",token);
+  const decoded_token=jwt.verify(token,process.env.Jwt_secret_key)
+  console.log(decoded_token)
+ const email =  decoded_token.email
 
-  console.log('user_email in get_details',user_email)
 
-  const find_user = await user_Schema.findOne({email:user_email})
+  console.log('user_email in get_details',email)
+
+  const find_user = await user_Schema.findOne({email:email})
 
   if(find_user)
   {
@@ -384,13 +390,14 @@ const date_creation_of_course=()=>{
 
 
   exports.save_course_data=async(req,res)=>{
+
       console.log('save_course_data',req.body)
       const{id_of_package,title_of_package,price_of_package,firstname,lastname,email}=req.body
 
       if(id_of_package!=null && title_of_package!=null && price_of_package!=null )
       {
-        find_user_using_email.course=req.body.title_of_package;
-        find_user_using_email.price_of_course=req.body.price_of_package;
+        find_user_using_email.course=req?.body?.title_of_package;
+        find_user_using_email.price_of_course=req?.body?.price_of_package;
         const current_date=date_creation_of_course();
        // console.log("current_date",current_date)
         find_user_using_email.subscription_date=current_date
