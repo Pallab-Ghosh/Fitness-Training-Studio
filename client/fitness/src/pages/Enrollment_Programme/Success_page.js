@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import CheckIcon from '@mui/icons-material/Check';
 import { Button } from '@mui/material';
 import { useNavigate ,UNSAFE_NavigationContext } from 'react-router-dom';
-import { programme_data } from '../../App';
+import { login_data, programme_data } from '../../App';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,11 +15,12 @@ export const Success_page = () => {
 
   const navigate=useNavigate()
   const{programme_detail,set_programme}=useContext(programme_data)
-
-
+  const[ set_email , user_email]= useContext(login_data)
+  const token = JSON.parse(localStorage.getItem("userdata_with_token"));
+   
    useEffect(()=>{
     
-    var coursedata_from_local_storage=JSON.parse(localStorage.getItem("coursedata"))
+    let coursedata_from_local_storage=JSON.parse(localStorage.getItem("coursedata"))
     //console.log("coursedata_from_local_storage",coursedata_from_local_storage)
     set_programme({...programme_detail,...coursedata_from_local_storage})
     localStorage.removeItem("coursedata")
@@ -30,7 +31,11 @@ export const Success_page = () => {
    useEffect(()=>{
 
 
-    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details`)
+    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/get_course_details`,{
+      headers:{
+        Authorization: `Bearer ${token}`  
+      }
+    })
     .then((res)=>{
      // console.log("res of coursedata",res)
       if(res.data.id==2)
