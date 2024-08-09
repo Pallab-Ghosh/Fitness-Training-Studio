@@ -28,7 +28,7 @@ exports.get_details=async(req,res)=>{
   console.log("token",token);
   const decoded_token=jwt.verify(token,process.env.Jwt_secret_key)
   console.log(decoded_token)
- const email =  decoded_token.email
+  const email =  decoded_token.email
 
 
   console.log('user_email in get_details',email)
@@ -347,7 +347,7 @@ exports.get_course_data=async(req,res)=>{
   console.log("token",token);
   const decoded_token=jwt.verify(token,process.env.Jwt_secret_key)
   console.log(decoded_token)
- const user_email =  decoded_token.email
+  const user_email =  decoded_token.email
 
   // const {user_email} = req.query;
    console.log('req.body in get_course_data', req.query)
@@ -355,7 +355,7 @@ exports.get_course_data=async(req,res)=>{
    if(user_email)
    {
       console.log('hett')
-         const find_user = user_Schema.findOne({email:user_email});
+         const find_user = await user_Schema.findOne({email:user_email});
   
    
           if(find_user?.course)
@@ -389,39 +389,74 @@ const date_creation_of_course=()=>{
 }
 
 
-  exports.save_course_data=async(req,res)=>{
+   
+exports.save_course_data = async (req, res) => {
+  const { id_of_package, title_of_package, price_of_package } = req.body;
 
-      console.log('save_course_data',req.body)
-      const{id_of_package,title_of_package,price_of_package,firstname,lastname,email}=req.body
+  try {
+    const token = req.get('Authorization').split(" ")[1];
+    const decoded_token = jwt.verify(token, process.env.Jwt_secret_key);
+    const user_email = decoded_token.email;
 
-      if(id_of_package!=null && title_of_package!=null && price_of_package!=null )
-      {
-        find_user_using_email.course=req?.body?.title_of_package;
-        find_user_using_email.price_of_course=req?.body?.price_of_package;
-        const current_date=date_creation_of_course();
-       // console.log("current_date",current_date)
-        find_user_using_email.subscription_date=current_date
-        const new_user=await find_user_using_email.save();
-        console.log("new_user from save_course_data",new_user)
-        send_mail_subscription(title_of_package,new_user)
-        res.json({id:1})
-      }
-      else
-      {
-        return res.json({id:2})
-      }
-     
+    // Retrieve the user document
+    const user = await user_Schema.findOne({ email: user_email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (id_of_package != null && title_of_package != null && price_of_package != null) {
+      user.course = title_of_package;
+      user.price_of_course = price_of_package;
+      const current_date = date_creation_of_course();
+      user.subscription_date = current_date;
+
+      // Save the updated user document
+      const new_user = await user.save();
+
+      console.log("new_user from save_course_data", new_user);
+
+      send_mail_subscription(title_of_package, new_user);
+      res.json({ id: 1, new_user });
+    } else {
+      return res.json({ id: 2 });
+    }
+  } catch (err) {
+    console.error("Error saving course data:", err);
+    res.status(500).json({ message: "Internal server error" });
   }
+};
+
 
   //delete course subscriptions
   exports.delete_subscription=async(req,res)=>{
-    console.log("req body from delete subscriptions", req.body);
-    find_user_using_email.course=null;
-    find_user_using_email.price_of_course=0;
-    find_user_using_email.subscription_date=null;
-    const user_after_delete_data=await find_user_using_email.save()
-    console.log(user_after_delete_data);
-    res.json({...user_after_delete_data,status_id:1})
+
+        const token = req.get('Authorization').split(" ")[1];
+        const decoded_token = jwt.verify(token, process.env.Jwt_secret_key);
+        const user_email = decoded_token.email;
+
+        const user = await user_Schema.findOne({email : user_email});
+
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+         try
+          {
+          
+            user.course=null;
+            user.price_of_course=0;
+            user.subscription_date=null;
+            const user_after_delete_data=await user.save();
+            console.log(user_after_delete_data);
+            res.json({...user_after_delete_data,status_id:1})
+         } 
+
+         catch (error)
+          {
+          console.error("Error saving course data:", err);
+          res.status(500).json({ message: "Internal server error" });
+         }
   }
 
 
@@ -460,10 +495,28 @@ const date_creation_of_course=()=>{
 
   //delete the user
   exports.delete_user=async(req,res)=>{
-     console.log(req.params.id);
-     const delete_user=await user_Schema.findByIdAndDelete({_id:req.params.id});
-     console.log("delete_user",delete_user)
-     res.json({id:1,status:'user deleted successfully'}) 
+
+    const token = req.get('Authorization').split(" ")[1];
+    const decoded_token = jwt.verify(token, process.env.Jwt_secret_key);
+    const user_email = decoded_token.email;
+
+    const user = await user_Schema.findOne({email : user_email});
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    try {
+       
+          const delete_user=await user_Schema.findByIdAndDelete({_id:req.params.id});
+          res.json({id:1,status:'user deleted successfully'}) 
+    } 
+    catch (error) 
+    {
+          console.error("Error saving course data:", err);
+          res.status(500).json({ message: "Internal server error" });
+    }
+     
   }
 
 
@@ -582,11 +635,10 @@ exports.add_new_user=async(req,res)=>{
  exports.give_review_and_star=async(req,res)=>{
 
       const {user_id,review,rating}=req.body;
-      console.log(user_id,review,rating);
       const date=get_the_date();
       const obj={...req.body,review_date:date}
-      console.log(obj)
-     const find_user=await user_Schema.findByIdAndUpdate({_id:user_id},obj,{new:true})
+    
+      const find_user=await user_Schema.findByIdAndUpdate({_id:user_id},obj,{new:true})
    
       console.log(find_user);
       res.json(find_user)
