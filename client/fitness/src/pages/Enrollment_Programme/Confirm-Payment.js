@@ -40,22 +40,22 @@ export default function ConfirmPayment({open , setOpen , paylink , user_email , 
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">
+        <DialogTitle id="responsive-dialog-title"  style={{fontSize:'20px'}}>
           {"Do you want to continue with the purchase ?"}
         </DialogTitle>
 
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText  style={{fontSize:'15px'}}>
           You are about to purchase this course. Clicking "Proceed" will redirect you to the secure Stripe payment page to complete the transaction.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button autoFocus onClick={handleClose} size='large'  variant='contained' style={{fontSize:'12px'}}>
             Disagree
           </Button>
 
           
-        <Button autoFocus onClick={handleAgreefn}>
+        <Button autoFocus onClick={handleAgreefn} size='large' variant='contained' style={{fontSize:'12px'}}>
           Agree
         </Button>
     
