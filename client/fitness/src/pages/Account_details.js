@@ -193,10 +193,19 @@ export const Account_details = () => {
        
         if(course!=null && subscription_date!=null && price_of_course!=0)
         {
-          axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_subscription`)
+          axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_subscription`,{
+            headers:{
+              Authorization: `Bearer ${token}` 
+            }
+          })
           .then((res)=>{
             console.log(res.data)
-            axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+            axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`,{
+              headers:{
+                Authorization: `Bearer ${token}` 
+              }
+            })
+
             .then((res)=>{
               set_user_details(res.data)
             })
