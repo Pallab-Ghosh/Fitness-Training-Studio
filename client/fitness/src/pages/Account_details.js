@@ -104,10 +104,19 @@ export const Account_details = () => {
   const handleClose_for_delete_subscription2=()=>{
     if(course!=null && subscription_date!=null && price_of_course!=0)
     {
-      axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_subscription`)
+      axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_subscription`,{
+        headers:{
+          Authorization: `Bearer ${token}`  
+        }
+      })
+
       .then((res)=>{
         console.log(res.data)
-        axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+        axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`,{
+          headers:{
+            Authorization: `Bearer ${token}`  
+          }
+        })
         .then((res)=>{
           set_user_details(res.data)
         })
@@ -152,7 +161,11 @@ export const Account_details = () => {
 
    const handle_delete_function=async()=>{
    
-    const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/send_email_for_delete`,{email_id:email})
+    const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/send_email_for_delete`,{email_id:email} ,{
+      headers:{
+        Authorization: `Bearer ${token}`  
+      }
+    })
     console.log(response.data)
      if(response.data.id==1)
      {
