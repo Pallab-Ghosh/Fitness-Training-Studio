@@ -45,7 +45,12 @@ export const Success_page = () => {
         console.log('programme_detail in success page',programme_detail)
         if(programme_detail?.id_of_package)
         {
-          axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/save_course_details`,programme_detail)
+          axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/save_course_details`,programme_detail,{
+            headers:{
+              Authorization: `Bearer ${token}` 
+            }
+          })
+          
           .then((res)=>{
            // console.log(res);
             if(res.data.id==1)
