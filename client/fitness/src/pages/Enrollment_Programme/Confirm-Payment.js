@@ -26,7 +26,7 @@ export default function ConfirmPayment({open , setOpen , paylink , user_email , 
 
   const handleAgreefn =()=>{
 
-    navigate(paylink)
+    window.location.href = paylink
    
   }
 
