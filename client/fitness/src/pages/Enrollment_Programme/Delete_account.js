@@ -14,7 +14,7 @@ const[user_account_details,set_user_details]=useState({firstname:'',lastname:'',
 const[otp,set_otp]=useState('')
 const navigate=useNavigate();
 const token = JSON.parse(localStorage.getItem("userdata_with_token"));
-
+const otp_for_delete = JSON.parse(localStorage.getItem("otp_for_delete"))
 
 useEffect(()=>{
 
@@ -35,31 +35,49 @@ useEffect(()=>{
 
 const handle_click_for_confirmation=async()=>{
   console.log("otp",otp)
- const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_account`,{otp:otp},{
-  headers:{
-    Authorization: `Bearer ${token}`  
-  }
- })
-  if(response.data.id==1)
+
+  if(otp === otp_for_delete)
   {
-   // alert('Delete account succeessfully')
-   toast.success('Account Deleted successfully!!!', {
-    position: "top-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-    style:{color:'black'}
-    });
-    navigate('/')
+      const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_account`,{otp:otp},{
+        headers:{  Authorization: `Bearer ${token}`}})
+
+        if(response.data.id==1)
+              {
+                  // alert('Delete account succeessfully')
+                  toast.success('Account Deleted successfully!!!', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    style:{color:'black'}
+                    });
+                  navigate('/')
+              }
+          else
+              {
+                //alert('Not deleteted')
+                toast.warning('Not deleteted!!!', {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme:"colored",
+                  style:{color:'black'}
+                  });
+              }
   }
+
   else
   {
     //alert('Not deleteted')
-    toast.warning('Not deleteted!!!', {
+    toast.warning('Please Provide valid OTP!!!', {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
