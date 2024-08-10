@@ -293,7 +293,7 @@ var account_for_delete
             account_for_delete=await user_Schema.findOne({email:email});
             otp_no=otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
             send_verification_mail( account_for_delete,otp_no);
-            return  res.status(200).json({id:1 , status:'Send email for verification'})
+            return  res.status(200).json({id:1 ,otp:otp_no, status:'Send email for verification'})
            }
            else{
             res.status(500).json({id:2 , status: 'Internal server error'})
