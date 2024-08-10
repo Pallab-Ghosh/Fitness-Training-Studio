@@ -93,30 +93,36 @@ const handle_click_for_confirmation=async()=>{
 }
 
   return (
-<Box sx={{ width: 1700,height: 800, backgroundColor: 'white',display:'flex',flexDirection:'row',gap:'170px'}}>
+<Box sx={{ width: '100%',height: '800px', backgroundColor: 'white',display:'flex',flexDirection:'row',gap:'170px',flex:1}}>
 
 
 <Box sx={{ width: 900,height: 800, backgroundColor:'white',display:'flex',flexDirection:'column',gap:'30px',mt:5,ml:5}}>
-<Box sx={{ width: 900,height: 400, backgroundColor:'white'}}>
-<Typography variant='h4'  sx={{fontWeight:'bold'}}><p>When you deactivate your account</p></Typography>
-<Typography variant='h4'>
-<p>You are logged in your  Account.</p>
-<p>You will be unsubscribed from receiving Special Offers emails from FITNESS-TRAINING-STUDIO.</p>
-<p>You can access the tutorials in case you choose to reactivate your Account.</p>
-<p>Documents verification needed for re-admission.</p>
-</Typography>
-</Box>
+    <Box sx={{ width: 900,height: 400, backgroundColor:'white'}}>
+       <Typography variant='h4'  sx={{fontWeight:'bold'}}>
+         <p>When you deactivate your account</p>
+       </Typography>
 
-<Box sx={{ width: 900,height: 400, backgroundColor:'white'}}>
-<Typography variant='h4' sx={{fontWeight:'bold'}}><p>How do I reactivate my Flipkart account?</p></Typography>
-<Typography variant='h4'>
-<p>Reactivation is easy.</p>
-<p>Fillup Signup form with your email id  mobile number and password username. Your account will be created.
- Default settings are applied and you will be subscribed to receive promotional emails from our team.</p>
-<p>You can fully access your account like previously</p>
-<p sx={{}}>Remember: Account Reactivation can be done on the Desktop version only.</p>
-</Typography>
-</Box>
+       <Typography variant='h4'>
+          <p>You are logged in your  Account.</p>
+          <p>You will be unsubscribed from receiving Special Offers emails from FITNESS-TRAINING-STUDIO.</p>
+          <p>You can access the tutorials in case you choose to reactivate your Account.</p>
+          <p>Documents verification needed for re-admission.</p>
+      </Typography>
+    </Box>
+
+    <Box sx={{ width: 900,height: 400, backgroundColor:'white'}}>
+          <Typography variant='h4' sx={{fontWeight:'bold'}}>
+              <p>How do I reactivate my account?</p></Typography>
+          <Typography variant='h4'>
+            <p>Reactivation is easy.</p>
+            <p>
+            Fillup Signup form with your email id  mobile number and password username. Your account will be created.
+            Default settings are applied and you will be subscribed to receive promotional emails from our team.
+            </p>
+            <p>You can fully access your account like previously</p>
+            <p sx={{}}>Remember: Account Reactivation can be done on the Desktop version only.</p>
+        </Typography>
+    </Box>
 </Box>
 
 

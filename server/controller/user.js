@@ -237,7 +237,11 @@ exports.forget_password=async(req,res)=>{
 
 //reset password from accounts_detals section page
  exports.reset_password=async(req,res)=>{
-  console.log("req body from reset_password",req.body)
+
+  const token=req.get('Authorization').split(" ")[1]
+  const decoded_token=jwt.verify(token,process.env.Jwt_secret_key)
+  const email =  decoded_token.email
+  
   if(req?.body?.updated_data?.old_password==null || req?.body?.updated_data?.new_password==null || req?.body?.updated_data?.new_password2==null )
     {
      return  res.json({id:2})
