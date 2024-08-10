@@ -14,7 +14,7 @@ user_router
 .post('/delete_account',user_functions_module.verify_email_for_delete)
 .post('/save_course_details',user_functions_module.save_course_data)
 .get('/get_course_details',user_functions_module.get_course_data)
-.post('/delete_subscription',user_functions_module.delete_subscription)
+.delete('/delete_subscription',user_functions_module.delete_subscription)
 .post('/visitor_data',user_functions_module.create_visitor)
 .get('/all_users',user_functions_module.get_all_users)
 .delete(`/delete_user/:id`,user_functions_module.delete_user)

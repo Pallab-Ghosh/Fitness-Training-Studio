@@ -444,9 +444,9 @@ exports.save_course_data = async (req, res) => {
          try
           {
           
-            user.course=null;
+            user.course="";
             user.price_of_course=0;
-            user.subscription_date=null;
+            user.subscription_date="";
             const user_after_delete_data=await user.save();
             console.log(user_after_delete_data);
             res.json({...user_after_delete_data,status_id:1})

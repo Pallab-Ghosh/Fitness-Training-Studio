@@ -104,7 +104,7 @@ export const Account_details = () => {
   const handleClose_for_delete_subscription2=()=>{
     if(course!=null && subscription_date!=null && price_of_course!=0)
     {
-      axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_subscription`,{
+      axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_subscription`,{
         headers:{
           Authorization: `Bearer ${token}`  
         }
