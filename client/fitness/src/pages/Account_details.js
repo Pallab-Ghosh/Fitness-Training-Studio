@@ -161,11 +161,12 @@ export const Account_details = () => {
 
    const handle_delete_function=async()=>{
    
-    const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/send_email_for_delete`,{email_id:email} ,{
+    const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/send_email_for_delete`,{
       headers:{
         Authorization: `Bearer ${token}`  
       }
     })
+    
     console.log(response.data)
      if(response.data.id==1)
      {

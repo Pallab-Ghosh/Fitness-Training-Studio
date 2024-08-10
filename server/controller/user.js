@@ -280,18 +280,23 @@ exports.forget_password=async(req,res)=>{
 
     //delete account --- to be changed
 var account_for_delete
+
     exports.email_for_delete=async(req,res) => {
-           console.log(req.body)
-           if(req?.body?.email_id)
+
+          const token=req.get('Authorization').split(" ")[1]
+          const decoded_token=jwt.verify(token,process.env.Jwt_secret_key)
+          const email =  decoded_token.email
+
+           if(email)
            {
-            const fetch_email=req.body.email_id
-            account_for_delete=await user_Schema.findOne({email:fetch_email});
+           
+            account_for_delete=await user_Schema.findOne({email:email});
             otp_no=otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
             send_verification_mail( account_for_delete,otp_no);
-            return  res.json({id:1})
+            return  res.status(200).json({id:1 , status:'Send email for verification'})
            }
            else{
-            res.json({id:2})
+            res.status(500).json({id:2 , status: 'Internal server error'})
            }
   
    }

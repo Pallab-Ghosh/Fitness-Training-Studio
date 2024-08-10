@@ -12,11 +12,18 @@ import 'react-toastify/dist/ReactToastify.css';
 const Delete_account = () => {
 const[user_account_details,set_user_details]=useState({firstname:'',lastname:'',username:'',address:'',password:'',mobile:'',email:''})
 const[otp,set_otp]=useState('')
-const navigate=useNavigate()
+const navigate=useNavigate();
+const token = JSON.parse(localStorage.getItem("userdata_with_token"));
+
+
 useEffect(()=>{
 
   const get_details=async()=>{
-    const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+    const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`,{
+      headers:{
+        Authorization: `Bearer ${token}`  
+      }
+    })
     console.log("data from get",resolve_data);
     set_user_details(resolve_data.data);
     console.log(user_account_details)
@@ -24,9 +31,15 @@ useEffect(()=>{
   get_details();
  },[])
 
+ 
+
 const handle_click_for_confirmation=async()=>{
   console.log("otp",otp)
- const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_account`,{otp:otp})
+ const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_account`,{otp:otp},{
+  headers:{
+    Authorization: `Bearer ${token}`  
+  }
+ })
   if(response.data.id==1)
   {
    // alert('Delete account succeessfully')
