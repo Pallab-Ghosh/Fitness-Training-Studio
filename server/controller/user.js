@@ -282,7 +282,7 @@ exports.forget_password=async(req,res)=>{
 var account_for_delete
 
     exports.email_for_delete=async(req,res) => {
-
+          console.log(req.get('Authorization'))
           const token=req.get('Authorization').split(" ")[1]
           const decoded_token=jwt.verify(token,process.env.Jwt_secret_key)
           const email =  decoded_token.email

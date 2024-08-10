@@ -38,7 +38,7 @@ const handle_click_for_confirmation=async()=>{
 
   if(otp === otp_for_delete)
   {
-      const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_account`,{otp:otp},{
+      const response=await axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/user/delete_account`,{otp:otp},{
         headers:{  Authorization: `Bearer ${token}`}})
 
         if(response.data.id==1)
