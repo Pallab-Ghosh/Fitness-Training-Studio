@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { useNavigate} from 'react-router-dom';
+import { json, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -171,6 +171,7 @@ export const Account_details = () => {
      if(response.data.id==1)
      {
      // alert('Send otp to email')
+     localStorage.setItem(JSON.stringify("otp_for_delete",response.data.otp))
      toast.success('Send Otp to your registered Email', {
       position: "top-right",
       autoClose: 2000,
