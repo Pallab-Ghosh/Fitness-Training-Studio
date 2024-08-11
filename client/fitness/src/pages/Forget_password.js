@@ -122,7 +122,7 @@ export const Forget_password = () => {
       .catch((err)=>{
         console.log(err)
       })
-      set_mail({...mail,email:''}) 
+       
    }
  
 
