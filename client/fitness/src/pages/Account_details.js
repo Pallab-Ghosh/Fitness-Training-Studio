@@ -161,7 +161,8 @@ export const Account_details = () => {
 
    const handle_delete_function=async()=>{
    
-    const response=await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/send_email_for_delete`,{
+    console.log('handle_delete_function',token)
+    const response=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/send_email_for_delete`,{
       headers:{
         Authorization: `Bearer ${token}`  
       }
@@ -171,7 +172,7 @@ export const Account_details = () => {
      if(response.data.id==1)
      {
      // alert('Send otp to email')
-     localStorage.setItem(JSON.stringify("otp_for_delete",response.data.otp))
+     localStorage.setItem("otp_for_delete",JSON.stringify(response.data.otp));
      toast.success('Send Otp to your registered Email', {
       position: "top-right",
       autoClose: 2000,
@@ -201,7 +202,11 @@ export const Account_details = () => {
         style:{color:'black'}
         });
      }
+
+
    }
+
+
 
     const delete_subscription_function=()=>{
 
