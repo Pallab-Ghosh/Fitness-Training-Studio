@@ -53,7 +53,7 @@ export const Forget_password = () => {
   const [submitting,setsubmitting]=useState(false)
   const [submitting_for_validation,setsubmitting_for_validation]=useState(false)
   const [submitting_for_password_change,setsubmitting_for_password_change]=useState(false);
-  let user_email;
+  let user_email
 
 
 
@@ -154,7 +154,7 @@ export const Forget_password = () => {
      // console.log('get_otp' , get_otp)
       if(get_otp === mail.otp)
         {
-          console.log('goes in if otp')
+          
             axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/verify_email`,mail)
              .then((resolve)=>{
                  console.log(resolve.data)
@@ -222,14 +222,12 @@ export const Forget_password = () => {
 
 
         event.preventDefault();
-        console.log('user_email '.user_email)
-        console.log("user_details from forget password ",{...user_data , emailId:user_email})
-
+       
 
         if(user_data.new_password!='' && user_data.new_password2!='' && user_data.new_password==user_data.new_password2)
         {
             setsubmitting_for_password_change(true)
-            axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/forget_password`,user_data)
+            axios.post(`${process.env.REACT_APP_EXPRESS_URL}/user/forget_password`,user_data,)
             .then((resolve)=>{
               console.log(resolve.data)
               if(resolve.data.id==1)
@@ -353,7 +351,11 @@ export const Forget_password = () => {
         />
       </Grid>
 
-<Button onClick={handle_password} fullWidth variant="contained" sx={{ mt: 3, mb: 2,fontSize:14,borderRadius:'12px' }} disabled={submitting}>
+    <Button
+     onClick={handle_password} 
+     fullWidth variant="contained" 
+     sx={{ mt: 3, mb: 2,fontSize:14,borderRadius:'12px' }}
+     disabled={submitting}>
 
  { submitting ? 'Sending....':'SEND OTP'}
 
@@ -369,11 +371,14 @@ export const Forget_password = () => {
   inputProps={{style: {fontSize: 15}}}
   type="text"
   id="otp"
- value={mail.otp}
+  value={mail.otp}
   onChange={(e)=>set_mail({...mail,otp:e.target.value})}
   />
 
-  <Button onClick={handle_Otp_from_mail} fullWidth variant="contained" sx={{ mt: 3, mb: 2 ,fontSize:14,borderRadius:'12px' }} disabled={submitting_for_validation} >
+  <Button onClick={handle_Otp_from_mail} 
+  fullWidth variant="contained" sx={{ mt: 3, mb: 2 ,fontSize:14,borderRadius:'12px' }}
+  disabled={submitting_for_validation} 
+  >
   
     {submitting_for_validation ? "VALIDATING": "VALIDATE OTP"}   
   
