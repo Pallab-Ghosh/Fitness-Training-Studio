@@ -16,11 +16,11 @@ import { Not_match_path } from './Not_match_path'
 import Reset_old_password from '../pages/Reset_old_password'
 import Delete_account from '../pages/Enrollment_Programme/Delete_account'
 import Stripe_checkout from '../pages/Enrollment_Programme/Stripe_checkout'
-import Land_page from '../landing_page/Land_page'
 import Admin_Dashboard from '../pages/Admin_Dashboard'
 import Contact from '../landing_page/Contact'
 import AdminLoginPage from '../pages/AdminLoginPage'
 import Settings from '../pages/Settings'
+import Landing_page from '../landing_page/Landing_page'
 
 
 
@@ -35,7 +35,7 @@ export const Allroutes = () => {
     <>
        <Routes>
        
-       <Route path='/' element={<Land_page/>}/>
+       <Route path='/' element={<Landing_page/>}/>
        <Route path='/signin' element={<Signin/>}/>
        <Route path='/contact-us' element={<Contact/>}/>
        <Route path='/signin/forget_password' element={<Forget_password/>}/>
