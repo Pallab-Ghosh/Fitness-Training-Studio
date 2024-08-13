@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import './Dasboard.css'
 import ChartsEmbedSDK from "@mongodb-js/charts-embed-dom";
 import {Box, Button, IconButton, Typography} from '@mui/material'
@@ -13,6 +13,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import DensitySmallOutlinedIcon from '@mui/icons-material/DensitySmallOutlined';
 import AdminRouteLayout from './admin_route_layout';
+import {sidebarcontext, token_data} from '../App'
+import { useStore } from '../store';
+
 //https://charts.mongodb.com/charts-fitness_tracker_db-dtmap
 
 //92ecd971-3954-4b7e-becf-48c60c5dbeec
@@ -39,26 +42,34 @@ return {date_details:fullDateTimeString,time_details:fullTime}
 
 
  const Admin_Dashboard = () => {
+
   const navigate=useNavigate()
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const {sidebarOpen , toggleSidebar} = React.useContext(sidebarcontext)
+ 
   const[user_account_details,set_user_details]=useState({})
   const{firstname,lastname,username,address,password,mobile,email,course,subscription_date,price_of_course}={...user_account_details};
+  const {user_email , setUserEmail}= useStore()
+
 
   useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+   console.log('user_email in Admin_Dashboard useeffect' , user_email )
+    axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`,{
+      params: {
+         user_email: user_email
+        }
+      })
     .then((res)=>{
       set_user_details(res.data)
     })
   },[])
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+ 
 
   const handle_signout =()=>{
+     window.location.href='/';
      localStorage.removeItem("userdata_with_token");
      console.log('clcik')
-     window.location.href='/';
+    
   }
 
   const data_and_time=get_full_year_and_time();
@@ -66,10 +77,10 @@ return {date_details:fullDateTimeString,time_details:fullTime}
   const {date_details,time_details}=data_and_time;
 
   return (
-     <AdminRouteLayout sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} toggleSidebar={toggleSidebar}  >
+     
+     <AdminRouteLayout>
           <div style={{height:'90px',backgroundColor:'#013680'}}>
           <Typography variant='h2' color='white' sx={{ml:100}}>  Dashboard </Typography>
-      
           <Box display='flex' flexDirection='row'>
              <Typography>
                 <Button variant='contained' size='large' style={{color:'black',backgroundColor:' #b1cef0'}} fullWidth onClick={toggleSidebar} sx={{ml:0.5}}>
@@ -77,22 +88,6 @@ return {date_details:fullDateTimeString,time_details:fullTime}
                 </Button>
              </Typography>
           </Box>
-
-        {/*   <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-
-              <div className="logo">Admin Details</div>
-              <Typography variant='h5' sx={{mb:1}}> <AdminPanelSettingsIcon/>{`${firstname} ${lastname}`}</Typography>
-              <Typography variant='h6' sx={{mt:0.5,ml:3,mb:4}}><MailIcon/>{`${email}`}</Typography>
-              <ul className="menu">
-              <li className="menu-item"><HomeIcon fontSize='medium' /><a style={{color:'white'}} href='/signin/admin_login/dashboard/home'>Home</a>  </li>
-              <li className="menu-item"><AnalyticsIcon fontSize='medium' /><a style={{color:'white'}} href='/signin/admin_login/dashboard/settings'>Analytics</a></li>
-              <li className="menu-item"><ExitToAppIcon fontSize='medium' /><Link style={{color:'white'}} onClick={handle_signout}>Signout</Link></li>
-              </ul>
-              <Typography variant='h5' sx={{mt:45,fontSize:'18px'}}>Today</Typography>
-              <Typography variant='h5' sx={{mt:1,fontSize:'18px'}}>{`${date_details}    ${time_details}`}</Typography>
-              <Typography variant='h5' sx={{mt:4,fontSize:'18px'}}>Fitness-Training-Studio</Typography>
-          </div> */}
-
           </div>
     
           <div className='dashboards'>
