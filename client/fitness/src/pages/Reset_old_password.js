@@ -47,11 +47,16 @@ const Reset_old_password = () => {
   
    
   const[user_account_details,set_user_details]=useState({firstname:'',lastname:'',username:'',address:'',password:'',mobile:'',email:''})
-  
+  const token = JSON.parse(localStorage.getItem("userdata_with_token"));
+
 
       useEffect(()=>{
         const get_details=async()=>{
-          const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+          const resolve_data=await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`,{
+            headers:{
+              Authorization: `Bearer ${token}`  
+            }
+          })
           console.log("data from get",resolve_data);
           set_user_details(resolve_data.data);
           console.log(user_account_details)
@@ -230,7 +235,7 @@ const Reset_old_password = () => {
                  required
                  fullWidth
                  name="new_password2"
-                 label="Confirm New Password"
+                 label="Confirm Password"
                  type="password"
                  inputProps={{style: {fontSize: 15}}}
                  id="new_password2"
@@ -245,7 +250,7 @@ const Reset_old_password = () => {
                fullWidth
                variant="contained"
                color='success'
-               sx={{ mt: 3, mb: 2 }}
+               sx={{ mt: 3, mb: 2,fontSize:'15px',borderRadius:'12px' }}
              >
                Reset
              </Button>
@@ -255,7 +260,7 @@ const Reset_old_password = () => {
              fullWidth
              variant="contained"
              color='error'
-             sx={{ mt: 3, mb: 2 }}
+             sx={{ mt: 3, mb: 2 ,fontSize:'15px',borderRadius:'12px'}}
            >
             GO BACK
            </Button>
@@ -266,7 +271,7 @@ const Reset_old_password = () => {
           
    
          </Box>
-         <Copyright sx={{ mt: 5 }} />
+     
        </Container>
      </ThemeProvider>
      )
