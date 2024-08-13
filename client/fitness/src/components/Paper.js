@@ -4,14 +4,14 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 
-export default function PaperCard({all_subscriber , all_visitor}) {
+export default function PaperCard({all_subscriber , all_visitor , pending_visitor , resolved_visitor}) {
   return (
     <Box sx={{ display: 'flex',flexWrap: 'wrap','& > :not(style)': {
           marginLeft: 10,
           marginTop : 10,
           marginBottom:10,
-          marginRight:10,
-          width: 370,
+          marginRight:2,
+          width: 280,
           height: 128,
           borderRadius:'20px'
         },
@@ -35,7 +35,24 @@ export default function PaperCard({all_subscriber , all_visitor}) {
           
            <p style={{fontSize:'15px',marginLeft:'12px',marginTop:'10px'}}>Total number of visitors </p>
         </Paper> 
-      <Paper elevation={24} />
+        
+        <Paper elevation={24}>
+          <div style={{display:'flex' , justifyContent :'flex-start',marginTop:'26px' }}>
+              <SubscriptionsIcon sx={{height:'30px' , width:'40px',marginRight:'5px',marginLeft:'10px'}}/>
+               <p style={{fontSize:'25px'}}> {pending_visitor}</p>
+          </div>
+          
+           <p style={{fontSize:'15px',marginLeft:'12px',marginTop:'10px'}}>Total number of Pending queries </p>
+        </Paper> 
+
+        <Paper elevation={24}>
+          <div style={{display:'flex' , justifyContent :'flex-start',marginTop:'26px' }}>
+              <SubscriptionsIcon sx={{height:'30px' , width:'40px',marginRight:'5px',marginLeft:'10px'}}/>
+               <p style={{fontSize:'25px'}}> {resolved_visitor}</p>
+          </div>
+          
+           <p style={{fontSize:'15px',marginLeft:'12px',marginTop:'10px'}}>Total number of queries are resolved</p>
+        </Paper> 
     </Box>
   );
 }
