@@ -154,7 +154,8 @@ exports.verify_email=async(req,res) => {
 exports.forget_password=async(req,res)=>{
            console.log('req.body for forget_password function',req.body)
     
-        const find_user=await user_Schema.findOne({email:req.body.email_Id});
+        try {
+          const find_user=await user_Schema.findOne({email:req.body.email_Id});
     
         if(find_user===null)
         {
@@ -168,6 +169,10 @@ exports.forget_password=async(req,res)=>{
             const newuser= await find_user.save();
             //console.log(newuser);
             return res.json({id:1})
+        }
+          
+        } catch (error) {
+           console.log(error)
         }
       
       }
