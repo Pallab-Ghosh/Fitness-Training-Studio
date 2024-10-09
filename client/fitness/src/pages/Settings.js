@@ -99,7 +99,13 @@ const handleClose = () => {
 
 useEffect(()=>{
   
-  axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`)
+  const token = JSON.parse(localStorage.getItem("userdata_with_token"));
+
+  axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details` ,{
+    headers:{
+      Authorization: `Bearer ${token}`  
+    }
+  })
   .then((res)=>{
     set_user_details(res.data)
   })

@@ -53,9 +53,14 @@ return {date_details:fullDateTimeString,time_details:fullTime}
 
   useEffect(()=>{
    console.log('user_email in Admin_Dashboard useeffect' , user_email )
+   const token = JSON.parse(localStorage.getItem("userdata_with_token"));
     axios.get(`${process.env.REACT_APP_EXPRESS_URL}/user/getuser_details`,{
       params: {
          user_email: user_email
+        }
+        ,
+        headers:{
+          Authorization: `Bearer ${token}`  
         }
       })
     .then((res)=>{
